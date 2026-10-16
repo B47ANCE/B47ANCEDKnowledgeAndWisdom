@@ -161,7 +161,7 @@ function Claims.grant(character,request)
         or not valid(request.definitionId) or not valid(request.subjectId) or not valid(request.sourceType,64)
         or not valid(request.sourceId) or not valid(request.sourceOwner)then return false,"INVALID_REQUEST" end
     if subjectId(character)~=request.subjectId then return false,"SUBJECT_MISMATCH" end
-    local current,err=ledger(character,true);if not current then return false,err end
+    local current,err=ledger(character,false);if not current then return false,err end
     local definition=definitions[request.definitionId];if not definition then return false,"UNKNOWN_DEFINITION" end
     if request.sourceOwner~=definition.owner and request.sourceOwner~=LegacyMigration.PERSISTED_OWNER then return false,"SOURCE_OWNER_MISMATCH" end
     local scope,scopeError=normalizeScope(definition,request.scope);if not scope then return false,scopeError end
@@ -180,6 +180,7 @@ function Claims.grant(character,request)
         remember(current,request.operationId,"grant",request,replayResult,binding);return replayResult.ok,replayResult.reason,replayResult.claim
     end
     if #current.order>=Claims.MAX_CLAIMS then return false,"CLAIM_LIMIT_REACHED" end
+    current,err=ledger(character,true);if not current then return false,err end
     local claim={schemaVersion=1,claimId=request.claimId,definitionId=definition.id,kind=definition.kind,owner=definition.owner,
         subjectId=request.subjectId,source={type=request.sourceType,id=request.sourceId,owner=request.sourceOwner},scope=scope,
         acquisition=tostring(request.acquisition or definition.acquisition):sub(1,80),confidence=unit(request.confidence,1),
@@ -216,7 +217,7 @@ function Claims.revoke(character,request)
     if type(request)~="table" or request.schemaVersion~=1 or not valid(request.operationId) or not valid(request.claimId)
         or not valid(request.subjectId) or not valid(request.reason)then return false,"INVALID_REQUEST" end
     if subjectId(character)~=request.subjectId then return false,"SUBJECT_MISMATCH" end
-    local current,err=ledger(character,true);if not current then return false,err end
+    local current,err=ledger(character,false);if not current then return false,err end
     local binding=requestBinding("revoke",request)
     local replayOK,replayReason,replayClaim=replay(current,request,"revoke",binding)
     if replayOK~=nil then return replayOK,replayReason,replayClaim end

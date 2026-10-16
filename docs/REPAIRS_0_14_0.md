@@ -25,6 +25,9 @@ Queries never migrate, even on authority. Write-side migration happens only afte
 the stored object passes validation. `hasRead`, `snapshot`, progression snapshots
 and journal snapshots can read supported legacy data without modifying it.
 Unsupported/corrupt data is returned as an error rather than reset or repaired.
+Rejected grant/revocation requests do not initialize an empty character ledger.
+Failed, malformed or unsupported legacy claim-store reads block recovery; they
+are never interpreted as an absent store or permission to create fresh claims.
 Operators should preserve the original save and obtain explicit review for any
 manual recovery; this change provides no destructive repair or downgrade tool.
 Old records already written under an empty/sentinel subject are preserved, not

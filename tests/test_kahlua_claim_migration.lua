@@ -12,4 +12,11 @@ assert(ok and result.duplicate,"valid legacy claim migration must work without t
 assert(stores[L.CLAIM_STORE_KEY]==nil and stores[L.STORAGE_CLAIM_STORE_KEY][payload].successorId=="successor")
 assert(J.claim(item,"successor"),"migration must remain idempotent")
 assert(not J.claim(item,"other"))
+stores[L.CLAIM_STORE_KEY]=false
+assert(not J.claim(item,"successor"),"a malformed legacy root must not be treated as absent")
+assert(stores[L.CLAIM_STORE_KEY]==false and stores[L.STORAGE_CLAIM_STORE_KEY][payload].successorId=="successor")
+ModData.get=function()error("legacy read unavailable")end
+assert(not J.claim(item,"successor"),"a failed legacy lookup must fail closed")
+ModData.get=nil
+assert(not J.claim(item,"successor"),"unsupported legacy inspection cannot authorize recovery")
 print("legacy claim migration without next/table.unpack passed")

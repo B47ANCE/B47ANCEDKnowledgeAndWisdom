@@ -28,4 +28,11 @@ assert(not H.attachStore(history)and history.records.valid.recordId=="valid","or
 assert(H.attachStore({}),"genuinely fresh stores may initialize")
 local old=dofile("tests/fixtures/knowledge_0_12_2.lua")
 assert(H.attachStore(old.history),"original schema-1 history must remain readable")
+local untouched={};local actor={getModData=function()return untouched end,getUsername=function()return "test"end}
+local invalid={schemaVersion=1,operationId="invalid:op",claimId="invalid:claim",definitionId="unknown",
+    subjectId="getUsername:test",sourceType="test",sourceId="test",sourceOwner="test",scope={}}
+assert(not C.grant(actor,invalid))
+assert(untouched[C.ROOT_KEY]==nil,"invalid grant must not initialize a saved ledger")
+assert(not C.revoke(actor,{schemaVersion=1,operationId="invalid:revoke",claimId="missing",subjectId="getUsername:test",reason="test"}))
+assert(untouched[C.ROOT_KEY]==nil,"invalid revocation must not initialize a saved ledger")
 print("nested schema validation, cycle rejection and data preservation checks passed")

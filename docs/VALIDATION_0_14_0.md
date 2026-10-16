@@ -25,6 +25,9 @@ files, all 38 current/legacy item types, Workshop paragraph/text mirrors and the
 seven declared sandbox/server bound sets pass. Native Linux/server execution is
 not implied by path-case checks or Linux CI. Version mirrors are checked by the
 current script; named 0.13.0 reports/manifests are historical baseline evidence.
+Final edge regressions also failed before tightening: rejected claims initialized
+an empty ledger, and malformed/failed legacy claim-store reads were treated as
+absent. Both now refuse without creating/resetting saved state.
 
 Exact validation commands from the project root:
 

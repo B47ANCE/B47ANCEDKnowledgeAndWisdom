@@ -99,11 +99,9 @@ local function defaultClaimStore()
     local modData=rawget(_G,"ModData")
     if type(modData)=="table" and type(modData.getOrCreate)=="function" then
         local canonicalKey=LegacyMigration.STORAGE_CLAIM_STORE_KEY
-        local existing
-        if type(modData.get)=="function" then
-            local read,legacy=pcall(modData.get,LegacyMigration.CLAIM_STORE_KEY)
-            if read and type(legacy)=="table" then existing=legacy end
-        end
+        if type(modData.get)~="function"then return nil end
+        local read,existing=pcall(modData.get,LegacyMigration.CLAIM_STORE_KEY)
+        if not read or (existing~=nil and type(existing)~="table")then return nil end
         local ok,result=pcall(modData.getOrCreate,canonicalKey)
         if not ok or not SavedState.claimStore(result) then return nil end
         if existing then

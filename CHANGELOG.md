@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.14.1 — 2026-10-16
+
+- Adopted the user-supplied Knowledge & Wisdom thumbnail for the Workshop preview
+  and authoritative source authoring thumbnail, preserving exact PNG bytes.
+- Documented artwork provenance and displayed the thumbnail in the README.
+- PATCH artwork iteration; gameplay, saved schemas, Mod ID and icon are unchanged.
+  G7 and stable G8 remain BLOCKED. No packaging, deployment or Workshop upload.
+
 ## 0.14.0 — 2026-10-16
 
 - Kept all client/authority queries non-mutating; moved validated legacy storage

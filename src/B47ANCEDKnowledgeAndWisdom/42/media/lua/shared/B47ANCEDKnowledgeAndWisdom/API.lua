@@ -2,7 +2,7 @@ local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 
 B47ANCEDKnowledgeAndWisdom=rawget(_G,"B47ANCEDKnowledgeAndWisdom") or {}
-B47ANCEDKnowledgeAndWisdom.VERSION="0.14.0"
+B47ANCEDKnowledgeAndWisdom.VERSION="0.14.1"
 B47ANCEDKnowledgeAndWisdom.Documents=B47ANCEDKnowledgeAndWisdom.Documents or {}
 B47ANCEDKnowledgeAndWisdom.DocumentsByItemType=B47ANCEDKnowledgeAndWisdom.DocumentsByItemType or {}
 B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions or {}

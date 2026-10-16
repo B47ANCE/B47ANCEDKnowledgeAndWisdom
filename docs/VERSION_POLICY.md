@@ -23,7 +23,10 @@ Lua namespace: `B47ANCEDKnowledgeAndWisdom`. Existing Workshop ID: `3792566496`.
 `Contents/` is explicitly historical under the inherited project instructions.
 `dist/` contains historical candidates, packages and staging backups. Existing
 `SHA256SUMS.txt` and `.steamcmd-last-upload.sha256` remain historical provenance.
-`preview.png` and manually supplied source artwork retain their original bytes.
+Artwork changes require user selection; the 0.14.1 PATCH iteration adopts the
+user-supplied PNG unchanged for `preview.png` and the source authoring thumbnail.
+The separate icon and historical packages retain their original bytes. Previous
+artwork is recoverable from Git commit `45cd856`; see ARTWORK.md.
 `docs/history/pre-b47-0.12.2/` preserves pre-rename documents with original names,
 versions and claims. Never treat those records as validation of the renamed mod.
 

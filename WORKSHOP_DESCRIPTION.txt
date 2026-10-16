@@ -6,7 +6,7 @@ Lore, classified research, survivor knowledge, and experience-progression infras
 
 B47ANCED Knowledge & Wisdom provides persistent knowledge, research archives, progression-aware actions, and recoverable Survivor Journal data for B47ANCE'd mods and compatible projects.
 
-[b]Mod Version: 0.14.0[/b]
+[b]Mod Version: 0.14.1[/b]
 
 [b]Development Status[/b]
 

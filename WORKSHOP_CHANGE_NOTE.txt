@@ -1,3 +1,11 @@
+[b]Version 0.14.1[/b]
+
+Adopted the user-supplied Knowledge & Wisdom project thumbnail without resizing or regenerating the artwork. Gameplay and saved schemas are unchanged.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED.
+
+[b]Historical 0.14.0 and earlier notes[/b]
+
 [b]Version 0.14.0[/b]
 
 [h2]Authority and persistence repairs[/h2]

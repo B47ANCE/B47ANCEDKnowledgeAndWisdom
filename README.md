@@ -1,13 +1,18 @@
 Authoritative source: `src/B47ANCEDKnowledgeAndWisdom/42`. `Contents/`, `dist/`, and
-`SHA256SUMS.txt` describe historical builds and must not be deployed as 0.14.0.
+`SHA256SUMS.txt` describe historical builds and must not be deployed as the current version.
 The old three-mod candidate tooling has not been migrated to this identity.
 
 # B47ANCED Knowledge & Wisdom
 
+![B47ANCED Knowledge & Wisdom artwork](preview.png)
+
+The user-supplied project thumbnail is used unchanged for `preview.png` and the
+source authoring thumbnail. See [artwork provenance](docs/ARTWORK.md).
+
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.14.0` Project Archive, registered knowledge definitions,
+- Status: version `0.14.1` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -58,7 +63,7 @@ implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_14_0.md) and
+checks. See [current validation](docs/VALIDATION_0_14_1.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 

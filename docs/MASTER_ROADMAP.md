@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Master Roadmap
 
-Canonical version: 0.14.0. This file consolidates current feature status; detailed
+Canonical version: 0.14.1. This file consolidates current feature status; detailed
 contracts and evidence remain in the other documents in this directory.
 
 ## Implemented

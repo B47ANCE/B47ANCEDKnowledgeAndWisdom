@@ -59,3 +59,9 @@
 - knowledge inspection UI through uiWorks;
 - hosted and dedicated multiplayer validation;
 - character-death and late-join policy validation.
+
+## Current implementation slice
+
+0.15.0 implements read-only recorded-journal inspection; it does not implement
+writing or recovery timed actions. See JOURNAL_INSPECTION.md and AUDIT_0_15_0.md.
+Use MASTER_ROADMAP.md's dependency order for the next gameplay slice.

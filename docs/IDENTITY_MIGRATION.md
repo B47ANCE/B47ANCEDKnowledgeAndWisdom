@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom identity migration
 
-Current version: 0.14.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
+Current version: 0.15.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
 source folder, Lua import prefix/global and sandbox page: `B47ANCEDKnowledgeAndWisdom`.
 
 For a consumer, change `require=experienceWorks` in mod.info to

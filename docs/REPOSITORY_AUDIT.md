@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom repository audit
 
-2026-10-16. Current version: 0.14.0. Source inspection and offline tests only.
+2026-10-16. Current version: 0.15.0. Source inspection and offline tests only.
 The original 2026-08-26 audit remains under `history/pre-b47-0.12.2/` and is
 historical evidence; its identifiers/test claims are not renamed proof.
 
@@ -31,9 +31,14 @@ The nine source/host defects from the prior audit are addressed by the current
 any native/runtime claim. Server rates are described in [configuration](CONFIGURATION.md).
 
 See [upgrade contract](IDENTITY_MIGRATION.md), [version/package inventory](VERSION_POLICY.md),
-and [current offline evidence and runtime blockers](VALIDATION_0_14_0.md).
+and [current offline evidence and runtime blockers](VALIDATION_0_15_0.md).
 Inherited acquisition-policy and mutable-public-registry concerns remain design
 limitations; the rename makes no new security or native synchronization claims.
 Native journal timed actions/raw-XP restoration, old-save selection, join/rejoin,
 replication and dedicated restart persistence remain [RUNTIME GATE]. G7 dedicated
 multiplayer is BLOCKED / NOT TESTED; stable G8 is BLOCKED.
+
+The current 0.15.0 follow-up is in AUDIT_0_15_0.md: prerequisite validation and
+journal write safety fixes plus local journal presentation. The preceding
+ownership inventory does not establish native privacy/replication or authorize
+provider content changes. The 0.14.x validation/manifests retain their old hashes.

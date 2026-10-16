@@ -11,7 +11,7 @@ local API=require "B47ANCEDKnowledgeAndWisdom/Progression"
 local Journals=require "B47ANCEDKnowledgeAndWisdom/SurvivorJournals"
 
 assert(API==_G.B47ANCEDKnowledgeAndWisdom,"canonical require must publish only the correctly spelled global")
-assert(API.VERSION=="0.14.1","canonical API version must match the current release")
+assert(API.VERSION=="0.15.0","canonical API version must match the current release")
 
 local character={modData={}}
 function character:getModData() return self.modData end

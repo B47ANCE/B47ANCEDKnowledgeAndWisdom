@@ -167,7 +167,7 @@ catalog is registered until native character-origin evidence is verified;
 current position, spawn square, profession, and map exploration are never used
 as substitutes.
 
-## Current authority and persistence contract (0.14.0)
+## Current authority and persistence contract (0.15.0)
 
 All queries read supported legacy state without modifying it, on either realm.
 Validated authority writes perform migration. Persistent journal successor and
@@ -182,3 +182,12 @@ See [repairs](REPAIRS_0_14_0.md), [configuration](CONFIGURATION.md) and
 [native validation](RUNTIME_VALIDATION_0_14_0.md). Existing engine replication
 assumptions remain unverified: optional transmit calls are not dedicated proof.
 No new network protocol or client-owned gameplay path was introduced.
+
+Journal inspection uses a projection of existing physical-item state and only
+renders local counts/status/progress. It reads no persistent claim store and
+adds no network route. Local item flags are not authoritative recovery eligibility.
+It omits account/payload identifiers, explicit entry IDs and unwritten targets.
+Window state is per player and shared by research/journal inspection. Journal
+beginWriting prepares a schema-valid candidate before committing in place; all
+journal item-key migrations follow validation. Requirements preflight every
+reference before boolean evaluation, so unknown facts cannot be inverted by NOT.

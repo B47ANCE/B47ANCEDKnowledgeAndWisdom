@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Testing
 
-Current 0.14.0 offline results and native gates: [validation](VALIDATION_0_14_0.md).
+Current 0.15.0 offline results and native gates: [validation](VALIDATION_0_15_0.md).
 The version-specific descriptions below are inherited test history; original
 pre-rename records remain under `history/pre-b47-0.12.2/`.
 
@@ -56,3 +56,9 @@ catalog is claimed.
 
 For 0.14.0 authority, stale-copy, reconnect/restart and sandbox checks, use
 [the native test procedure](RUNTIME_VALIDATION_0_14_0.md). Do not use old session results as current proof.
+
+0.15.0 adds test_requirement_safety.lua, test_journal_write_atomicity.lua and
+test_journal_viewer.lua. These cover invalid references under negation, malformed
+requirement graphs, atomic rejection/migration, bound active writing captures,
+client projection privacy, corrupt items, localization escaping and a modeled
+split-screen/controller modal lifecycle. They are offline simulations.

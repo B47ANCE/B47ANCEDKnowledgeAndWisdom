@@ -63,3 +63,11 @@ option B47ANCEDKnowledgeAndWisdom.FailureXPCapPercent
     page = B47ANCEDKnowledgeAndWisdom,
     translation = B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent,
 }
+
+option B47ANCEDKnowledgeAndWisdom.EnableJournalViewer
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_EnableJournalViewer,
+}

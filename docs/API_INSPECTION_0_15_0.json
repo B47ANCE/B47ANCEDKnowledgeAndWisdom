@@ -1,0 +1,28 @@
+{
+  "api_library": "Project Zomboid vanilla Lua/exposed engine APIs",
+  "receiver_type": "ISModalRichText",
+  "symbol": "ISModalRichText:new",
+  "signature": "ISModalRichText:new(x, y, width, height, text, yesno, target, onclick, player, param1, param2)",
+  "signature_scope": "observed_vanilla_definition",
+  "game_version": "UNKNOWN",
+  "steam_build": "25485521",
+  "side": "client",
+  "returns": "Lua modal object with text, callback, player and destroyOnClick fields; native rendering untested.",
+  "mutation": "Local UI/focus only. Vanilla update can increase height using full-screen limits; no gameplay persistence or replication.",
+  "status": "VERIFIED",
+  "runtime_status": "NOT_TESTED",
+  "verified_on": "2026-10-16",
+  "evidence": [
+    {
+      "kind": "vanilla_lua",
+      "path": "media/lua/client/ISUI/ISModalRichText.lua",
+      "sha256": "ef25cda5a02a298019f8b0a13ed13c0d989e13b4e5c12469a441da0e88c80e4c",
+      "lines": [
+        128,
+        207
+      ],
+      "statement": "Inspected modal update and constructor; observed full-screen height clamping, scroll/button layout, player argument and callback fields."
+    }
+  ],
+  "notes": "Current installed Steam build verified from appmanifest. Full engine version UNKNOWN. Project bounds its own modal instance to the selected viewport. No vanilla files modified and no runtime evidence."
+}

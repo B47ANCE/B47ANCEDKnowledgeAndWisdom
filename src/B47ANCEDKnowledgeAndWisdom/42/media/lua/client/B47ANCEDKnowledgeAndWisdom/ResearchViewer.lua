@@ -1,7 +1,7 @@
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local Viewer={}
-local windows={}
+local Window=require "B47ANCEDKnowledgeAndWisdom/InspectionWindow"
 
 local function tr(key,fallback,...)
     local get=rawget(_G,"getText")
@@ -34,30 +34,11 @@ end
 
 function Viewer.open(playerNum,item)
     if not enabled() then return false,"viewer disabled" end
-    local ok,result=pcall(function()
-        local character=getSpecificPlayer(playerNum)
-        local view=API.getDocumentView(character,item)
-        if not character or not view then return false end
-        require "ISUI/ISModalRichText"
-        if windows[playerNum] then windows[playerNum]:destroy() end
-        local width=math.min(620,getPlayerScreenWidth(playerNum)-40)
-        local height=math.min(460,getPlayerScreenHeight(playerNum)-40)
-        local x=getPlayerScreenLeft(playerNum)+(getPlayerScreenWidth(playerNum)-width)/2
-        local y=getPlayerScreenTop(playerNum)+(getPlayerScreenHeight(playerNum)-height)/2
-        local modal
-        modal=ISModalRichText:new(x,y,width,height,Viewer.format(view),false,nil,function()
-            if windows[playerNum]==modal then windows[playerNum]=nil end
-        end,playerNum)
-        modal:initialise()
-        modal:addToUIManager()
-        windows[playerNum]=modal
-        if type(getJoypadData)=="function" and getJoypadData(playerNum) then
-            modal.prevFocus=getJoypadData(playerNum).focus
-            setJoypadFocus(playerNum,modal)
-        end
-        return true
-    end)
-    return ok and result==true
+    local character=getSpecificPlayer(playerNum)
+    if not character then return false,"character unavailable" end
+    local view=API.getDocumentView(character,item)
+    if not view then return false,"document unavailable" end
+    return Window.open(playerNum,Viewer.format(view))
 end
 
 function Viewer.fill(playerNum,context,items)

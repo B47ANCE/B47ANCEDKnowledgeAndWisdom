@@ -2,7 +2,7 @@ local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 
 B47ANCEDKnowledgeAndWisdom=rawget(_G,"B47ANCEDKnowledgeAndWisdom") or {}
-B47ANCEDKnowledgeAndWisdom.VERSION="0.14.1"
+B47ANCEDKnowledgeAndWisdom.VERSION="0.15.0"
 B47ANCEDKnowledgeAndWisdom.Documents=B47ANCEDKnowledgeAndWisdom.Documents or {}
 B47ANCEDKnowledgeAndWisdom.DocumentsByItemType=B47ANCEDKnowledgeAndWisdom.DocumentsByItemType or {}
 B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions or {}
@@ -38,21 +38,54 @@ local function namespacedId(value,label)
     assert(type(value)=="string" and value:match("^[%w_%-]+%.[%w_.%-]+$"),label.." must be a namespaced identifier")
     return value
 end
-local function requirementCopy(node,path)
-    path=path or "requirement"
-    assert(type(node)=="table",path.." must be a table")
+-- Technical input limits bound provider mistakes; these are not gameplay knobs.
+local function requirementCopy(node,path,guard,depth)
+    path=path or "requirement";guard=guard or {active={},nodes=0};depth=depth or 1
+    guard.nodes=guard.nodes+1
+    assert(guard.nodes<=512 and depth<=16,"requirement exceeds safe limits")
+    assert(type(node)=="table" and not guard.active[node],path.." must be an acyclic table")
+    guard.active[node]=true
     local operators=0
-    for _,key in ipairs({"all","any","not","knowledge","document"}) do if node[key]~=nil then operators=operators+1 end end
+    local allowed={all=true,any=true,["not"]=true,knowledge=true,document=true}
+    for key in pairs(node) do assert(allowed[key],path.." has an unknown operator");operators=operators+1 end
     assert(operators==1,path.." must contain exactly one operator")
-    if node.knowledge~=nil then return {knowledge=namespacedId(node.knowledge,path..".knowledge")} end
-    if node.document~=nil then assert(type(node.document)=="string" and node.document~="",path..".document required"); return {document=node.document} end
-    if node["not"]~=nil then return {["not"]=requirementCopy(node["not"],path..".not")} end
-    local operator=node.all~=nil and "all" or "any"
-    local values=node[operator]
-    assert(type(values)=="table" and #values>0,path.."."..operator.." must be a non-empty array")
-    local result={[operator]={}}
-    for index,value in ipairs(values) do result[operator][index]=requirementCopy(value,path.."."..operator.."["..index.."]") end
+    local result
+    if node.knowledge~=nil then
+        assert(SavedState.string(node.knowledge),path..".knowledge invalid")
+        result={knowledge=namespacedId(node.knowledge,path..".knowledge")}
+    elseif node.document~=nil then
+        assert(SavedState.string(node.document),path..".document required")
+        result={document=node.document}
+    elseif node["not"]~=nil then
+        result={["not"]=requirementCopy(node["not"],path..".not",guard,depth+1)}
+    else
+        local operator=node.all~=nil and "all" or "any"
+        local values=node[operator]
+        assert(type(values)=="table" and #values>0 and #values<=512,path.." must be a bounded non-empty array")
+        local count=0
+        for key in pairs(values) do
+            assert(SavedState.integer(key) and key>=1 and key<=#values,path.." must be a dense array")
+            count=count+1
+        end
+        assert(count==#values,path.." must be a dense array")
+        result={[operator]={}}
+        for index,value in ipairs(values) do result[operator][index]=requirementCopy(value,path.."."..operator,guard,depth+1) end
+    end
+    guard.active[node]=nil
     return result
+end
+local function requirementReferences(node)
+    if node.knowledge then
+        if not B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[node.knowledge] then return false,"unknown knowledge definition: "..node.knowledge end
+    elseif node.document then
+        if not B47ANCEDKnowledgeAndWisdom.Documents[node.document] then return false,"unknown document: "..node.document end
+    elseif node["not"] then return requirementReferences(node["not"])
+    else
+        for _,child in ipairs(node.all or node.any) do
+            local ok,err=requirementReferences(child);if not ok then return false,err end
+        end
+    end
+    return true
 end
 local function assertRequirementKnowledge(node)
     if node.knowledge then assert(B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[node.knowledge],"unknown requirement knowledge: "..node.knowledge); return end
@@ -193,12 +226,14 @@ function B47ANCEDKnowledgeAndWisdom.evaluateRequirement(character,requirement)
     local ok,nodeOrError=B47ANCEDKnowledgeAndWisdom.validateRequirement(requirement)
     if not ok then return false,nodeOrError end
     local current,err=ledger(character,false); if not current then return false,err end
+    -- Unknown references are errors, not false facts that NOT can invert.
+    local valid,reason=requirementReferences(nodeOrError);if not valid then return false,reason end
     return evaluateRequirement(character,nodeOrError)
 end
 function B47ANCEDKnowledgeAndWisdom.canLearn(character,id)
     local document=B47ANCEDKnowledgeAndWisdom.Documents[id]; if not document then return false,"unknown document" end
     local current,err=ledger(character,false); if not current then return false,err end
-    if document.requirements then local allowed,reason=evaluateRequirement(character,document.requirements); if not allowed then return false,reason end end
+    if document.requirements then local allowed,reason=B47ANCEDKnowledgeAndWisdom.evaluateRequirement(character,document.requirements); if not allowed then return false,reason end end
     return true,document
 end
 function B47ANCEDKnowledgeAndWisdom.learn(character,id,context)

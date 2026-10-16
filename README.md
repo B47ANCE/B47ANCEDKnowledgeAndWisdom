@@ -12,7 +12,7 @@ source authoring thumbnail. See [artwork provenance](docs/ARTWORK.md).
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.14.1` Project Archive, registered knowledge definitions,
+- Status: version `0.15.0` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -28,6 +28,9 @@ experience-progression infrastructure for B47ANCE'd mods and other providers.
   visibility checks, full-request replay binding with caller re-authentication,
   and tombstone removal. It creates no
   memorial objects automatically.
+- New in 0.15.0: read-only Survivor Journal inspection with recorded counts and
+  writing progress. Inspection does not write, claim or recover anything. See
+  [journal inspection](docs/JOURNAL_INSPECTION.md) and [audit findings](docs/AUDIT_0_15_0.md).
 - Mod ID: `B47ANCEDKnowledgeAndWisdom`
 - Author: B47ANCE
 - Hard dependencies: none beyond Project Zomboid.
@@ -63,7 +66,7 @@ implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_14_1.md) and
+checks. See [current validation](docs/VALIDATION_0_15_0.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 

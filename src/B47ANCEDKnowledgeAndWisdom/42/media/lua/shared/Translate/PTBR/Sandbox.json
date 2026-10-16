@@ -15,5 +15,7 @@
   "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalWritingSpeedPercent": "Journal writing speed (%)",
   "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalWritingSpeedPercent_tooltip": "Scales server-validated writing work. 100 preserves the existing speed. This does not enable unfinished native journal timed actions.",
   "Sandbox_B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent": "Maximum failure XP (%)",
-  "Sandbox_B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent_tooltip": "Caps failure outcome credit as a percentage of provider base XP, before other bounded modifiers. Providers may award less. 0 disables failure credit."
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent_tooltip": "Caps failure outcome credit as a percentage of provider base XP, before other bounded modifiers. Providers may award less. 0 disables failure credit.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableJournalViewer": "Enable Survivor Journal inspection",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableJournalViewer_tooltip": "Show read-only inspection for recorded Survivor Journals. Default enabled; existing saves use this default. This does not enable writing or recovery actions."
 }

@@ -49,13 +49,26 @@ def main():
         if path.suffix == '.lua':
             for key in re.findall(r'["\'](ContextMenu_B47ANCEDKnowledgeAndWisdom_[^"\']+)["\']', path.read_text(encoding='utf-8')):
                 require(key in english['ContextMenu.json'], 'Missing UI translation: ' + key)
+    journal_keys = (
+        'InspectJournal', 'JournalWriting', 'JournalRecorded', 'JournalClaimed',
+        'JournalExhausted', 'JournalSkills', 'JournalEntries', 'JournalDocuments',
+        'JournalRecipes', 'JournalMaps', 'JournalMedia', 'JournalKnowledge',
+        'JournalResearch', 'JournalProgress', 'JournalRemaining', 'JournalDisclaimer',
+    )
+    require(all('ContextMenu_B47ANCEDKnowledgeAndWisdom_' + key in english['ContextMenu.json']
+                for key in journal_keys), 'Journal localization missing')
     sandbox = (SOURCE / 'media/sandbox-options.txt').read_text(encoding='utf-8')
     require('option B47ANCEDKnowledgeAndWisdom.EnableResearchViewer' in sandbox and 'page = B47ANCEDKnowledgeAndWisdom' in sandbox, 'Sandbox identity mismatch')
     require(english['Sandbox.json']['Sandbox_B47ANCEDKnowledgeAndWisdom'] == 'B47ANCED Knowledge & Wisdom', 'Sandbox page display mismatch')
     options = dict(re.findall(r'option B47ANCEDKnowledgeAndWisdom\.(\w+)\s*\{([^}]+)\}', sandbox))
     config = (SOURCE / 'media/lua/shared/B47ANCEDKnowledgeAndWisdom/Config.lua').read_text(encoding='utf-8')
     specs = re.findall(r'(\w+)=\{(\d+),(\d+),(\d+)\}', config)
-    require(len(specs) == 7 and set(options) == {'EnableResearchViewer'} | {s[0] for s in specs}, 'Sandbox option inventory mismatch')
+    require(len(specs) == 7 and set(options) == {'EnableResearchViewer', 'EnableJournalViewer'} | {s[0] for s in specs}, 'Sandbox option inventory mismatch')
+    for key in ('EnableResearchViewer', 'EnableJournalViewer'):
+        body = options[key]
+        require(re.search(r'\btype\s*=\s*boolean\b', body) and re.search(r'\bdefault\s*=\s*true\b', body), 'Viewer boolean/default mismatch: ' + key)
+        translation = 'Sandbox_B47ANCEDKnowledgeAndWisdom_' + key
+        require(translation in english['Sandbox.json'] and translation + '_tooltip' in english['Sandbox.json'], 'Missing viewer localization: ' + key)
     for key, minimum, maximum, default in specs:
         body = options[key]
         for field, expected in [('type', 'integer'), ('min', minimum), ('max', maximum), ('default', default)]:

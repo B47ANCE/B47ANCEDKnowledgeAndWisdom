@@ -49,3 +49,10 @@ Named VALIDATION_0_13_0.md, SOURCE_PROVENANCE_0_13_0.json and
 RENAME_RETENTION_0_13_0.json remain historical evidence tied to that baseline.
 Their old versions, hashes and pre-onboarding backup status are not rewritten.
 Likewise, older native audit fingerprints are historical, not current API proof.
+
+0.15.0 is a pre-1.0 MINOR iteration for recorded-journal inspection and its new
+sandbox toggle, with fail-closed prerequisite/journal fixes. Schema remains 1;
+Mod ID, Workshop ID, immutable storage/replay keys and artwork do not change.
+Current version checks also cover IN_GAME_TESTING, IDENTITY_MIGRATION,
+REPOSITORY_AUDIT, TESTING and ARCHITECTURE headings to prevent stale current docs.
+Named 0.14.x validation/manifests remain historical evidence.

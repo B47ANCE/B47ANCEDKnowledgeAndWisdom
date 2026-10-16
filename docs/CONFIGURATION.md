@@ -9,6 +9,7 @@ rendering and server configuration transport remain runtime gates.
 | Identifier | Default | Bounds | Interpretation |
 | --- | --- | --- | --- |
 | EnableResearchViewer | true | boolean | Existing local read-only research presentation |
+| EnableJournalViewer | true | boolean | Read-only recorded-journal inspection (added 0.15.0) |
 | SemanticXPPercent | 100 | 0–1000 | Percent of provider semantic XP; 0 disables awards |
 | RepeatWindowPercent | 100 | 25–400 | Percent of each provider's repeat window |
 | RepeatDecayPercent | 100 | 0–400 | Percent of provider decay; 0 removes the penalty |
@@ -46,3 +47,9 @@ technical/internal constraints, not separate sandbox micro-settings.
 These controls configure existing server APIs. They do not implement unfinished
 native journal actions or XP restoration, nor prove remote synchronization.
 G7/G8 remain BLOCKED pending the required evidence.
+
+EnableJournalViewer defaults to true when absent on existing saves and hides the
+journal context action when false. It is presentation-only and has no historical
+alias. The research viewer's legacy false behavior remains specific to research.
+The new labels use English fallback entries in every supported language folder;
+no additional human translation is claimed. No migration of saved payloads occurs.

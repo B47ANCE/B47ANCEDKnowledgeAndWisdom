@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.15.0 — 2026-10-16
+
+- Added native-style read-only inspection for recorded Survivor Journals: status,
+  recorded skill/knowledge counts and current writing progress, without account
+  IDs, payload IDs or unwritten captures. Added EnableJournalViewer (default true).
+- Shared inspection-window lifecycle with research and bounded vanilla modal
+  auto-height to the selected player viewport. Native UI validation is pending.
+- Rejected unknown prerequisite references before ALL/ANY/NOT evaluation and
+  bounded requirement depth/size; sparse arrays and unknown fields fail closed.
+- Prepared and validated journal writes before persistence; invalid captures and
+  rejected journal operations no longer create/migrate item state. Active writing
+  operation IDs reject changed captures; successful migration retains table identity.
+- Added audit, regressions, English fallback coverage and current version-doc checks.
+- MINOR feature iteration, schema 1 unchanged. Offline only; G7/G8 BLOCKED.
+  No build, deployment, game/server launch or Workshop publication.
+
 ## 0.14.1 — 2026-10-16
 
 - Adopted the user-supplied Knowledge & Wisdom thumbnail for the Workshop preview

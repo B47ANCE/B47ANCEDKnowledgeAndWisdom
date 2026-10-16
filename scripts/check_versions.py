@@ -27,6 +27,11 @@ def main():
         ROOT / 'docs/MASTER_ROADMAP.md': r'^Canonical version: ([^ .]+\.[^ .]+\.[^ .]+)\.',
         ROOT / 'tests/test_identity_migration.lua': r'API.VERSION=="([^"]+)"',
         ROOT / 'AGENTS.md': r'^B47ANCED Knowledge & Wisdom ([^ ]+) uses',
+        ROOT / 'docs/IN_GAME_TESTING.md': r'^Current version: ([^ ]+)\.',
+        ROOT / 'docs/IDENTITY_MIGRATION.md': r'^Current version: ([^ ]+)\.',
+        ROOT / 'docs/REPOSITORY_AUDIT.md': r'Current version: ([^ ]+)\.',
+        ROOT / 'docs/TESTING.md': r'^Current ([^ ]+) offline results',
+        ROOT / 'docs/ARCHITECTURE.md': r'^## Current authority and persistence contract \(([^)]+)\)',
         ROOT / 'docs' / ('VALIDATION_' + version.replace('.', '_') + '.md'): r'^Version: (.+)$',
     }
     apis = list(source.glob('42/media/lua/shared/*/API.lua'))

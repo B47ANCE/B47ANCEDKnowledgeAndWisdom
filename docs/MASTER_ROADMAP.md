@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Master Roadmap
 
-Canonical version: 0.14.1. This file consolidates current feature status; detailed
+Canonical version: 0.15.0. This file consolidates current feature status; detailed
 contracts and evidence remain in the other documents in this directory.
 
 ## Implemented
@@ -32,12 +32,20 @@ contracts and evidence remain in the other documents in this directory.
 - Bounded explicit origin-provider observations and authority-owned conversion
   into replay-bound registered-locality hometown claims.
 
+## 0.15.0 progress
+
+- Recorded-journal inspection implemented and host-tested: status, counts and
+  writing progress; no gameplay mutation or recovery action. See JOURNAL_INSPECTION.md.
+- Unknown/negated prerequisites, journal write preparation and rejected-operation
+  migration are hardened with regressions. See AUDIT_0_15_0.md.
+
 ## Still to add
 
 - Additional first-party restricted science, military, and government archives.
 - Recipe and contextual-action knowledge consumers.
 - uiWorks knowledge inspection/presentation adapters.
-- Survivor Journal native timed writing/recovery UI and exact raw-XP application
+- Survivor Journal author display/last-update metadata, native timed writing/recovery
+  UI and exact raw-XP application
   after an engine-safe policy is proven.
 - EXT-25 uiWorks media-badge presentation and native media/journal/recovery validation.
 - EXT-26 verified native origin mapping and approved first-party region catalog;
@@ -64,3 +72,16 @@ realm exports and server sandbox controls have offline regressions. Public
 source onboarding/CI is separate from native evidence. Follow
 REPAIRS_0_14_0.md and RUNTIME_VALIDATION_0_14_0.md. Native journal action/restoration,
 server synchronization and dedicated validation remain gated; G7/G8 BLOCKED.
+
+## Next dependency order
+
+1. Review/verify native character and item state replication, recipient privacy and
+   authority-side reading/test-driver execution before expanding gameplay hooks.
+2. Verify authoritative native capture and writing-action contracts (inventory,
+   instrument, elapsed work, interruption/death/logout); implement writing without
+   coupling it to unresolved recovery, then validate disposable old saves.
+3. Establish exact-XP policy/exposure before recovery commit actions. Keep recipes,
+   media, meta-recipe behavior and level reconciliation as separate proof requirements.
+4. Add recipe/context consumers, uiWorks adapters, approved archive/origin content
+   and optional history presentation after each owning provider contract is known.
+5. Collect SP then dedicated evidence for each implemented slice. G7/G8 stay blocked.

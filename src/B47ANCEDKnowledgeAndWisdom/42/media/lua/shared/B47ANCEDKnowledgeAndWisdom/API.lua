@@ -1,7 +1,8 @@
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
+local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 
 B47ANCEDKnowledgeAndWisdom=rawget(_G,"B47ANCEDKnowledgeAndWisdom") or {}
-B47ANCEDKnowledgeAndWisdom.VERSION="0.13.0"
+B47ANCEDKnowledgeAndWisdom.VERSION="0.14.0"
 B47ANCEDKnowledgeAndWisdom.Documents=B47ANCEDKnowledgeAndWisdom.Documents or {}
 B47ANCEDKnowledgeAndWisdom.DocumentsByItemType=B47ANCEDKnowledgeAndWisdom.DocumentsByItemType or {}
 B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions or {}
@@ -83,8 +84,7 @@ local function ledger(character,create)
     if not character or not character.getModData then return nil,"character ModData unavailable" end
     local ok,data=pcall(function() return character:getModData() end)
     if not ok or type(data)~="table" then return nil,"character ModData unavailable" end
-    LegacyMigration.moveTableKey(data,B47ANCEDKnowledgeAndWisdom.ROOT_KEY,LegacyMigration.KNOWLEDGE_ROOT_KEY)
-    local current=data[B47ANCEDKnowledgeAndWisdom.ROOT_KEY]
+    local current=LegacyMigration.readTableKey(data,B47ANCEDKnowledgeAndWisdom.ROOT_KEY,LegacyMigration.KNOWLEDGE_ROOT_KEY)
     if current==nil then
         local empty={schemaVersion=1,documents={},knowledge={}}
         if create then data[B47ANCEDKnowledgeAndWisdom.ROOT_KEY]=empty end
@@ -92,9 +92,11 @@ local function ledger(character,create)
     end
     -- Never repair or downgrade an unknown save format from a query. Preserve
     -- corrupt/future data for diagnostics instead of erasing earned knowledge.
-    if type(current)~="table" or current.schemaVersion~=1
-        or type(current.documents)~="table" or type(current.knowledge)~="table" then
+    if not SavedState.knowledge(current) then
         return nil,"unsupported or malformed knowledge ledger"
+    end
+    if create and canWrite() then
+        LegacyMigration.moveTableKey(data,B47ANCEDKnowledgeAndWisdom.ROOT_KEY,LegacyMigration.KNOWLEDGE_ROOT_KEY)
     end
     return current
 end
@@ -231,7 +233,7 @@ function B47ANCEDKnowledgeAndWisdom.completeRead(character,item,context)
         local suffix=subject..":"..document.id
         local operationId,claimId="read:"..suffix,"literature:"..suffix
         if #operationId<=160 and #claimId<=160 then
-            local claimed,reason,claim=claims.grant(character,{schemaVersion=1,
+            local claimed,reason,claim=claims.grantAcquisition(character,{schemaVersion=1,
                 operationId=operationId,claimId=claimId,definitionId=LegacyMigration.LITERATURE_DEFINITION,subjectId=subject,
                 sourceType="document",sourceId=document.id,sourceOwner=LegacyMigration.PERSISTED_OWNER,
                 scope={documentId=document.id,itemType=LegacyMigration.persistedItemType(document.itemType)},acquisition="read-completion",

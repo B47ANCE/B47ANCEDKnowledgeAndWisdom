@@ -1,3 +1,17 @@
+[b]Version 0.14.0[/b]
+
+[h2]Authority and persistence repairs[/h2]
+Queries no longer modify saved keys. Authority writes migrate validated legacy state. Persistent exhaustion rejects stale journal copies.
+Repeated built-in acquisitions retain their original time; direct request replay bindings remain strict. Invalid identities and malformed saves fail closed without resetting data.
+Legacy claim migration works without next. Expired progression counters are pruned in bounded work while active and uncertain counters remain protected. Realm exports are aligned.
+
+[h2]Server configuration[/h2]
+Added bounded server controls for semantic XP, repeat policy, failure credit, journal writing speed and maximum journal XP recovery. Existing-save defaults preserve provider rates.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED. Native journal timed actions and XP restoration remain unfinished.
+
+[b]Historical 0.13.0 and earlier notes[/b]
+
 [b]Version 0.13.0[/b]
 
 Renamed to B47ANCED Knowledge & Wisdom. New Mod ID, Lua namespace and sandbox page: B47ANCEDKnowledgeAndWisdom.

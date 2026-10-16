@@ -1,4 +1,5 @@
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
+local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 API.Claims=API.Claims or {}
 local Claims=API.Claims
@@ -41,9 +42,14 @@ local function subjectId(character)
     for _,method in ipairs({"getUsername","getSteamID","getOnlineID"})do
         local ok,fn=pcall(function()return character[method]end)
         if ok and type(fn)=="function" then
-            local called,value=pcall(fn,character);value=called and tostring(value or "") or ""
-            local candidate=method..":"..value
-            if valid(candidate)then return candidate end
+            local called,value=pcall(fn,character)
+            local rawValid=called and ((method=="getUsername"and type(value)=="string"and value~="")
+                or (method~="getUsername"and (type(value)=="number"or type(value)=="string")
+                    and finite(value)and (method=="getOnlineID"and tonumber(value)>=0 or tonumber(value)>0)))
+            if rawValid then
+                local candidate=method..":"..tostring(value)
+                if valid(candidate)then return candidate end
+            end
         end
     end
 end
@@ -57,8 +63,7 @@ local function ledger(character,create)
         if create then data[Claims.ROOT_KEY]=value end
         return value
     end
-    if type(value)~="table" or value.schemaVersion~=1 or type(value.claims)~="table" or type(value.order)~="table"
-        or type(value.operations)~="table" or type(value.operationOrder)~="table" then
+    if not SavedState.claims(value) then
         return nil,"UNSUPPORTED_OR_MALFORMED_CLAIMS_LEDGER"
     end
     return value
@@ -133,6 +138,7 @@ function Claims.registerDefinition(definition)
             if not seen[field]then seen[field]=true;def.scopeFields[#def.scopeFields+1]=field end
         end
         table.sort(def.scopeFields)
+        assert(#def.scopeFields<=32,"claim definition has too many scope fields")
     end
     definitions[def.id]=def;return copy(def)
 end
@@ -182,6 +188,27 @@ function Claims.grant(character,request)
     local result={ok=true,reason="GRANTED",claim=copy(claim)};remember(current,request.operationId,"grant",request,result,binding)
     if type(character.transmitModData)=="function"then pcall(character.transmitModData,character)end
     return true,result.reason,copy(claim)
+end
+
+-- Built-in adapters describe acquisition of one immutable fact, not a new
+-- request every time that fact is observed. Preserve its original timestamp;
+-- grant still validates every other bound field and direct requests stay strict.
+function Claims.grantAcquisition(character,request)
+    if not authority() then return false,"NON_AUTHORITY" end
+    if type(request)~="table" or not valid(request.claimId) then return false,"INVALID_REQUEST" end
+    if request.sourceOwner~=LegacyMigration.PERSISTED_OWNER or (request.definitionId~=LegacyMigration.LITERATURE_DEFINITION
+        and request.definitionId~=LegacyMigration.RECOVERY_DEFINITION and request.definitionId~=LegacyMigration.HOMETOWN_DEFINITION)then
+        return false,"BUILTIN_ACQUISITION_REQUIRED"
+    end
+    local current,err=ledger(character,false);if not current then return false,err end
+    local previous=current.claims[request.claimId]
+    if previous then
+        if previous.revoked then return false,"CLAIM_REVOKED",copy(previous)end
+        local logical={};for key,value in pairs(request)do logical[key]=value end
+        logical.worldAgeHours=previous.acquiredAtWorldAgeHours
+        return Claims.grant(character,logical)
+    end
+    return Claims.grant(character,request)
 end
 
 function Claims.revoke(character,request)

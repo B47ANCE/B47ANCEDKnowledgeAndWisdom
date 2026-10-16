@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom identity migration
 
-Current version: 0.13.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
+Current version: 0.14.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
 source folder, Lua import prefix/global and sandbox page: `B47ANCEDKnowledgeAndWisdom`.
 
 For a consumer, change `require=experienceWorks` in mod.info to
@@ -40,8 +40,8 @@ set `B47ANCEDKnowledgeAndWisdom.EnableResearchViewer=true`. Unknown sandbox engi
 migration guarantees are not assumed. Other gameplay/progression configuration
 and authority behavior are unchanged; this rename adds no gameplay knobs.
 
-Existing pre-0.7.0 misspelled storage imports remain. They keep the inherited
-move-on-access behavior and do not establish new native replication guarantees.
+Existing pre-0.7.0 misspelled storage imports remain. Queries read legacy keys without moving them. Only validated authority writes
+move those keys; this does not establish new native replication guarantees.
 Debug fixture/session IDs use the new identity and require a fresh validation
 session, so historical test-session results are never adopted as current proof.
 
@@ -58,3 +58,5 @@ late join/rejoin, restart persistence and replay rejection on a dedicated server
 Native script loading/serialization and network behavior are NOT TESTED. G7 and
 stable G8 remain BLOCKED. Use backups for rollback; no general downgrade guarantee
 is made for gameplay changes beyond this identity-only iteration.
+
+Current repairs and original replay preservation are specified in [REPAIRS_0_14_0.md](REPAIRS_0_14_0.md). Native testing remains separate.

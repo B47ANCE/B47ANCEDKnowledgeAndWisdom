@@ -6,7 +6,7 @@ Lore, classified research, survivor knowledge, and experience-progression infras
 
 B47ANCED Knowledge & Wisdom provides persistent knowledge, research archives, progression-aware actions, and recoverable Survivor Journal data for B47ANCE'd mods and compatible projects.
 
-[b]Mod Version: 0.13.0[/b]
+[b]Mod Version: 0.14.0[/b]
 
 [b]Development Status[/b]
 
@@ -46,6 +46,10 @@ The internal knowledge subsystem that owns knowledge, literature, research, stud
 [*]Has no required mod dependencies
 [*]Migrates persisted data from the former misspelled identity without retaining it as public API
 [/list]
+
+[h2]Authority and Configuration Repairs[/h2]
+
+Read-only queries leave saved data untouched. Recovery plans validate persistent exhaustion and successor locks. Repeated acquisitions preserve original replay identity. Malformed saves are rejected without resetting them. Expired progression counters are pruned without evicting active or uncertain awards. Server sandbox controls cover XP and journal policies.
 
 [h2]Identity Upgrade[/h2]
 

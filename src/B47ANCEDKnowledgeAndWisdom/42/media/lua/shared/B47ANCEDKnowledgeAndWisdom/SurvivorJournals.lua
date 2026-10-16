@@ -1,5 +1,7 @@
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
+local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
+local Config=require "B47ANCEDKnowledgeAndWisdom/Config"
 
 local Journals={SCHEMA_VERSION=1,ROOT_KEY=LegacyMigration.STORAGE_JOURNAL_KEY,MAX_QUEUE=512}
 local discreteOrder={documents=1,recipes=2,maps=3,media=4,knowledge=5,research=6}
@@ -26,19 +28,19 @@ local function itemData(item)
     if not ok or type(data)~="table" then return nil,"journal ModData unavailable" end
     return data
 end
-local function state(item,create)
+local function state(item,create,write)
     local data,err=itemData(item); if not data then return nil,err end
-    LegacyMigration.moveTableKey(data,Journals.ROOT_KEY,LegacyMigration.JOURNAL_ROOT_KEY)
-    local current=data[Journals.ROOT_KEY]
+    local current=LegacyMigration.readTableKey(data,Journals.ROOT_KEY,LegacyMigration.JOURNAL_ROOT_KEY)
     if current==nil then
         if not create then return nil,"journal is blank" end
         current={schemaVersion=1,payloadId=nil,authorId=nil,documented={rawXP={},discrete={}},queue={},writing=nil,recovery=nil,revision=0}
         data[Journals.ROOT_KEY]=current
     end
-    if type(current)~="table" or current.schemaVersion~=1 or type(current.documented)~="table"
-        or type(current.documented.rawXP)~="table" or type(current.documented.discrete)~="table"
-        or type(current.queue)~="table" or type(current.revision)~="number" then
+    if not SavedState.journal(current) then
         return nil,"unsupported or malformed survivor journal"
+    end
+    if (create or write) and canWrite() then
+        LegacyMigration.moveTableKey(data,Journals.ROOT_KEY,LegacyMigration.JOURNAL_ROOT_KEY)
     end
     return current
 end
@@ -103,8 +105,18 @@ local function defaultClaimStore()
             if read and type(legacy)=="table" then existing=legacy end
         end
         local ok,result=pcall(modData.getOrCreate,canonicalKey)
-        if ok and type(result)=="table" and existing and next(result)==nil then
-            for key,value in pairs(existing) do result[key]=value end
+        if not ok or not SavedState.claimStore(result) then return nil end
+        if existing then
+            if not SavedState.claimStore(existing) then return nil end
+            -- Validate collisions before touching either store. Exhaustion is
+            -- monotonic; a legacy copy cannot reopen a consumed payload.
+            for key,value in pairs(existing) do
+                if result[key] and result[key].successorId~=value.successorId then return nil end
+            end
+            for key,value in pairs(existing) do
+                if result[key]==nil then result[key]=copy(value)
+                elseif value.exhausted then result[key].exhausted=true end
+            end
             if type(modData.remove)=="function" then pcall(modData.remove,LegacyMigration.CLAIM_STORE_KEY) end
         end
         if ok and type(result)=="table" then return result end
@@ -138,10 +150,13 @@ end
 function Journals.advanceWriting(item,authorId,minutes)
     if not canWrite() then return false,"non-authority" end
     minutes=finite(minutes); if not minutes or minutes<=0 then return false,"positive finite work minutes required" end
-    local current,err=state(item,false); if not current then return false,err end
+    local current,err=state(item,false,true); if not current then return false,err end
     if current.authorId~=tostring(authorId) then return false,"journal belongs to another author" end
     if not current.writing then return false,"no writing in progress" end
-    local remaining=minutes
+    local settings=Config.gameplay()
+    local speed=settings.JournalWritingSpeedPercent/100
+    local remaining=minutes*speed
+    if not finite(remaining)then return false,"finite work duration required"end
     while remaining>0 and #current.queue>0 do
         local entry=current.queue[1]; local used=math.min(remaining,entry.work-entry.done)
         entry.done=entry.done+used; current.writing.completedWork=current.writing.completedWork+used; remaining=remaining-used
@@ -160,11 +175,11 @@ function Journals.advanceWriting(item,authorId,minutes)
     local completed=#current.queue==0
     if completed then current.writing=nil end
     current.revision=current.revision+1; transmit(item)
-    return true,{completed=completed,unusedMinutes=remaining,remainingEntries=#current.queue,documented=copy(current.documented)}
+    return true,{completed=completed,unusedMinutes=remaining/speed,remainingEntries=#current.queue,documented=copy(current.documented)}
 end
 function Journals.cancelWriting(item,authorId)
     if not canWrite() then return false,"non-authority" end
-    local current,err=state(item,false); if not current then return false,err end
+    local current,err=state(item,false,true); if not current then return false,err end
     if current.authorId~=tostring(authorId) then return false,"journal belongs to another author" end
     -- Persist the partially documented payload but discard the fixed unwritten target.
     current.queue={}; current.writing=nil; current.revision=current.revision+1; transmit(item)
@@ -173,12 +188,17 @@ end
 function Journals.claim(item,successorId,context)
     if not canWrite() then return false,"non-authority" end
     if successorId==nil or tostring(successorId)=="" then return false,"stable successor ID required" end
-    local current,err=state(item,false); if not current then return false,err end
+    local current,err=state(item,false,true); if not current then return false,err end
     if not current.payloadId then return false,"journal has no recovery payload" end
     local provider=claimStoreProvider or defaultClaimStore
     local ok,store=pcall(provider,context); if not ok or type(store)~="table" then return false,"persistent claim store unavailable" end
     local id=tostring(successorId); local claim=store[current.payloadId]; local duplicate=claim~=nil
+    if not SavedState.claimStore(store) then return false,"malformed persistent journal claim" end
     if claim and claim.successorId~=id then return false,"journal payload already claimed" end
+    if (claim and claim.exhausted==true) or (current.recovery and current.recovery.exhausted==true) then
+        return false,"journal payload exhausted"
+    end
+    if current.recovery and current.recovery.successorId~=id then return false,"journal payload already claimed" end
     if not claim then claim={successorId=id,claimedAtWorldAgeHours=finite(context and context.worldAgeHours),exhausted=false}; store[current.payloadId]=claim end
     current.recovery=current.recovery or {successorId=id,studiedWork=0,exhausted=false}
     if current.recovery.successorId~=id then return false,"journal payload already claimed" end
@@ -189,7 +209,7 @@ function Journals.claim(item,successorId,context)
     local claimId=subject and "recovery:"..subject..":"..current.payloadId or nil
     local operationId=subject and "journal-claim:"..subject..":"..current.payloadId or nil
     if claimId and #claimId<=160 and #operationId<=160 then
-        local granted,reason,value=claims.grant(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
+        local granted,reason,value=claims.grantAcquisition(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
             definitionId=LegacyMigration.RECOVERY_DEFINITION,subjectId=subject,sourceType="journal",
             sourceId=current.payloadId,sourceOwner=LegacyMigration.PERSISTED_OWNER,scope={payloadId=current.payloadId},
             acquisition="journal-claim",confidence=1,completeness=1,worldAgeHours=context.worldAgeHours})
@@ -197,11 +217,20 @@ function Journals.claim(item,successorId,context)
     end
     return true,result
 end
-function Journals.recoveryPlan(item,successorId,currentXP,recoveryFraction)
+function Journals.recoveryPlan(item,successorId,currentXP,recoveryFraction,context)
+    if not canWrite() then return nil,"non-authority" end
     local current,err=state(item,false); if not current then return nil,err end
     if not current.recovery or current.recovery.successorId~=tostring(successorId) then return nil,"successor has not claimed journal" end
     if current.recovery.exhausted then return nil,"journal payload exhausted" end
-    local fraction=finite(recoveryFraction); if not fraction then fraction=.9 end; fraction=math.max(0,math.min(1,fraction))
+    local provider=claimStoreProvider or defaultClaimStore
+    local ok,store=pcall(provider,context)
+    local claim=ok and type(store)=="table" and store[current.payloadId] or nil
+    if not SavedState.claimStore(store) or type(claim)~="table" then return nil,"persistent journal claim unavailable" end
+    if claim.successorId~=tostring(successorId) then return nil,"journal payload already claimed" end
+    if claim.exhausted==true then return nil,"journal payload exhausted" end
+    local maximum=Config.gameplay().JournalRecoveryPercent/100
+    local fraction=finite(recoveryFraction);if not fraction then fraction=maximum end
+    fraction=math.max(0,math.min(maximum,fraction))
     local plan={rawXP={},discrete=copy(current.documented.discrete),fraction=fraction,payloadId=current.payloadId}
     currentXP=type(currentXP)=="table" and currentXP or {}
     for perk,documented in pairs(current.documented.rawXP) do
@@ -212,10 +241,11 @@ function Journals.recoveryPlan(item,successorId,currentXP,recoveryFraction)
 end
 function Journals.exhaust(item,successorId,context)
     if not canWrite() then return false,"non-authority" end
-    local current,err=state(item,false); if not current then return false,err end
+    local current,err=state(item,false,true); if not current then return false,err end
     if not current.recovery or current.recovery.successorId~=tostring(successorId) then return false,"successor has not claimed journal" end
     local provider=claimStoreProvider or defaultClaimStore; local ok,store=pcall(provider,context)
-    if not ok or type(store)~="table" or type(store[current.payloadId])~="table" then return false,"persistent claim store unavailable" end
+    if not ok or not SavedState.claimStore(store) or type(store[current.payloadId])~="table" then return false,"persistent claim store unavailable" end
+    if store[current.payloadId].successorId~=tostring(successorId) then return false,"journal payload already claimed" end
     store[current.payloadId].exhausted=true; current.recovery.exhausted=true; current.queue={}; current.writing=nil
     current.revision=current.revision+1; transmit(item); return true
 end

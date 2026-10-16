@@ -46,6 +46,7 @@ local revokeCollision={};for key,value in pairs(revoke)do revokeCollision[key]=v
 assert(select(2,Claims.revoke(character,revokeCollision))=="OPERATION_ID_CONFLICT","replay must bind revocation reason")
 character.data[Claims.ROOT_KEY].operations["legacy:op"]={action="grant",claimId=request.claimId,
     definitionId=request.definitionId,subjectId=request.subjectId,ok=true,reason="GRANTED"}
+table.insert(character.data[Claims.ROOT_KEY].operationOrder,"legacy:op")
 local legacy={};for key,value in pairs(request)do legacy[key]=value end;legacy.operationId="legacy:op"
 assert(select(2,Claims.grant(character,legacy))=="OPERATION_REPLAY_UNVERIFIABLE",
     "legacy operations without a full binding must fail closed")

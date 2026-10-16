@@ -26,6 +26,8 @@ def main():
         ROOT / 'WORKSHOP_CHANGE_NOTE.txt': r'^\[b\]Version (.+?)\[/b\]',
         ROOT / 'docs/MASTER_ROADMAP.md': r'^Canonical version: ([^ .]+\.[^ .]+\.[^ .]+)\.',
         ROOT / 'tests/test_identity_migration.lua': r'API.VERSION=="([^"]+)"',
+        ROOT / 'AGENTS.md': r'^B47ANCED Knowledge & Wisdom ([^ ]+) uses',
+        ROOT / 'docs' / ('VALIDATION_' + version.replace('.', '_') + '.md'): r'^Version: (.+)$',
     }
     apis = list(source.glob('42/media/lua/shared/*/API.lua'))
     if len(apis) != 1:

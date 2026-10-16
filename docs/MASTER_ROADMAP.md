@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Master Roadmap
 
-Canonical version: 0.13.0. This file consolidates current feature status; detailed
+Canonical version: 0.14.0. This file consolidates current feature status; detailed
 contracts and evidence remain in the other documents in this directory.
 
 ## Implemented
@@ -55,3 +55,12 @@ contracts and evidence remain in the other documents in this directory.
 
 - The misspelled `experianceWorks` identity is migration input only, never a
   parallel public API or mod.
+
+## 0.14.0 repair status
+
+Authority/query separation, persistent exhaustion, replay identity, nested save
+validation, Kahlua-compatible legacy claims, bounded source retention, complete
+realm exports and server sandbox controls have offline regressions. Public
+source onboarding/CI is separate from native evidence. Follow
+REPAIRS_0_14_0.md and RUNTIME_VALIDATION_0_14_0.md. Native journal action/restoration,
+server synchronization and dedicated validation remain gated; G7/G8 BLOCKED.

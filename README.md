@@ -1,5 +1,5 @@
 Authoritative source: `src/B47ANCEDKnowledgeAndWisdom/42`. `Contents/`, `dist/`, and
-`SHA256SUMS.txt` describe historical builds and must not be deployed as 0.13.0.
+`SHA256SUMS.txt` describe historical builds and must not be deployed as 0.14.0.
 The old three-mod candidate tooling has not been migrated to this identity.
 
 # B47ANCED Knowledge & Wisdom
@@ -7,7 +7,7 @@ The old three-mod candidate tooling has not been migrated to this identity.
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.13.0` Project Archive, registered knowledge definitions,
+- Status: version `0.14.0` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -54,14 +54,17 @@ source-aware diminishing returns, authority rejection, and uncertain-award quara
 See [approved requirements](docs/PROGRESSION_AND_JOURNALS.md),
 [repository and migration audit](docs/REPOSITORY_AUDIT.md), and
 [roadmap](docs/ROADMAP.md). Installed-game API verification precedes new framework
-implementation; existing archive consumers remain supported.
+implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_13_0.md) and
+checks. See [current validation](docs/VALIDATION_0_14_0.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 
-This is an explicitly authorized offline legacy-project iteration. There is no
-Git checkout or configured remote: commit/push are unavailable, **NOT BACKED UP
-TO GITHUB**. Other projects' integrations have not been changed by this rename.
+Public source: [B47ANCE/B47ANCEDKnowledgeAndWisdom](https://github.com/B47ANCE/B47ANCEDKnowledgeAndWisdom).
+Repairs use branch `fix/authority-persistence-0.14.0`; main retains the audited
+0.13.0 baseline until PR review/merge. See [repair contract](docs/REPAIRS_0_14_0.md),
+[server settings](docs/CONFIGURATION.md) and [native test procedure](docs/RUNTIME_VALIDATION_0_14_0.md).
+Other projects' integrations have not been changed. Native journal timed actions,
+raw-XP restoration and dedicated synchronization remain runtime gates.

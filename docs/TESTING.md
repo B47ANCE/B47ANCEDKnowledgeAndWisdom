@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Testing
 
-Current 0.13.0 offline results and native gates: [validation](VALIDATION_0_13_0.md).
+Current 0.14.0 offline results and native gates: [validation](VALIDATION_0_14_0.md).
 The version-specific descriptions below are inherited test history; original
 pre-rename records remain under `history/pre-b47-0.12.2/`.
 
@@ -53,3 +53,6 @@ Version 0.12.0 verifies deterministic origin-provider selection, registered
 locality enforcement, bounded confidence, canonical source ownership, and
 authority-owned hometown claim construction. No native origin mapping or region
 catalog is claimed.
+
+For 0.14.0 authority, stale-copy, reconnect/restart and sandbox checks, use
+[the native test procedure](RUNTIME_VALIDATION_0_14_0.md). Do not use old session results as current proof.

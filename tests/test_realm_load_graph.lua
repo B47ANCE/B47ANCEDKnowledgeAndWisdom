@@ -5,6 +5,8 @@ local common={
     "B47ANCEDKnowledgeAndWisdom/ReadCompletion",
     "B47ANCEDKnowledgeAndWisdom/Claims",
     "B47ANCEDKnowledgeAndWisdom/HistoryRecords",
+    "B47ANCEDKnowledgeAndWisdom/OriginKnowledge",
+    "B47ANCEDKnowledgeAndWisdom/MediaKnowledge",
     "B47ANCEDKnowledgeAndWisdom/API",
 }
 

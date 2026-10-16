@@ -1,4 +1,5 @@
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
+local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 API.HistoryRecords=API.HistoryRecords or {}
 local History=API.HistoryRecords
@@ -66,22 +67,9 @@ end
 function History.attachStore(value)
     if not authority()or type(value)~="table"then return false,"AUTHORITY_STORE_REQUIRED"end
     if value.schemaVersion~=nil and value.schemaVersion~=1 then return false,"UNSUPPORTED_SCHEMA"end
-    value.schemaVersion=1;value.records=type(value.records)=="table"and value.records or {}
-    value.operations=type(value.operations)=="table"and value.operations or {}
-    local order,seen={},{}
-    for _,id in ipairs(type(value.order)=="table"and value.order or {})do
-        if valid(id)and type(value.records[id])=="table"and not seen[id]then order[#order+1]=id;seen[id]=true end
-    end
-    while #order>History.MAX_RECORDS do value.records[table.remove(order,1)]=nil end
-    value.order=order
-    local operationOrder,operationSeen={},{}
-    for _,id in ipairs(type(value.operationOrder)=="table"and value.operationOrder or {})do
-        if valid(id)and type(value.operations[id])=="table"and not operationSeen[id]then
-            operationOrder[#operationOrder+1]=id;operationSeen[id]=true
-        end
-    end
-    while #operationOrder>History.MAX_OPERATIONS do value.operations[table.remove(operationOrder,1)]=nil end
-    value.operationOrder=operationOrder
+    if not SavedState.history(value)then return false,"UNSUPPORTED_OR_MALFORMED_HISTORY_STORE"end
+    if SavedState.empty(value)then value.records={};value.operations={};value.order={};value.operationOrder={}end
+    value.schemaVersion=1
     store=value;return true
 end
 function History.registerEvidenceProvider(definition)

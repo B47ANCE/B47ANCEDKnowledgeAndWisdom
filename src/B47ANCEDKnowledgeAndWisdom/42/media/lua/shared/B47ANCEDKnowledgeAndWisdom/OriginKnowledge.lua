@@ -33,7 +33,7 @@ function Origin.grant(character,context)
     local suffix=subject..":"..evidence.providerId..":"..evidence.originId..":"..evidence.regionId
     local operationId="origin-grant:"..suffix;local claimId="hometown:"..suffix
     if#operationId>160 or#claimId>160 then return false,"ORIGIN_IDENTITY_TOO_LONG"end
-    return Claims.grant(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
+    return Claims.grantAcquisition(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
         definitionId=LegacyMigration.HOMETOWN_DEFINITION,subjectId=subject,sourceType="origin-provider",
         sourceId=evidence.evidenceId,sourceOwner=LegacyMigration.PERSISTED_OWNER,scope={regionId=evidence.regionId,granularity="locality"},
         acquisition="explicit-origin-provider",confidence=evidence.confidence,completeness=1,

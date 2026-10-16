@@ -5,6 +5,7 @@ local grants=0;local regions={rosewood={id="rosewood",granularity="locality"}}
 API.Claims={getRegion=function(id)return regions[id]end,subjectId=function()return"getUsername:alice"end,
     grant=function(_,request)grants=grants+1;return true,"GRANTED",request end}
 package.preload["B47ANCEDKnowledgeAndWisdom/Claims"]=function()return API.Claims end
+API.Claims.grantAcquisition=API.Claims.grant
 local Origin=dofile(arg[1]);Origin.registerProvider{id="fixture.origin",owner="mapFixture",observe=function()
     return{originId="rosewood-start",regionId="rosewood",evidenceId="creation:rosewood",confidence=.9}end}
 local observed=assert(Origin.observe({}));assert(observed.regionId=="rosewood"and observed.confidence==.9)

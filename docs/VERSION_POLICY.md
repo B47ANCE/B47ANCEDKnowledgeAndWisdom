@@ -11,6 +11,10 @@ exact current mirrors: authoritative `42/mod.info`, source `info.txt`, shared
 current change-note heading, MASTER_ROADMAP canonical version, and the identity
 test's API-version assertion. CHANGELOG's newest heading tracks VERSION too.
 Historical version references and frozen fixtures are not current mirrors.
+Current mirrors also include AGENTS.md and the named current validation record.
+The 0.14.0 MINOR iteration adds server sandbox controls and compatible authority,
+persistence and bootstrap repairs; schema remains 1. The exact repair contract
+and existing-save behavior are in REPAIRS_0_14_0.md and CONFIGURATION.md.
 
 Authoritative runtime root: `src/B47ANCEDKnowledgeAndWisdom/42`. Parent `info.txt` is
 authoring metadata. Tests and scripts are development-only. Public Mod ID and
@@ -32,7 +36,13 @@ artifacts, provenance and required dedicated MP evidence exist. It does not
 validate or relabel old artifacts.
 
 Gameplay G7 dedicated multiplayer is BLOCKED / NOT TESTED; stable G8 is BLOCKED.
-Offline checks and SP evidence cannot replace G7. GitHub iteration requirements
-remain applicable, but this folder is not a Git checkout and no remote was
-provided. This iteration is NOT BACKED UP TO GITHUB; onboarding must verify the
-destination with the user before creating/configuring a public repository.
+Offline checks and SP evidence cannot replace G7. The user approved public
+repository B47ANCE/B47ANCEDKnowledgeAndWisdom. Main records the audited 0.13.0
+baseline (f615148); the repair branch is fix/authority-persistence-0.14.0. Inspect
+freshness and audit the public tree before each commit/push. Record the actual
+verified remote SHA and CI result with the iteration; no stable tag without G8.
+
+Named VALIDATION_0_13_0.md, SOURCE_PROVENANCE_0_13_0.json and
+RENAME_RETENTION_0_13_0.json remain historical evidence tied to that baseline.
+Their old versions, hashes and pre-onboarding backup status are not rewritten.
+Likewise, older native audit fingerprints are historical, not current API proof.

@@ -166,3 +166,19 @@ canonical replay-bound Hometown claim. No vanilla provider or first-party region
 catalog is registered until native character-origin evidence is verified;
 current position, spawn square, profession, and map exploration are never used
 as substitutes.
+
+## Current authority and persistence contract (0.14.0)
+
+All queries read supported legacy state without modifying it, on either realm.
+Validated authority writes perform migration. Persistent journal successor and
+exhaustion records govern plans as well as claims; stale item flags cannot
+reopen a payload. Plans are server-owned and capped by server sandbox policy.
+Built-in acquisitions preserve original fact time; direct requests keep strict
+full bindings. Malformed nested saved data fails closed without destructive
+initialization. Bounded source cleanup preserves active/uncertain anti-repeat
+state. Realm exports include both media and origin interfaces.
+
+See [repairs](REPAIRS_0_14_0.md), [configuration](CONFIGURATION.md) and
+[native validation](RUNTIME_VALIDATION_0_14_0.md). Existing engine replication
+assumptions remain unverified: optional transmit calls are not dedicated proof.
+No new network protocol or client-owned gameplay path was introduced.

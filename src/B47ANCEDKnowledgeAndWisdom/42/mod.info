@@ -1,0 +1,9 @@
+name=B47ANCED Knowledge & Wisdom
+id=B47ANCEDKnowledgeAndWisdom
+author=B47ANCE
+description=Lore, classified research, survivor knowledge, and experience-progression infrastructure for B47ANCE'd mods and third-party content providers.
+poster=thumbnail.png
+icon=icon.png
+tags=Build 42;Framework;Literature;Interface
+versionMin=42.20.3
+modversion=0.13.0

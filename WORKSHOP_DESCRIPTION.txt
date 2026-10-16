@@ -1,0 +1,66 @@
+[url=https://ibb.co/ynJKKZ7L][img]https://i.ibb.co/PZ8JJP0B/title.png[/img][/url]
+
+[h1]B47ANCED Knowledge & Wisdom[/h1]
+
+Lore, classified research, survivor knowledge, and experience-progression infrastructure for B47ANCE'd mods and compatible providers.
+
+B47ANCED Knowledge & Wisdom provides persistent knowledge, research archives, progression-aware actions, and recoverable Survivor Journal data for B47ANCE'd mods and compatible projects.
+
+[b]Mod Version: 0.13.0[/b]
+
+[b]Development Status[/b]
+
+Development build. Lua host checks pass; the renamed identity, old-save loading and native presentation still require in-game validation. Dedicated multiplayer NOT TESTED. G7 and stable-release G8 BLOCKED.
+
+[h2]Current Features[/h2]
+[list]
+[*]Canonical B47ANCEDKnowledgeAndWisdom Mod ID, Lua API, registry, and persistent ledger
+[*]Provider-owned Project Archive registry
+[*]Namespaced knowledge definitions with provenance
+[*]Composable ALL, ANY, and NOT prerequisites with legacy-list compatibility
+[*]Semantic actions with weighted skills, bounded failure credit, diminishing returns, vanilla XP routing, and uncertain-award quarantine
+[*]Feature-specific in-game validation commands with automatic human-readable result export
+[/list]
+
+[url=https://ibb.co/V00mQsvQ][img]https://i.ibb.co/hxxfZSKZ/subtitle.png[/img][/url]
+
+The internal knowledge subsystem that owns knowledge, literature, research, study, and Survivor Journal systems. It is not a separate mod.
+
+[h2]Knowledge and Survivor Journals[/h2]
+[list]
+[*]Character-persistent, idempotent knowledge unlocks and completed-reading state
+[*]Cross-references, rarity tiers, restricted spawn metadata, and read-completion requirements
+[*]Canonical and genuinely redacted research presentation
+[*]Provider-owned literature, research documents, and knowledge definitions
+[*]Interruption-safe Survivor Journals with progressive physical documentation
+[*]Persistent single-successor claims, duplicate-payload rejection, and exhausted keepsakes
+[*]Non-additive recovery planning that never reduces a successor's existing progression
+[/list]
+
+[h2]Ecosystem Integration[/h2]
+[list]
+[*]Provides shared research and knowledge infrastructure for B47ANCE'd mods and other projects
+[*]Supports provider-owned archives, documents, semantic actions, and knowledge definitions
+[*]Provides Survivor Journal infrastructure for recoverable survivor progression
+[*]Supports optional uiWorks knowledge presentation
+[*]Has no required mod dependencies
+[*]Migrates persisted data from the former misspelled identity without retaining it as public API
+[/list]
+
+[h2]Identity Upgrade[/h2]
+
+Use Mod ID B47ANCEDKnowledgeAndWisdom and update dependent Lua imports and mod lists together. Remove the old package before enabling the renamed identity. Private saved-data keys and replay records are retained; older saved item types remain recognized. Existing consumers need corresponding updates.
+
+[h2]Upcoming Features[/h2]
+[list]
+[*]Recipe and contextual-action knowledge consumers
+[*]Native Survivor Journal timed actions and inventory presentation
+[*]Verified raw-XP restoration and multiplayer validation
+[/list]
+
+[b]Credits[/b]
+Project Director & Designer: B47ANCE
+Development, systems architecture, implementation, testing & documentation: Codex
+
+Workshop ID: 3792566496
+Mod ID: B47ANCEDKnowledgeAndWisdom

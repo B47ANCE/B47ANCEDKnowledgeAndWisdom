@@ -1,0 +1,104 @@
+[b]Version 0.12.2[/b]
+
+[h2]Release preparation[/h2]
+• Restricted the in-game validation harness and test research fixtures to explicit debug sessions.
+• Aligned release tests and packages with the authoritative source and added checks against stale or incomplete packages.
+• Added Build 42 JSON localization coverage and English fallbacks for all 29 supported language folders.
+• Localized research-file inspection labels and shipped item names.
+
+[h2]Explicit origin knowledge boundary[/h2]
+
+• Adds bounded, priority-ordered origin evidence providers.
+• Converts verified evidence only into registered-locality hometown claims.
+• Does not infer hometown from current position, spawn square, profession, or explored map state.
+
+[b]Previous 0.11.0 changes[/b]
+
+[h2]Recorded-media knowledge projection[/h2]
+
+â€¢ Adds a bounded, read-only projection over Build 42 recorded-media line identity.
+â€¢ Reports unseen, partial, complete, and empty states from native known-line facts.
+â€¢ Requires an explicit title-reveal policy and never exposes reward codes or grants XP.
+â€¢ Fails closed on missing APIs, invalid identities, duplicate lines, and oversized media.
+
+[b]Previous 0.10.2 changes[/b]
+
+[h2]Survivor History Replay Integrity[/h2]
+
+â€¢ Bound history create and removal operation IDs to their complete normalized requests.
+â€¢ Re-authenticate the current actor before returning a cached replay result.
+â€¢ Reject changed content, permissions, evidence, timestamps, or removal reasons on replay.
+â€¢ Fail closed when an older saved history operation cannot prove its replay payload.
+
+[b]Previous 0.10.1 changes[/b]
+
+[h2]Claim Replay Integrity[/h2]
+
+â€¢ Bound claim and revocation operation IDs to the complete normalized request.
+â€¢ Reject changed source, scope, acquisition, confidence, completeness, timestamp, or revocation reason on replay.
+â€¢ Reject duplicate claim IDs whose immutable facts differ.
+â€¢ Fail closed when an older saved operation lacks enough evidence to verify its replay payload.
+
+[b]Previous 0.10.0 changes[/b]
+
+[h2]Survivor History Records[/h2]
+
+â€¢ Added provider-validated persistent survivor-history records.
+â€¢ Added stable author, subject, and evidence identity with bounded sanitized content.
+â€¢ Added private, group, and public visibility checks plus permission-owned removal.
+â€¢ Removal preserves a provenance tombstone instead of silently erasing history.
+â€¢ No memorial object is created automatically.
+
+[b]Previous 0.9.0 changes[/b]
+
+Added unified bounded knowledge claims and registered geographic scope.
+
+[b]Previous 0.8.0 changes[/b]
+
+Added the deterministic in-game validation harness and result export.
+
+[b]Previous 0.7.0 changes[/b]
+
+[h2]Canonical Mod Identity[/h2]
+
+â€¢ Corrected the Mod ID, package directory, Lua namespace, sandbox namespace, dependency manifests, and public API name to experienceWorks.
+â€¢ Migrates existing knowledge, semantic-progression, Survivor Journal, claim-store, and sandbox state from the former misspelled identifiers.
+â€¢ Removed duplicate compatibility implementation trees so one canonical registry and hook lifecycle owns runtime state.
+â€¢ Updated all Works consumers, release tooling, documentation, and regression tests to the corrected identity.
+
+[b]Previous 0.6.1 changes[/b]
+
+[h2]Runtime Loading[/h2]
+
+â€¢ Fixed the canonical production load graph so successful registered-document reading installs the knowledge-completion hook.
+â€¢ Aligned the realm-specific client and server loaders with progression, Survivor Journals, and read completion.
+â€¢ Added the research viewer to client startup and restricted-document distribution to server startup.
+â€¢ Preserved one shared hook lifecycle across the canonical experienceWorks and compatibility experienceWorks entry points.
+â€¢ Added a production-entry regression covering progression, Survivor Journals, reading completion, and alias identity.
+
+[b]Previous 0.6.0 changes[/b]
+
+[h2]Canonical API Compatibility[/h2]
+
+â€¢ Added canonical experienceWorks Lua entry points for shared, client, and server integrations.
+â€¢ Canonical and legacy require paths and globals now resolve to one registry and ledger in either load order.
+â€¢ Preserved the existing Mod ID, sandbox keys, saved ledger keys, and single reading-hook marker.
+â€¢ Updated runtime diagnostics to use the canonical public project name.
+
+[b]Previous 0.5.0 changes[/b]
+
+[h2]Survivor Journals[/h2]
+
+â€¢ Added interruption-safe physical Survivor Journal state.
+â€¢ Added fixed capture targets and deterministic bounded documentation queues.
+â€¢ Added progressive raw-XP documentation and all-or-none discrete knowledge entries.
+â€¢ Added persistent single-successor claims, duplicate-payload rejection, and exhausted keepsakes.
+â€¢ Added non-additive recovery plans that never reduce a successor's current XP.
+
+[h2]Roadmap[/h2]
+
+â€¢ Add native timed-action and inventory presentation.
+â€¢ Validate multiplier-free raw-XP restoration, level recalculation, and hosted/dedicated-server lifecycles.
+
+[h2]CAT integration delivery[/h2]
+• Included the sixteen CAT manual item definitions in the matching groundWorks integration candidate. CAT remains the owner of document content and knowledge grants.

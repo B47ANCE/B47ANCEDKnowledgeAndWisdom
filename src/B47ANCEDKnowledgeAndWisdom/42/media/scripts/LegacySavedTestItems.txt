@@ -1,0 +1,39 @@
+/* Saved-item compatibility only. New items use module B47ANCEDKnowledgeAndWisdom. */
+module experienceWorks
+{
+    item TestResearchFoundation
+    {
+        DisplayName = B47ANCED Knowledge & Wisdom Test File: Foundation,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.2,
+        Icon = Book7,
+        NumberOfPages = 1,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+
+    item TestResearchAdvanced
+    {
+        DisplayName = B47ANCED Knowledge & Wisdom Test File: Prerequisite,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.2,
+        Icon = Book7,
+        NumberOfPages = 1,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+
+    item TestSurvivorJournal
+    {
+        DisplayName = B47ANCED Knowledge & Wisdom Test Survivor Journal,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.3,
+        Icon = Notebook,
+        NumberOfPages = 1,
+        StaticModel = BookBrown,
+        WorldStaticModel = BookBrown_Ground,
+    }
+}

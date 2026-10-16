@@ -1,0 +1,195 @@
+module B47ANCEDKnowledgeAndWisdom
+{
+    item CC_Manual_Backhoe
+    {
+        DisplayName = CAT Backhoe Loader Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_CATExcavator
+    {
+        DisplayName = CAT Tracked Excavator Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_WheelLoader
+    {
+        DisplayName = CAT Heavy Wheel Loader Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_CompactLoader
+    {
+        DisplayName = CAT Compact Wheel Loader Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_SkidSteer
+    {
+        DisplayName = CAT Skid Steer Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_Skid332D
+    {
+        DisplayName = CAT 332D Contractor Skid Steer Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_RoadRoller
+    {
+        DisplayName = CAT Tandem Road Roller Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_UralTipper
+    {
+        DisplayName = CAT Contractor Tipper Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_MiningTipper
+    {
+        DisplayName = CAT Mining Haul Truck Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_MixerTruck
+    {
+        DisplayName = CAT Concrete Mixer Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_RoughTerrainCrane
+    {
+        DisplayName = CAT Rough Terrain Crane Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_CrawlerCrane
+    {
+        DisplayName = CAT Lattice Crawler Crane Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_MobileCrane
+    {
+        DisplayName = CAT Mobile Telescopic Crane Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_CompactExcavator
+    {
+        DisplayName = CAT Compact Tracked Excavator Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_WheeledExcavator
+    {
+        DisplayName = CAT Wheeled Excavator Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+    item CC_Manual_MiniExcavator
+    {
+        DisplayName = CAT Mini Excavator Operator Manual,
+        DisplayCategory = Literature,
+        ItemType = base:literature,
+        Weight = 0.5,
+        Icon = MagazineBlacksmith1,
+        NumberOfPages = 20,
+        StaticModel = Magazine,
+        WorldStaticModel = MagazineGround,
+        Tags = base:magazine,
+    }
+}

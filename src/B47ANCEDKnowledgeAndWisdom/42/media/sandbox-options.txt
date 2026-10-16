@@ -1,0 +1,9 @@
+VERSION = 1,
+
+option B47ANCEDKnowledgeAndWisdom.EnableResearchViewer
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_EnableResearchViewer,
+}

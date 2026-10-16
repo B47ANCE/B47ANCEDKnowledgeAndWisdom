@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+dist/
+Contents/
+.agents
+.codex
+.steamcmd-last-upload.sha256
+*.log
+console.txt
+server-console.txt
+local.settings.json

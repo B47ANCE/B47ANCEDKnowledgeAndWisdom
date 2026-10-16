@@ -1,0 +1,17 @@
+{
+  "version": "0.12.2",
+  "environment": "Lupa Lua 5.1 host mocks; synthetic data only",
+  "source_sha256": {
+    "API.lua": "7e2eda4f3785ef7454527b00bf14408a81ff2075e192dadb94c0f2d4e72133fb",
+    "Claims.lua": "4b31c0c9972d14c77987c9195c78f37054a4c0c570700595358b275c9208710b",
+    "HistoryRecords.lua": "972c2c421b1b405fe991bfe67194de0079f839e8843d8fee0fa4504fc5635fbd",
+    "LegacyMigration.lua": "439f5c5fb5294f59213202b06c3f2409e50873a8f7d7227f26a7108131cb00be",
+    "Load.lua": "59023ef5f65a02086956c3fd02db91bee0d41e0f12b2329a3838f473cc243ace",
+    "MediaKnowledge.lua": "df1f9f1100cc7ef19406cf5835d9167c2986d58936e7776d7eadf4331fe31530",
+    "OriginKnowledge.lua": "168e532001f67beb274d5feaf041b8b096fcf08e465e89c56014d7c670397afc",
+    "Progression.lua": "de930d969524a2b0d46c11afdbcd3ab69ec1aeecb99ede8f5d0f4f8eb0245bb9",
+    "ReadCompletion.lua": "6cacb1ab836ef2b64d598b7f7501d9678cb354aa4dcd2a87a959d99cef6f6afc",
+    "SurvivorJournals.lua": "ae11778ac3e4a3accfb3ff56bad9ead1475b99546a00046d2336182a13e3e675",
+    "TestFixtures.lua": "44ebf6bd843f8418ecad97edac929e344af05c166fd8102836f2779e95b8247c"
+  }
+}

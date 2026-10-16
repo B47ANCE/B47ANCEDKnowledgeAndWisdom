@@ -1,0 +1,6 @@
+4809f8b0fa88546f84018084f0b987edc2647f54c9446bbec878febdc0d46f4a  dist/experienceWorks-0.10.0-release-candidate.zip
+54c71ca854ee668e47e104fd447572c9689df75bbfc93dea7547bde867ac91d4  dist/experienceWorks-0.12.0-workshop-ready.zip
+514278f605a60260cc29146664840a98608dd0deb8489ba35454e7bafce3da91  dist/experienceWorks-0.12.1-workshop-ready.zip
+24710e91360ed4bb3e43ca0c5c152e61185500cff793bd0af844479045083cb4  dist/experienceWorks-0.12.2-workshop-ready.zip
+526bb2f82fc9fbc9035c31cb03e859aa6bdf871255f5eab01feca71c0e787f01  dist/experienceWorks-0.7.0-workshop-ready.zip
+7445f41cbf410e12925aef1c2ee56d9fadb9f6f681b4db24eb3a59bd67dd8344  dist/experienceWorks-0.8.0-workshop-ready.zip

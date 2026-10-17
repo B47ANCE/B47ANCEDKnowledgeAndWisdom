@@ -3,7 +3,7 @@ local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 
 B47ANCEDKnowledgeAndWisdom=rawget(_G,"B47ANCEDKnowledgeAndWisdom") or {}
-B47ANCEDKnowledgeAndWisdom.VERSION="0.16.0"
+B47ANCEDKnowledgeAndWisdom.VERSION="0.17.0"
 B47ANCEDKnowledgeAndWisdom.Documents=B47ANCEDKnowledgeAndWisdom.Documents or {}
 B47ANCEDKnowledgeAndWisdom.DocumentsByItemType=B47ANCEDKnowledgeAndWisdom.DocumentsByItemType or {}
 B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions or {}
@@ -96,7 +96,18 @@ local function assertRequirementKnowledge(node)
     if node["not"] then assertRequirementKnowledge(node["not"]); return end
     for _,child in ipairs(node.all or node.any or {}) do assertRequirementKnowledge(child) end
 end
-local function canWrite()return Guard.write()end
+local knowledgeBackend
+function B47ANCEDKnowledgeAndWisdom._installKnowledgeBackend(backend)
+    if knowledgeBackend or type(backend)~='table'or type(backend.read)~='function'or Guard.realm()=='unknown'then return false end
+    knowledgeBackend=backend;return true
+end
+local function canWrite()
+    if Guard.isServer()and knowledgeBackend and knowledgeBackend.ready then
+        if knowledgeBackend.ready()then return true end
+        return false,knowledgeBackend.failureCode and knowledgeBackend.failureCode()or'PRIVATE_STORE_UNAVAILABLE'
+    end
+    return Guard.write()
+end
 
 function B47ANCEDKnowledgeAndWisdom.registerKnowledge(definition)
     assert(type(definition)=="table","knowledge definition required")
@@ -115,6 +126,7 @@ function B47ANCEDKnowledgeAndWisdom.getKnowledgeDefinition(id) return copy(B47AN
 function B47ANCEDKnowledgeAndWisdom.hasKnowledgeDefinition(id) return B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[id]~=nil end
 function B47ANCEDKnowledgeAndWisdom.allKnowledgeDefinitions() return copy(B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions) end
 local function ledger(character,create)
+    if knowledgeBackend and(Guard.isServer()or Guard.realm()=='client')then return knowledgeBackend.read(character)end
     local allowed,reason=Guard.characterRead();if not allowed then return nil,reason end
     if not character or not character.getModData then return nil,"character ModData unavailable" end
     local ok,data=pcall(function() return character:getModData() end)
@@ -249,7 +261,13 @@ function B47ANCEDKnowledgeAndWisdom.learn(character,id,context)
     if context.worldAgeHours~=nil and not SavedState.finite(learnedAt)then return false,"invalid learned timestamp"end
     if context.sourceFullType~=nil and not SavedState.string(context.sourceFullType,160)then return false,"invalid source item type"end
     local current,ledgerError=ledger(character,false);if not current then return false,ledgerError end
-    if current.documents[id] then return true,{duplicate=true,newKnowledge={}} end
+    if current.documents[id] then
+        local pending
+        if Guard.isServer()and knowledgeBackend and knowledgeBackend.project then
+            local projected,reason=knowledgeBackend.project(character);if not projected then pending=reason end
+        end
+        return true,{duplicate=true,newKnowledge={},projectionPending=pending}
+    end
     local candidate=copy(current)
     candidate.documents[id]={learnedAtWorldAgeHours=learnedAt,sourceFullType=context.sourceFullType}
     local granted={}
@@ -262,6 +280,11 @@ function B47ANCEDKnowledgeAndWisdom.learn(character,id,context)
         end
     end
     if not SavedState.knowledge(candidate)then return false,"knowledge result exceeds supported save format"end
+    if Guard.isServer()and knowledgeBackend then
+        local saved,reason=knowledgeBackend.write(character,current,candidate)
+        if not saved then return false,reason end
+        return true,{duplicate=false,documentId=id,newKnowledge=granted,projectionPending=reason}
+    end
     local writable,writeError=ledger(character,true);if not writable then return false,writeError end
     for key,value in pairs(candidate)do writable[key]=value end
     return true,{duplicate=false,documentId=id,newKnowledge=granted}

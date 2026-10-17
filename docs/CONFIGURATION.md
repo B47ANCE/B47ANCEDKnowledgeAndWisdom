@@ -58,3 +58,7 @@ no additional human translation is claimed. No migration of saved payloads occur
 server can parse settings, but affected MP gameplay is blocked by AuthorityGuard.
 This safety/implementation gate is deliberately not a sandbox option. Neither
 viewer toggle nor rate setting enables an unsafe multiplayer storage path.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

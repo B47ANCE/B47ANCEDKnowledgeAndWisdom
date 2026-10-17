@@ -1,0 +1,27 @@
+{
+  "project_version": "0.17.0",
+  "steam_build": "25485521",
+  "packaged_core_version": "42.21",
+  "effective_runtime": "UNKNOWN",
+  "native_runtime": "NOT_TESTED",
+  "jar_sha256": "e1a69eb743ede60b213a0fe7f8b83d4fcab773036d256cc4543a336f3b058a33",
+  "classes_sha256": {
+    "zombie/savefile/ServerPlayerDB.class": "aeb328c4dfbd436c372b3c2d350ac533dcd4e692b6ee58a5f8c24807ecf31379",
+    "zombie/savefile/ServerPlayerDB$NetworkCharacterData.class": "ff11f5cd6726ed7be29694547103f1e9879903fe64ba5ad8ef3025130edd5c39",
+    "zombie/network/packets/connection/LoadPlayerProfilePacket.class": "1ccf8159010b4a6af5249fadf26c8bdf7b7e49179051ddfc22f2022da9a18866",
+    "zombie/Lua/LuaManager$GlobalObject$LuaFileWriter.class": "d635dbbbc2f07c45ce0cce7672a38c7ede92c445714d855c91e1f5a8acba6c3e",
+    "zombie/network/packets/character/CreatePlayerPacket.class": "9f267c40133043b9ed90b59adc637ffadc8c7f88071eb4e5d05164e15dcc5f60",
+    "zombie/network/packets/character/DeadPlayerPacket.class": "56c4a91efcfd723c449b780967c4ce6bdc990a450499b36f76ecce01e4b45afa",
+    "zombie/Lua/LuaManager$GlobalObject.class": "80ecbd3bd702db2f992db6cba7cb09c32d775fa6f2a3297e0460874ff5ba20c7",
+    "zombie/characters/IsoGameCharacter.class": "29040e19c3e420499f73bc0ea0d5b86d7f7d38655acdc13d0107df736eb54c0b",
+    "zombie/network/GameServer.class": "308ee5247dc8bba4df2283d40d753c6839497767b9342a4adeea60e7c08cfacc",
+    "zombie/world/moddata/GlobalModData.class": "1c66b5e0c66b2c7b813c977fa91d2282a022605d12d44560298e30b340f8a718"
+  },
+  "scope": "Selected read-only native/binding inspection; raw engine source remains outside Git; no game classes executed",
+  "findings": [
+    "CreatePlayerPacket assigns authenticated username and fires server OnNewGame before database save; slot is not yet assigned.",
+    "IsoGameCharacter.OnDeath fires OnCharacterDeath before the IsoPlayer server early return. Native firing/order requires tests.",
+    "GlobalObject annotated bindings expose getCurrentSaveName, file reader/writer, random UUID, actual online players and targeted sendServerCommand. Exposer registers BufferedReader and LuaFileWriter. Invocation remains NOT_TESTED.",
+    "LuaFileWriter wraps PrintWriter without checkError, fsync or cross-file atomicity. Read-back verification is required; coordinated native/private crash recovery remains a gate."
+  ]
+}

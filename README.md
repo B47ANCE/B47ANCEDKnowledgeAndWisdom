@@ -4,11 +4,7 @@ The old three-mod candidate tooling has not been migrated to this identity.
 
 # B47ANCED Knowledge & Wisdom
 
-**0.16.0 authority gate:** multiplayer knowledge/progression/claims, journal
-mutation/recovery planning and history persistence are deliberately blocked with
-`MULTIPLAYER_STORAGE_UNAVAILABLE`. The audited native transports do not provide a
-private, server-owned ledger. SP-oriented cores and local inspection remain;
-native SP is NOT TESTED. See [audit closure](docs/AUDIT_CLOSURE_0_16_0.md).
+**0.17.0 dedicated knowledge:** a Lua-only private server backend now implements document/knowledge storage, server-owned life generations, read-back-verified writes and owning-client projections for fresh disposable worlds. Existing worlds require private migration. Progression, claims, journal recovery, raw-XP restoration and history retain their guards. Dedicated is the first native target; SP is optional. Native dedicated NOT TESTED; G7 and stable G8 BLOCKED. See [contract and dedicated checklist](docs/DEDICATED_KNOWLEDGE.md).
 
 ![B47ANCED Knowledge & Wisdom artwork](preview.png)
 
@@ -18,7 +14,7 @@ source authoring thumbnail. See [artwork provenance](docs/ARTWORK.md).
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.16.0` Project Archive, registered knowledge definitions,
+- Status: version `0.17.0` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -72,13 +68,14 @@ implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_16_0.md) and
+checks. See [current validation](docs/VALIDATION_0_17_0.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 
 Public source: [B47ANCE/B47ANCEDKnowledgeAndWisdom](https://github.com/B47ANCE/B47ANCEDKnowledgeAndWisdom).
-Repairs use branch `fix/authority-persistence-0.14.0`; main retains the audited
-0.13.0 baseline until PR review/merge. See [repair contract](docs/REPAIRS_0_14_0.md),
+Previous repairs are merged. Current work uses `feat/dedicated-knowledge-0.17.0` with a PR before main merge. See [repair contract](docs/REPAIRS_0_14_0.md),
 [server settings](docs/CONFIGURATION.md) and [native test procedure](docs/RUNTIME_VALIDATION_0_14_0.md).
 Other projects' integrations have not been changed. Native journal timed actions,
 raw-XP restoration and dedicated synchronization remain runtime gates.
+
+CAT integrations are dropped from the current stack; saved item declarations/aliases remain inert compatibility only. [Reviewed feature overview](docs/MOD_OVERVIEW.json).

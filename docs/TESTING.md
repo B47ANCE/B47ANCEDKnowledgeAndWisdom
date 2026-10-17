@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Testing
 
-Current 0.16.0 offline results and native gates: [validation](VALIDATION_0_16_0.md).
+Current 0.17.0 offline results and native gates: [validation](VALIDATION_0_17_0.md).
 The version-specific descriptions below are inherited test history; original
 pre-rename records remain under `history/pre-b47-0.12.2/`.
 
@@ -68,3 +68,7 @@ MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
 implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
 procedures cannot turn blocked functionality into a PASS. SP and dedicated results
 remain separate, and native UI/old saves remain NOT TESTED.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

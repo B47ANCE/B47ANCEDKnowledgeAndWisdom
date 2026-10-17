@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom in-game validation
 
-Current version: 0.16.0. This progressive harness originated in 0.8.0;
+Current version: 0.17.0. This progressive harness originated in 0.8.0;
 old test observations do not validate this renamed build.
 Enable only B47ANCEDKnowledgeAndWisdom on a new single-player test character. The harness
 does not certify itself: visual, save/reload, old-save, hosted, and dedicated
@@ -74,3 +74,7 @@ MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
 implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
 procedures cannot turn blocked functionality into a PASS. SP and dedicated results
 remain separate, and native UI/old saves remain NOT TESTED.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

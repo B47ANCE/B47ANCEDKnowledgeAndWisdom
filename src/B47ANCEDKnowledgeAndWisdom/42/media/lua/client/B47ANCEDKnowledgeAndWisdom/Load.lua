@@ -1,3 +1,4 @@
+require "B47ANCEDKnowledgeAndWisdom/KnowledgeProjection"
 require "B47ANCEDKnowledgeAndWisdom/Progression"
 require "B47ANCEDKnowledgeAndWisdom/SurvivorJournals"
 require "B47ANCEDKnowledgeAndWisdom/TestFixtures"

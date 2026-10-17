@@ -1,3 +1,9 @@
+# Private authority implementation status
+
+0.17.0 implements document/knowledge private storage and life binding for fresh dedicated fixtures; see DEDICATED_KNOWLEDGE.md. No SP prerequisite. Broader journal/claims/XP/history/migration work below remains unresolved and guarded. CAT integration is dropped.
+
+## Historical 0.16.0 plan and broader unresolved requirements
+
 # Mandatory private-authority implementation gate
 
 0.16.0 currently refuses affected multiplayer gameplay. There is no enable toggle

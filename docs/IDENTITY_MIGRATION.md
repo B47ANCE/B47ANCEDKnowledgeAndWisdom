@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom identity migration
 
-Current version: 0.16.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
+Current version: 0.17.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
 source folder, Lua import prefix/global and sandbox page: `B47ANCEDKnowledgeAndWisdom`.
 
 For a consumer, change `require=experienceWorks` in mod.info to
@@ -67,3 +67,7 @@ is an existing account/session fallback, not proof of a unique character lifetim
 do not reuse it for new journal ownership. Existing GlobalModData history/claim
 stores are not purged, exported or automatically made private by this iteration.
 A separately reviewed backup/private migration is required before MP activation.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.17.0 — 2026-10-17
+
+- Implemented Lua-only private dedicated document/knowledge persistence, server-issued life generations, pending-slot binding, death retirement and read-back-verified append transactions.
+- Added owning-client projections with actor/slot/request/revision checks and bounded requests. No grant RPC; server reading requires inventory ownership and successful uncancelled completion.
+- Added codec, identity, duplicate-event, reconnect/restart, malformed/replay, write-failure and projection regressions. Other MP guards remain closed; existing stores are preserved without unsafe migration.
+- Dropped CAT integration from the current stack; retained inert saved-item definitions/aliases only. Added dedicated-first contract, native evidence and reviewed overview.
+- MINOR development iteration. Native dedicated NOT TESTED; G7 and stable G8 BLOCKED. No deploy, launch, upload or stable tag.
+
 ## 0.16.0 — 2026-10-16
 
 - Completed the selected source/native audit with 27 class fingerprints and 13

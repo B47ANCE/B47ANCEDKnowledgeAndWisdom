@@ -1,4 +1,5 @@
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 
 local function worldAge()
     local ok,time=pcall(function() return getGameTime() end)
@@ -15,7 +16,14 @@ if rawget(_G,"ISReadABook") and not ISReadABook.__B47ANCEDKnowledgeAndWisdomWrap
         ISReadABook.complete=function(self,...)
             local result=original(self,...)
             if result==true and self and not self.forceStopped and self.character and self.item then
-                local called,ok,err=pcall(API.completeRead,self.character,self.item,{worldAgeHours=worldAge()})
+                local held=true
+                if Guard.isServer()then
+                    local queried,owned=pcall(function()return self.character:getInventory():contains(self.item)end)
+                    held=queried and owned==true
+                end
+                local called,ok,err
+                if held then called,ok,err=pcall(API.completeRead,self.character,self.item,{worldAgeHours=worldAge()})
+                else called,ok,err=true,false,"document item is not held by the reader"end
                 if not called then err="knowledge callback failed" end
                 if (not called or not ok) and err~="item is not a registered document" and err~="non-authority" then
                     pcall(print,"[B47ANCEDKnowledgeAndWisdom] research read did not unlock: "..tostring(err))

@@ -4,6 +4,12 @@ The old three-mod candidate tooling has not been migrated to this identity.
 
 # B47ANCED Knowledge & Wisdom
 
+**0.16.0 authority gate:** multiplayer knowledge/progression/claims, journal
+mutation/recovery planning and history persistence are deliberately blocked with
+`MULTIPLAYER_STORAGE_UNAVAILABLE`. The audited native transports do not provide a
+private, server-owned ledger. SP-oriented cores and local inspection remain;
+native SP is NOT TESTED. See [audit closure](docs/AUDIT_CLOSURE_0_16_0.md).
+
 ![B47ANCED Knowledge & Wisdom artwork](preview.png)
 
 The user-supplied project thumbnail is used unchanged for `preview.png` and the
@@ -12,7 +18,7 @@ source authoring thumbnail. See [artwork provenance](docs/ARTWORK.md).
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.15.0` Project Archive, registered knowledge definitions,
+- Status: version `0.16.0` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -23,7 +29,7 @@ experience-progression infrastructure for B47ANCE'd mods and other providers.
 - EXT-25/26 claims retain provenance, scope, acquisition, confidence,
   completeness, revocation, and replay history. Geographic familiarity accepts
   only explicitly registered regions and never reveals live world state.
-- EXT-32 now provides provider-validated, world-persistent survivor-history
+- EXT-32 provides a provider-validated SP-oriented survivor-history
   records with stable author/subject/evidence identity, bounded sanitized text,
   visibility checks, full-request replay binding with caller re-authentication,
   and tombstone removal. It creates no
@@ -66,7 +72,7 @@ implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_15_0.md) and
+checks. See [current validation](docs/VALIDATION_0_16_0.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 

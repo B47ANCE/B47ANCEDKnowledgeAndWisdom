@@ -8,6 +8,7 @@ local function worldAge()
 end
 
 local function install()
+    if not rawget(_G,"ISReadABook")then require "TimedActions/ISReadABook"end
 if rawget(_G,"ISReadABook") and not ISReadABook.__B47ANCEDKnowledgeAndWisdomWrapped then
     local original=ISReadABook.complete
     if type(original)=="function" then

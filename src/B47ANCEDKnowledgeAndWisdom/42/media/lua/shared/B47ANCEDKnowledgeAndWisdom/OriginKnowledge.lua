@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local Claims=API.Claims or require "B47ANCEDKnowledgeAndWisdom/Claims"
@@ -28,6 +29,7 @@ function Origin.observe(character,context)
     return nil,"ORIGIN_UNAVAILABLE"
 end
 function Origin.grant(character,context)
+    local permitted,reason=Guard.write();if not permitted then return false,reason end
     local evidence,reason=Origin.observe(character,context);if not evidence then return false,reason end
     local subject=Claims.subjectId(character);if not subject then return false,"SUBJECT_UNAVAILABLE"end
     local suffix=subject..":"..evidence.providerId..":"..evidence.originId..":"..evidence.regionId

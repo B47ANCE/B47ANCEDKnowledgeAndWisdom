@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
@@ -17,12 +18,9 @@ local function copy(value)
     if type(value)~="table" then return value end
     local result={}; for key,child in pairs(value) do result[key]=copy(child) end; return result
 end
-local function canWrite()
-    local client=type(rawget(_G,"isClient"))=="function" and isClient()==true
-    local server=type(rawget(_G,"isServer"))=="function" and isServer()==true
-    return server or not client
-end
+local function canWrite()return Guard.write()end
 local function state(character,create,write)
+    local allowed,reason=Guard.characterRead();if not allowed then return nil,reason end
     if not character or type(character.getModData)~="function" then return nil,"character ModData unavailable" end
     local ok,data=pcall(character.getModData,character)
     if not ok or type(data)~="table" then return nil,"character ModData unavailable" end
@@ -42,21 +40,23 @@ local function state(character,create,write)
 end
 local function normalizedSkills(skills)
     assert(type(skills)=="table","semantic action skills required")
-    local result,total={},0
+    local result,total,count={},0,0
     for skill,weight in pairs(skills) do
+        count=count+1;assert(count<=64,"semantic action exceeds the technical skill limit")
         local amount=finite(weight)
         assert(type(skill)=="string" and skill~="" and amount and amount>0,"semantic skill/weight invalid")
         result[skill]=amount; total=total+amount
     end
-    assert(total>0,"semantic action needs at least one weighted skill")
-    for skill,weight in pairs(result) do result[skill]=weight/total end
+    assert(finite(total)and total>0,"semantic action needs finite weighted skill totals")
+    for skill,weight in pairs(result) do result[skill]=weight/total;assert(result[skill]>0,"semantic skill weight underflow")end
     return result
 end
 
 function API.registerSemanticAction(definition)
     assert(type(definition)=="table","semantic action definition required")
+    assert(SavedState.tree(definition),"semantic definition must be bounded acyclic data")
     local def=copy(definition)
-    assert(type(def.id)=="string" and def.id:match("^[%w_%-]+%.[%w_.%-]+$"),"semantic action id must be namespaced")
+    assert(SavedState.string(def.id,160) and def.id:match("^[%w_%-]+%.[%w_.%-]+$"),"semantic action id must be namespaced")
     assert(type(def.owner)=="string" and def.owner~="","semantic action owner required")
     assert(type(def.title)=="string" and def.title~="","semantic action title required")
     assert(not API.SemanticActions[def.id],"duplicate semantic action: "..def.id)
@@ -145,60 +145,68 @@ function API.previewSemanticAction(character,id,report,context)
 end
 local function resolvePerk(skill)
     local perks=rawget(_G,"Perks")
-    if type(perks)~="table" and type(perks)~="userdata" then return nil end
-    local direct=perks[skill]; if direct~=nil then return direct end
-    if type(perks.FromString)=="function" then local ok,value=pcall(perks.FromString,skill); if ok then return value end end
-    return nil
+    if type(perks)~="table" and type(perks)~="userdata"then return nil end
+    local function usable(value)return value~=nil and value~=false and value~=perks.None and value~=perks.MAX end
+    local direct=perks[skill];if usable(direct)then return direct end
+    if type(perks.FromString)=="function"then local ok,value=pcall(perks.FromString,skill);if ok and usable(value)then return value end end
+end
+local function readXP(character,perk)
+    local ok,value=pcall(function()return character:getXp():getXP(perk)end)
+    if ok and SavedState.finite(value)and value>=0 then return value end
 end
 function API.processSemanticAction(character,id,report,context)
-    if not canWrite() then return false,"non-authority" end
-    local existing,err=state(character,false); if not existing then return false,err end
-    local plan,planError=preview(character,id,report,context,existing); if not plan then return false,planError end
-    if plan.totalXP<=0 then return true,{applied=false,totalXP=0,awards={}} end
-    local add=rawget(_G,"addXp"); if type(add)~="function" then return false,"native addXp unavailable" end
-    for _,award in ipairs(plan.awards) do award.perk=resolvePerk(award.skill); if award.perk==nil then return false,"unknown perk: "..award.skill end end
-    local current,stateError=state(character,true); if not current then return false,stateError end
-    pruneSources(current,plan.worldAgeHours)
-    if current.sources[plan.sourceKey]==nil and #current.sourceOrder>=MAX_SOURCES then
-        return false,"semantic source capacity reached; active history preserved"
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
+    local existing,err=state(character,false);if not existing then return false,err end
+    local plan,planError=preview(character,id,report,context,existing);if not plan then return false,planError end
+    if plan.totalXP<=0 then return true,{applied=false,totalXP=0,awards={}}end
+    local add=rawget(_G,"addXp");if type(add)~="function"then return false,"native addXp unavailable"end
+    if type(character.isAsleep)=="function"and character:isAsleep()then return false,"character asleep"end
+    if type(character.isExistInTheWorld)=="function"and not character:isExistInTheWorld()then return false,"character not in world"end
+    for _,award in ipairs(plan.awards)do
+        award.perk=resolvePerk(award.skill);if award.perk==nil then return false,"unknown perk: "..award.skill end
+        award.before=readXP(character,award.perk);if award.before==nil then return false,"native XP observation unavailable"end
     end
+    if not SavedState.integer(existing.nextTransaction+1)then return false,"semantic transaction capacity reached"end
+    local current,stateError=state(character,true);if not current then return false,stateError end
+    pruneSources(current,plan.worldAgeHours)
+    if current.sources[plan.sourceKey]==nil and #current.sourceOrder>=MAX_SOURCES then return false,"semantic source capacity reached; active history preserved"end
     if current.sources[plan.sourceKey]==nil then current.sourceOrder[#current.sourceOrder+1]=plan.sourceKey end
-    local transactionId=tostring(current.nextTransaction); current.nextTransaction=current.nextTransaction+1
+    local transactionId=tostring(current.nextTransaction);current.nextTransaction=current.nextTransaction+1
     current.transactions[transactionId]={status="pending",action=id,sourceKey=plan.sourceKey,worldAgeHours=plan.worldAgeHours}
-    for index,award in ipairs(plan.awards) do
-        local ok,awardError=pcall(add,character,award.perk,award.amount)
-        if not ok then
-            current.transactions[transactionId].status="uncertain"
-            current.transactions[transactionId].failedAward=index
-            current.transactions[transactionId].error=tostring(awardError)
-            current.sources[plan.sourceKey]={quarantinedTransaction=transactionId,lastAt=plan.worldAgeHours,repeats=plan.repeatsBefore,windowHours=plan.windowHours}
-            if character.transmitModData then pcall(character.transmitModData,character) end
+    -- Establish quarantine before native callbacks can reenter this source.
+    current.sources[plan.sourceKey]={quarantinedTransaction=transactionId,lastAt=plan.worldAgeHours,repeats=plan.repeatsBefore,windowHours=plan.windowHours}
+    for index,award in ipairs(plan.awards)do
+        local ok,result=pcall(add,character,award.perk,award.amount)
+        local after=readXP(character,award.perk)
+        if not ok or result==false or after==nil or after<=award.before then
+            local transaction=current.transactions[transactionId]
+            transaction.status="uncertain";transaction.failedAward=index
+            transaction.error=not ok and "NATIVE_XP_CALL_FAILED"or "NATIVE_XP_NOT_OBSERVED"
             return false,"semantic award uncertain; inspect transaction "..transactionId
         end
+        award.observedXP=after-award.before
     end
-    current.transactions[transactionId].status="committed"
-    current.transactions[transactionId].totalXP=plan.totalXP
+    current.transactions[transactionId].status="committed";current.transactions[transactionId].totalXP=plan.totalXP
     current.sources[plan.sourceKey]={lastAt=plan.worldAgeHours,repeats=plan.repeatsBefore+1,windowHours=plan.windowHours}
     local committed={}
-    for key,transaction in pairs(current.transactions) do if transaction.status=="committed"or transaction.status=="resolved-uncertain" then committed[#committed+1]={key=key,id=tonumber(key) or 0} end end
-    table.sort(committed,function(a,b) return a.id>b.id end)
+    for key,transaction in pairs(current.transactions)do if transaction.status=="committed"or transaction.status=="resolved-uncertain"then committed[#committed+1]={key=key,id=tonumber(key)or 0}end end
+    table.sort(committed,function(a,b)return a.id>b.id end)
     for index=65,#committed do current.transactions[committed[index].key]=nil end
-    if character.transmitModData then pcall(character.transmitModData,character) end
-    for _,award in ipairs(plan.awards) do award.perk=nil end
+    for _,award in ipairs(plan.awards)do award.perk=nil;award.before=nil end
     return true,{applied=true,transactionId=transactionId,totalXP=plan.totalXP,awards=plan.awards,repeatMultiplier=plan.repeatMultiplier}
 end
 function API.resolveSemanticTransaction(character,transactionId,resolution)
-    if not canWrite() then return false,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
     if resolution~="accept-uncertain" then return false,"unsupported resolution" end
-    local current,err=state(character,false,true); if not current then return false,err end
+    local current,err=state(character,false); if not current then return false,err end
     local transaction=current.transactions[tostring(transactionId)]
     if type(transaction)~="table" or transaction.status~="uncertain" then return false,"transaction is not uncertain" end
+    local writable,writeError=state(character,false,true);if not writable then return false,writeError end
     transaction.status="resolved-uncertain"; transaction.resolution=resolution
     local source=current.sources[transaction.sourceKey]
     if type(source)=="table" and tostring(source.quarantinedTransaction)==tostring(transactionId) then
         source.quarantinedTransaction=nil; source.repeats=(tonumber(source.repeats) or 0)+1
     end
-    if character.transmitModData then pcall(character.transmitModData,character) end
     return true,copy(transaction)
 end
 function API.progressionSnapshot(character)

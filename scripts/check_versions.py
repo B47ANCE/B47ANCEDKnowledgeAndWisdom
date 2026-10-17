@@ -50,7 +50,7 @@ def main():
         raise SystemExit('Version mismatch/missing mirror: ' + ', '.join(errors))
     print(f'PASS: VERSION {version}; {len(mirrors)} current mirrors')
     if args.release:
-        raise SystemExit('G8 BLOCKED: no current release artifacts/provenance or dedicated MP evidence. Historical dist/ and Contents/ are excluded.')
+        raise SystemExit('G8 BLOCKED: private MP authority/storage and migration are unimplemented; native runtime evidence and current release artifacts are missing. Historical dist/ and Contents/ are excluded.')
 
 
 if __name__ == '__main__':

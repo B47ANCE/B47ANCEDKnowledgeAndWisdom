@@ -28,6 +28,6 @@ local function exercise(path,realmModules)
 end
 
 exercise(arg[1],{"B47ANCEDKnowledgeAndWisdom/ResearchViewer","B47ANCEDKnowledgeAndWisdom/JournalViewer","B47ANCEDKnowledgeAndWisdom/TestHarness"})
-exercise(arg[2],{"B47ANCEDKnowledgeAndWisdom/HistoryServer","B47ANCEDKnowledgeAndWisdom/Distribution"})
+exercise(arg[2],{"B47ANCEDKnowledgeAndWisdom/HistoryServer","B47ANCEDKnowledgeAndWisdom/AuthorityProbe","B47ANCEDKnowledgeAndWisdom/Distribution"})
 
 print("B47ANCEDKnowledgeAndWisdom client/server production load-graph checks passed")

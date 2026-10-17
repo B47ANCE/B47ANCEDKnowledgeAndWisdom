@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
@@ -17,11 +18,7 @@ local function copy(value,seen)
     local result={}; for key,child in pairs(value) do result[key]=copy(child,seen) end
     seen[value]=nil; return result
 end
-local function canWrite()
-    local client=type(rawget(_G,"isClient"))=="function" and isClient()==true
-    local server=type(rawget(_G,"isServer"))=="function" and isServer()==true
-    return server or not client
-end
+local function canWrite()return Guard.write()end
 local function itemData(item)
     if not item or type(item.getModData)~="function" then return nil,"journal ModData unavailable" end
     local ok,data=pcall(item.getModData,item)
@@ -92,9 +89,6 @@ local function buildQueue(documented,target)
     assert(#queue<=Journals.MAX_QUEUE,"journal work queue exceeds safe limit")
     return queue
 end
-local function transmit(item)
-    if item and type(item.transmitModData)=="function" then pcall(item.transmitModData,item) end
-end
 local function defaultClaimStore()
     local modData=rawget(_G,"ModData")
     if type(modData)=="table" and type(modData.getOrCreate)=="function" then
@@ -132,9 +126,16 @@ local function sameCapture(a,b)
     for key in pairs(b)do if a[key]==nil then return false end end
     return true
 end
+local function stableId(value)
+    return (type(value)=="string"or (type(value)=="number"and SavedState.finite(value)))and SavedState.string(tostring(value))
+end
+local function validContext(context)
+    return context==nil or (type(context)=="table"and (context.worldAgeHours==nil or finite(context.worldAgeHours)~=nil))
+end
 function Journals.beginWriting(item,authorId,capture,operationId,context)
-    if not canWrite() then return false,"non-authority" end
-    if authorId==nil or not SavedState.string(tostring(authorId)) then return false,"stable author ID required" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
+    if not validContext(context)then return false,"invalid journal context"end
+    if not stableId(authorId) then return false,"stable author ID required" end
     if not SavedState.string(operationId) then return false,"stable journal operation ID required" end
     local ok,target=pcall(normalizeCapture,capture); if not ok then return false,target end
     -- Read without creating/migrating; prepare and validate the entire next state
@@ -165,11 +166,10 @@ function Journals.beginWriting(item,authorId,capture,operationId,context)
     for key,value in pairs(candidate)do current[key]=value end
     data[Journals.ROOT_KEY]=current
     if legacyOnly then data[LegacyMigration.JOURNAL_ROOT_KEY]=nil end
-    transmit(item)
     return true,{duplicate=false,totalWork=candidate.writing.totalWork,entries=#queue,payloadId=candidate.payloadId}
 end
 function Journals.advanceWriting(item,authorId,minutes)
-    if not canWrite() then return false,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
     minutes=finite(minutes); if not minutes or minutes<=0 then return false,"positive finite work minutes required" end
     local current,err=state(item,false); if not current then return false,err end
     if current.authorId~=tostring(authorId) then return false,"journal belongs to another author" end
@@ -197,22 +197,23 @@ function Journals.advanceWriting(item,authorId,minutes)
     end
     local completed=#current.queue==0
     if completed then current.writing=nil end
-    current.revision=current.revision+1; transmit(item)
+    current.revision=current.revision+1
     return true,{completed=completed,unusedMinutes=remaining/speed,remainingEntries=#current.queue,documented=copy(current.documented)}
 end
 function Journals.cancelWriting(item,authorId)
-    if not canWrite() then return false,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
     local current,err=state(item,false); if not current then return false,err end
     if current.authorId~=tostring(authorId) then return false,"journal belongs to another author" end
     local writable,writeError=state(item,false,true);if not writable then return false,writeError end
     current=writable
     -- Persist the partially documented payload but discard the fixed unwritten target.
-    current.queue={}; current.writing=nil; current.revision=current.revision+1; transmit(item)
+    current.queue={}; current.writing=nil; current.revision=current.revision+1
     return true
 end
 function Journals.claim(item,successorId,context)
-    if not canWrite() then return false,"non-authority" end
-    if successorId==nil or tostring(successorId)=="" then return false,"stable successor ID required" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
+    if not validContext(context)then return false,"invalid journal context"end
+    if not stableId(successorId) then return false,"stable successor ID required" end
     local current,err=state(item,false); if not current then return false,err end
     if not current.payloadId then return false,"journal has no recovery payload" end
     local provider=claimStoreProvider or defaultClaimStore
@@ -229,7 +230,6 @@ function Journals.claim(item,successorId,context)
     if not claim then claim={successorId=id,claimedAtWorldAgeHours=finite(context and context.worldAgeHours),exhausted=false}; store[current.payloadId]=claim end
     current.recovery=current.recovery or {successorId=id,studiedWork=0,exhausted=false}
     if current.recovery.successorId~=id then return false,"journal payload already claimed" end
-    transmit(item)
     local result={duplicate=duplicate,exhausted=claim.exhausted==true,payloadId=current.payloadId}
     local claims=API.Claims;local character=context and context.character
     local subject=claims and character and claims.subjectId(character)
@@ -245,7 +245,11 @@ function Journals.claim(item,successorId,context)
     return true,result
 end
 function Journals.recoveryPlan(item,successorId,currentXP,recoveryFraction,context)
-    if not canWrite() then return nil,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return nil,authorityError end
+    if not stableId(successorId)or not validContext(context)then return nil,"invalid recovery context"end
+    if currentXP~=nil and type(currentXP)~="table"then return nil,"current XP map required"end
+    for _,amount in pairs(currentXP or {})do if not SavedState.finite(amount)or amount<0 then return nil,"invalid current XP"end end
+    if recoveryFraction~=nil and finite(recoveryFraction)==nil then return nil,"invalid recovery fraction"end
     local current,err=state(item,false); if not current then return nil,err end
     if not current.recovery or current.recovery.successorId~=tostring(successorId) then return nil,"successor has not claimed journal" end
     if current.recovery.exhausted then return nil,"journal payload exhausted" end
@@ -267,7 +271,8 @@ function Journals.recoveryPlan(item,successorId,currentXP,recoveryFraction,conte
     return plan
 end
 function Journals.exhaust(item,successorId,context)
-    if not canWrite() then return false,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
+    if not validContext(context)then return false,"invalid journal context"end
     local current,err=state(item,false); if not current then return false,err end
     if not current.recovery or current.recovery.successorId~=tostring(successorId) then return false,"successor has not claimed journal" end
     local provider=claimStoreProvider or defaultClaimStore; local ok,store=pcall(provider,context)
@@ -276,7 +281,7 @@ function Journals.exhaust(item,successorId,context)
     local writable,writeError=state(item,false,true);if not writable then return false,writeError end
     current=writable
     store[current.payloadId].exhausted=true; current.recovery.exhausted=true; current.queue={}; current.writing=nil
-    current.revision=current.revision+1; transmit(item); return true
+    current.revision=current.revision+1; return true
 end
 function Journals.view(item)
     local current,err=state(item,false);if not current then return nil,err end

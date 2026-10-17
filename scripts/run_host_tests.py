@@ -24,6 +24,8 @@ def main():
         tests = [p for p in tests if p.name in selected]
     for test in tests:
         runtime = LuaRuntime(unpack_returned_tuples=True)
+        # Explicit SP role for core simulations; individual tests override it.
+        runtime.execute("isClient=function()return false end;isServer=function()return false end")
         paths = ';'.join((ROOT / BASE / 'lua' / realm / '?.lua').as_posix() for realm in ('shared', 'client', 'server'))
         runtime.globals().package.path = paths + ';' + runtime.globals().package.path
         runtime.globals().arg = runtime.table_from([p.as_posix() for p in ARGUMENTS.get(test.name, [])])

@@ -90,3 +90,8 @@ local joined=table.concat(lastReport,"\n")
 assert(joined:find("Mod ID: B47ANCEDKnowledgeAndWisdom",1,true) and joined:find("COMMAND LOG",1,true),"report must identify build and commands")
 
 print("B47ANCEDKnowledgeAndWisdom in-game test harness/result-export checks passed")
+
+assert(not player.transmitted,"SP debug harness must never broadcast all character ModData")
+isClient=function()return true end;isServer=function()return false end
+local priorCount=#inventory.items
+assert(not Harness.start(true)and not Harness.giveFiles()and #inventory.items==priorCount,"MP debug clients cannot mutate fixtures or sessions")

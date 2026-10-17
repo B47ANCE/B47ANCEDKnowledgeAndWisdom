@@ -32,6 +32,8 @@ def main():
         ok, error = parse(text, '@' + path.as_posix())
         require(ok, f'Lua syntax: {path}: {error}')
         if path.is_relative_to(SOURCE):
+            if path.name in {'API.lua', 'Claims.lua', 'Progression.lua', 'SurvivorJournals.lua', 'TestHarness.lua'}:
+                require('transmitModData' not in text, 'Unreviewed whole-table private transport: ' + str(path))
             if path.name != 'LegacyMigration.lua':
                 require('experienceWorks' not in text and 'EXPERIENCE_WORKS' not in text, f'Old namespace outside private compatibility: {path}')
             for name in re.findall(r'\brequire\s*\(?\s*["\'](B47ANCEDKnowledgeAndWisdom/[^"\']+)["\']', text):

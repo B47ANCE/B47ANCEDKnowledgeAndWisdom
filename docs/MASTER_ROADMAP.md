@@ -1,13 +1,22 @@
 # B47ANCED Knowledge & Wisdom Master Roadmap
 
-Canonical version: 0.15.0. This file consolidates current feature status; detailed
+Canonical version: 0.16.0. This file consolidates current feature status; detailed
 contracts and evidence remain in the other documents in this directory.
+
+## Current implementation gate
+
+0.16.0 completes the selected source/offline audit work, including negative native
+findings. MP gameplay remains IMPLEMENTATION BLOCKED, then requires runtime proof:
+private server persistence, verified character-lifetime identity, journal payload
+anchoring and safe migration are absent. The earlier core implementations below
+are SP-oriented/offline-tested, not working dedicated gameplay. See
+AUDIT_CLOSURE_0_16_0.md, NATIVE_AUDIT_0_16_0.md and MP_AUTHORITY_PLAN.md.
 
 ## Implemented
 
 - Provider-owned Project Archive registry with tiers, categories, references,
   prerequisites, spawn metadata, canonical/redacted rendering, and bounded loot.
-- Server-authoritative per-character document and knowledge ledger, idempotent
+- SP-oriented per-character document and knowledge ledger, idempotent
   unlocks, protected queries, ownership provenance, and future-save quarantine.
 - Build 42 read-completion adapter and vanilla research viewer/read model.
 - Namespaced knowledge definitions and composable ALL/ANY/NOT requirements.
@@ -75,8 +84,10 @@ server synchronization and dedicated validation remain gated; G7/G8 BLOCKED.
 
 ## Next dependency order
 
-1. Review/verify native character and item state replication, recipient privacy and
-   authority-side reading/test-driver execution before expanding gameplay hooks.
+1. Implement a verified private server backend, lifetime/payload identity and
+   conservative old-store migration; native player/GlobalModData routes are now
+   audited and unsuitable. Keep MP APIs gated until this foundation is proven.
+   Use the opt-in query probe for observations; it does not certify gameplay.
 2. Verify authoritative native capture and writing-action contracts (inventory,
    instrument, elapsed work, interruption/death/logout); implement writing without
    coupling it to unresolved recovery, then validate disposable old saves.

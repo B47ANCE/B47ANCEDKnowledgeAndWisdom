@@ -2,6 +2,7 @@
 -- in real runtimes; host tests omit it and therefore retain harness coverage.
 if type(isDebugEnabled)=="function" and isDebugEnabled()~=true then return {} end
 
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local API=require "B47ANCEDKnowledgeAndWisdom/Progression"
 local Journals=require "B47ANCEDKnowledgeAndWisdom/SurvivorJournals"
 local Fixtures=require "B47ANCEDKnowledgeAndWisdom/TestFixtures"
@@ -94,6 +95,7 @@ local function modData(character)
 end
 
 local function session(create)
+    local permitted,reason=Guard.write();if not permitted then return nil,nil,reason end
     local character=player(); local data=modData(character)
     if not data then return nil,nil,"local player ModData unavailable" end
     if create and type(data[DATA_KEY])~="table" then
@@ -254,7 +256,6 @@ local function resetFixtureState(character)
         if type(ledger.documents)=="table" then ledger.documents[FOUNDATION_DOCUMENT]=nil; ledger.documents[ADVANCED_DOCUMENT]=nil end
         if type(ledger.knowledge)=="table" then ledger.knowledge[FOUNDATION_KNOWLEDGE]=nil; ledger.knowledge[ADVANCED_KNOWLEDGE]=nil end
     end
-    if character and type(character.transmitModData)=="function" then pcall(character.transmitModData,character) end
 end
 
 local function currentPending(current)

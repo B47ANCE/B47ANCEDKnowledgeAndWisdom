@@ -90,9 +90,14 @@ end
 function V.journal(v)
     if type(v)~="table"or v.schemaVersion~=1 or not V.tree(v)or not V.integer(v.revision)or not documented(v.documented)then return false end
     if (v.payloadId~=nil and not V.string(v.payloadId))or (v.authorId~=nil and not V.string(v.authorId))then return false end
+    local remaining,seen=0,{}
     if not V.array(v.queue,function(r)
         if type(r)~="table"or not V.string(r.id)or not V.finite(r.work)or r.work<=0
             or not V.finite(r.done)or r.done<0 or r.done>r.work then return false end
+        if r.kind~="xp"and r.kind~="discrete"then return false end
+        local key=r.kind=="xp"and("xp:"..r.id)or("discrete:"..tostring(r.category)..":"..r.id)
+        if seen[key]then return false end;seen[key]=true
+        remaining=remaining+(r.work-r.done);if not V.finite(remaining)then return false end
         if r.kind=="xp"then return V.finite(r.from)and r.from>=0 and V.finite(r.to)and r.to>=r.from end
         return r.kind=="discrete"and categories[r.category]==true
     end,512)then return false end
@@ -101,6 +106,12 @@ function V.journal(v)
         if type(w)~="table"or not V.string(w.operationId)or not documented(w.target)
             or not V.finite(w.totalWork)or w.totalWork<0 or not V.finite(w.completedWork)
             or w.completedWork<0 or w.completedWork>w.totalWork+0.0000001 then return false end
+        if math.abs(w.totalWork-w.completedWork-remaining)>0.00001 then return false end
+        for _,entry in ipairs(v.queue)do
+            if entry.kind=="xp"then
+                if w.target.rawXP[entry.id]~=entry.to then return false end
+            elseif not w.target.discrete[entry.category]or w.target.discrete[entry.category][entry.id]~=true then return false end
+        end
     elseif #v.queue>0 then return false end
     local r=v.recovery
     return r==nil or (type(r)=="table"and V.string(r.successorId)and type(r.exhausted)=="boolean"

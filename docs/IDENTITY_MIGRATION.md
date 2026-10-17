@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom identity migration
 
-Current version: 0.15.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
+Current version: 0.16.0. Display name: **B47ANCED Knowledge & Wisdom**. Technical Mod ID,
 source folder, Lua import prefix/global and sandbox page: `B47ANCEDKnowledgeAndWisdom`.
 
 For a consumer, change `require=experienceWorks` in mod.info to
@@ -60,3 +60,10 @@ stable G8 remain BLOCKED. Use backups for rollback; no general downgrade guarant
 is made for gameplay changes beyond this identity-only iteration.
 
 Current repairs and original replay preservation are specified in [REPAIRS_0_14_0.md](REPAIRS_0_14_0.md). Native testing remains separate.
+
+0.16.0 preserves schema-1 storage/replay keys and the old fixture, but blocks MP
+use pending private persistence and a verified per-life identity. Claims.subjectId
+is an existing account/session fallback, not proof of a unique character lifetime;
+do not reuse it for new journal ownership. Existing GlobalModData history/claim
+stores are not purged, exported or automatically made private by this iteration.
+A separately reviewed backup/private migration is required before MP activation.

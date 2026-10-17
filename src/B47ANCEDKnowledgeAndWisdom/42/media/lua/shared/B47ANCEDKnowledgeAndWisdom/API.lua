@@ -1,8 +1,9 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 
 B47ANCEDKnowledgeAndWisdom=rawget(_G,"B47ANCEDKnowledgeAndWisdom") or {}
-B47ANCEDKnowledgeAndWisdom.VERSION="0.15.0"
+B47ANCEDKnowledgeAndWisdom.VERSION="0.16.0"
 B47ANCEDKnowledgeAndWisdom.Documents=B47ANCEDKnowledgeAndWisdom.Documents or {}
 B47ANCEDKnowledgeAndWisdom.DocumentsByItemType=B47ANCEDKnowledgeAndWisdom.DocumentsByItemType or {}
 B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions or {}
@@ -17,17 +18,20 @@ end
 local function stringList(values,label)
     if values==nil then return {} end
     assert(type(values)=="table",label.." must be a table")
+    assert(SavedState.array(values,function(v)return SavedState.string(v,160)end,512),label.." must be a bounded dense string array")
     local result,seen={},{}
     for _,value in ipairs(values) do assert(type(value)=="string" and value~="",label.." entry required"); if not seen[value] then seen[value]=true; result[#result+1]=value end end
     table.sort(result); return result
 end
 local function contentSegments(content)
     assert(type(content)=="table" and #content>0,"document content segments required")
+    assert(SavedState.array(content,function()return true end,512),"document content must be a bounded dense array")
     local result={}
     for index,segment in ipairs(content) do
         if type(segment)=="string" then result[index]={text=segment,redacted=false}
         else
             assert(type(segment)=="table" and type(segment.text)=="string" and segment.text~="","document segment text required")
+            assert(segment.marker==nil or SavedState.string(segment.marker),"redaction marker must be a bounded string")
             result[index]={text=segment.text,redacted=segment.redacted==true,marker=segment.marker or "████████"}
             assert(not result[index].redacted or result[index].marker~="","redacted segment marker required")
         end
@@ -35,7 +39,7 @@ local function contentSegments(content)
     return result
 end
 local function namespacedId(value,label)
-    assert(type(value)=="string" and value:match("^[%w_%-]+%.[%w_.%-]+$"),label.." must be a namespaced identifier")
+    assert(SavedState.string(value,160) and value:match("^[%w_%-]+%.[%w_.%-]+$"),label.." must be a namespaced identifier")
     return value
 end
 -- Technical input limits bound provider mistakes; these are not gameplay knobs.
@@ -92,14 +96,11 @@ local function assertRequirementKnowledge(node)
     if node["not"] then assertRequirementKnowledge(node["not"]); return end
     for _,child in ipairs(node.all or node.any or {}) do assertRequirementKnowledge(child) end
 end
-local function canWrite()
-    local client=type(rawget(_G,"isClient"))=="function" and isClient()==true
-    local server=type(rawget(_G,"isServer"))=="function" and isServer()==true
-    return server or not client
-end
+local function canWrite()return Guard.write()end
 
 function B47ANCEDKnowledgeAndWisdom.registerKnowledge(definition)
     assert(type(definition)=="table","knowledge definition required")
+    assert(SavedState.tree(definition),"definition must be bounded acyclic data")
     local def=copy(definition)
     namespacedId(def.id,"knowledge id")
     assert(type(def.owner)=="string" and def.owner~="","knowledge owner required")
@@ -114,6 +115,7 @@ function B47ANCEDKnowledgeAndWisdom.getKnowledgeDefinition(id) return copy(B47AN
 function B47ANCEDKnowledgeAndWisdom.hasKnowledgeDefinition(id) return B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[id]~=nil end
 function B47ANCEDKnowledgeAndWisdom.allKnowledgeDefinitions() return copy(B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions) end
 local function ledger(character,create)
+    local allowed,reason=Guard.characterRead();if not allowed then return nil,reason end
     if not character or not character.getModData then return nil,"character ModData unavailable" end
     local ok,data=pcall(function() return character:getModData() end)
     if not ok or type(data)~="table" then return nil,"character ModData unavailable" end
@@ -136,9 +138,12 @@ end
 
 function B47ANCEDKnowledgeAndWisdom.registerDocument(definition)
     assert(type(definition)=="table","document definition required")
+    assert(SavedState.tree(definition),"definition must be bounded acyclic data")
     local def=copy(definition)
     for _,field in ipairs({"id","project","category","classification","title"}) do assert(type(def[field])=="string" and def[field]~="","document "..field.." required") end
     assert(not B47ANCEDKnowledgeAndWisdom.Documents[def.id],"duplicate B47ANCEDKnowledgeAndWisdom document: "..def.id)
+    assert(def.tier==nil or SavedState.finite(tonumber(def.tier)),"document tier must be finite")
+    assert(SavedState.string(def.id,160),"document id exceeds safe limit")
     def.tier=math.max(1,math.min(4,math.floor(tonumber(def.tier) or 1)))
     def.content=contentSegments(def.content)
     def.spawnCategories=stringList(def.spawnCategories,"spawnCategories")
@@ -161,7 +166,7 @@ function B47ANCEDKnowledgeAndWisdom.registerDocument(definition)
     end
     if def.distribution~=nil then
         assert(type(def.distribution)=="table","document distribution must be a table")
-        for pool,weight in pairs(def.distribution) do assert(type(pool)=="string" and pool~="" and tonumber(weight) and tonumber(weight)>0,"document distribution pool/weight invalid") end
+        for pool,weight in pairs(def.distribution) do assert(type(pool)=="string" and pool~="" and SavedState.finite(tonumber(weight)) and tonumber(weight)>0,"document distribution pool/weight invalid") end
     else def.distribution={} end
     B47ANCEDKnowledgeAndWisdom.Documents[def.id]=def
     if def.itemType then B47ANCEDKnowledgeAndWisdom.DocumentsByItemType[def.itemType]=def.id end
@@ -238,15 +243,27 @@ function B47ANCEDKnowledgeAndWisdom.canLearn(character,id)
 end
 function B47ANCEDKnowledgeAndWisdom.learn(character,id,context)
     context=type(context)=="table" and context or {}
-    if not canWrite() then return false,"non-authority" end
+    local permitted,authorityError=canWrite();if not permitted then return false,authorityError end
     local allowed,documentOrError=B47ANCEDKnowledgeAndWisdom.canLearn(character,id); if not allowed then return false,documentOrError end
-    local current,ledgerError=ledger(character,true)
-    if not current then return false,ledgerError end
-    if current.documents[id] then return true,{duplicate=true,newKnowledge={}} end
     local learnedAt=tonumber(context.worldAgeHours)
-    current.documents[id]={learnedAtWorldAgeHours=learnedAt,sourceFullType=context.sourceFullType}
-    local granted={}; for _,knowledge in ipairs(documentOrError.grantsKnowledge) do if not current.knowledge[knowledge] then current.knowledge[knowledge]={sourceDocument=id,owner=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[knowledge].owner,learnedAtWorldAgeHours=learnedAt}; granted[#granted+1]=knowledge end end
-    if character.transmitModData then pcall(function() character:transmitModData() end) end
+    if context.worldAgeHours~=nil and not SavedState.finite(learnedAt)then return false,"invalid learned timestamp"end
+    if context.sourceFullType~=nil and not SavedState.string(context.sourceFullType,160)then return false,"invalid source item type"end
+    local current,ledgerError=ledger(character,false);if not current then return false,ledgerError end
+    if current.documents[id] then return true,{duplicate=true,newKnowledge={}} end
+    local candidate=copy(current)
+    candidate.documents[id]={learnedAtWorldAgeHours=learnedAt,sourceFullType=context.sourceFullType}
+    local granted={}
+    for _,knowledge in ipairs(documentOrError.grantsKnowledge)do
+        local definition=B47ANCEDKnowledgeAndWisdom.KnowledgeDefinitions[knowledge]
+        if type(definition)~="table"or not SavedState.string(definition.owner,160)then return false,"unknown or malformed grant definition"end
+        if not candidate.knowledge[knowledge]then
+            candidate.knowledge[knowledge]={sourceDocument=id,owner=definition.owner,learnedAtWorldAgeHours=learnedAt}
+            granted[#granted+1]=knowledge
+        end
+    end
+    if not SavedState.knowledge(candidate)then return false,"knowledge result exceeds supported save format"end
+    local writable,writeError=ledger(character,true);if not writable then return false,writeError end
+    for key,value in pairs(candidate)do writable[key]=value end
     return true,{duplicate=false,documentId=id,newKnowledge=granted}
 end
 function B47ANCEDKnowledgeAndWisdom.snapshot(character)
@@ -258,7 +275,8 @@ end
 function B47ANCEDKnowledgeAndWisdom.completeRead(character,item,context)
     local document=B47ANCEDKnowledgeAndWisdom.getDocumentForItem(item)
     if not document then return false,"item is not a registered document" end
-    context=type(context)=="table" and context or {}
+    local input=type(context)=="table"and context or {}
+    context={};for key,value in pairs(input)do context[key]=value end
     context.sourceFullType=document.itemType
     local learned,result=B47ANCEDKnowledgeAndWisdom.learn(character,document.id,context)
     if not learned then return false,result end

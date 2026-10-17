@@ -12,6 +12,8 @@ local item={getFullType=function() return "Test.Read" end}
 local installs={}
 Events={OnGameBoot={Add=function(fn) installs[#installs+1]=fn end}}
 ISReadABook=nil
+-- Model a dependency that has not published its class yet; retain the delayed retry test.
+package.preload["TimedActions/ISReadABook"]=function()return {}end
 require "B47ANCEDKnowledgeAndWisdom/ReadCompletion"
 assert(#installs==1)
 local vanillaCalls=0

@@ -53,3 +53,8 @@ journal context action when false. It is presentation-only and has no historical
 alias. The research viewer's legacy false behavior remains specific to research.
 The new labels use English fallback entries in every supported language folder;
 no additional human translation is claimed. No migration of saved payloads occurs.
+
+0.16.0: these gameplay values remain available to the SP-oriented core. The
+server can parse settings, but affected MP gameplay is blocked by AuthorityGuard.
+This safety/implementation gate is deliberately not a sandbox option. Neither
+viewer toggle nor rate setting enables an unsafe multiplayer storage path.

@@ -1,5 +1,5 @@
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
-isClient=function()return false end;isServer=function()return true end
+isClient=function()return false end;isServer=function()return false end
 local API={Claims={}};package.preload["B47ANCEDKnowledgeAndWisdom/API"]=function()return API end
 local grants=0;local regions={rosewood={id="rosewood",granularity="locality"}}
 API.Claims={getRegion=function(id)return regions[id]end,subjectId=function()return"getUsername:alice"end,

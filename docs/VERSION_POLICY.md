@@ -56,3 +56,11 @@ Mod ID, Workshop ID, immutable storage/replay keys and artwork do not change.
 Current version checks also cover IN_GAME_TESTING, IDENTITY_MIGRATION,
 REPOSITORY_AUDIT, TESTING and ARCHITECTURE headings to prevent stale current docs.
 Named 0.14.x validation/manifests remain historical evidence.
+
+0.16.0 is a pre-1.0 MINOR compatibility iteration: affected MP APIs now fail closed
+while unsafe storage is replaced, an opt-in read-only probe is added, and SP
+input/persistence/XP checks are strengthened. Schema remains 1; old data is not
+rewritten. This is a development safety gate, not an MP-ready release. The native
+archive now fingerprints the actual packaged artifact (Core reports 42.21), while
+effective runtime version/class selection remains UNKNOWN. Historical evidence is
+not relabeled; versionMin=42.20.3 remains an inherited declaration, not tested proof.

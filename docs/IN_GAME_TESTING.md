@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom in-game validation
 
-Current version: 0.15.0. This progressive harness originated in 0.8.0;
+Current version: 0.16.0. This progressive harness originated in 0.8.0;
 old test observations do not validate this renamed build.
 Enable only B47ANCEDKnowledgeAndWisdom on a new single-player test character. The harness
 does not certify itself: visual, save/reload, old-save, hosted, and dedicated
@@ -68,3 +68,9 @@ For 0.15.0 inspection, use JOURNAL_INSPECTION.md's disposable-SP and dedicated
 cases. Existing debug journal creation is SP-only; it cannot certify server-side
 writing or synchronization. Record the exact tested commit/version, not an old
 session's version. The harness was not launched during development.
+
+0.16.0 replaces the earlier MP-test prerequisite: affected gameplay APIs return
+MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
+implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
+procedures cannot turn blocked functionality into a PASS. SP and dedicated results
+remain separate, and native UI/old saves remain NOT TESTED.

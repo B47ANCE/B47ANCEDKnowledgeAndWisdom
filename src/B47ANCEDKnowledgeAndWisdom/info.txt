@@ -2,5 +2,5 @@ B47ANCED Knowledge & Wisdom — STEAM WORKSHOP INFO
 
 Status: Project Archive and character-knowledge API foundation.
 Author: B47ANCE
-Version: 0.15.0
+Version: 0.16.0
 Internal Mod ID: B47ANCEDKnowledgeAndWisdom

@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.16.0 — 2026-10-16
+
+- Completed the selected source/native audit with 27 class fingerprints and 13
+  bounded API observations. Packaged Core reports 42.21; effective runtime remains
+  unverified because inspected loose character classes differ from packaged bytes.
+- Removed whole-character ModData broadcasts. Native player tables are replaceable
+  and GlobalModData tables are request-readable: affected MP APIs now fail closed
+  until private server persistence, lifetime/payload identity and migration exist.
+- Added an opt-in authority query-purity probe without messages, writes or gate promotion.
+- Required observed SP XP increase, quarantined silent/partial refusals, blocked
+  native callback reentrancy before awards, and rejected weight overflow/invalid perks.
+- Prepared schema-valid knowledge results; rejected malformed timestamps, source
+  types, sparse registration lists, infinite loot weights and missing grant definitions.
+- Rejected invalid claim acquisitions/history evidence and bound-field overflow;
+  preserved exact media IDs rather than truncating them into different known facts.
+- Validated journal queue totals/identities/targets and recovery IDs/inputs without
+  repairing corrupt saves. Stored schema remains 1; old data/artifacts/artwork retained.
+- MINOR compatibility gate; native SP NOT TESTED, G7 and stable G8 BLOCKED. No build,
+  deploy, game/server launch, Workshop upload, stable tag or merge.
+
 ## 0.15.0 — 2026-10-16
 
 - Added native-style read-only inspection for recorded Survivor Journals: status,

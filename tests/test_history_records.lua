@@ -1,4 +1,4 @@
-isClient=function()return false end;isServer=function()return true end
+isClient=function()return false end;isServer=function()return false end
 package.loaded["B47ANCEDKnowledgeAndWisdom/API"]=nil;B47ANCEDKnowledgeAndWisdom=nil
 require "B47ANCEDKnowledgeAndWisdom/API"
 local History=dofile("src/B47ANCEDKnowledgeAndWisdom/42/media/lua/shared/B47ANCEDKnowledgeAndWisdom/HistoryRecords.lua")

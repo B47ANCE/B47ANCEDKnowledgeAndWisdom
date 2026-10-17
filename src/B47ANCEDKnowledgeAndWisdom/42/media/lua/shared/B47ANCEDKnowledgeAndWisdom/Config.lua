@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 -- Gameplay snapshots are read only on authority. Clients cannot choose rates.
 local Config={}
 local specs={
@@ -10,8 +11,8 @@ local specs={
     FailureXPCapPercent={0,10,10},
 }
 function Config.gameplay()
-    if type(isClient)=="function"and isClient()==true
-        and not (type(isServer)=="function"and isServer()==true)then return nil,"non-authority"end
+    local realm=Guard.realm()
+    if realm=="client"or realm=="unknown"then return nil,"non-authority"end
     local root=type(SandboxVars)=="table"and SandboxVars.B47ANCEDKnowledgeAndWisdom or nil
     local result={}
     for key,spec in pairs(specs)do

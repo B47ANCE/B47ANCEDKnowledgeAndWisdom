@@ -3,11 +3,13 @@ local J=require "B47ANCEDKnowledgeAndWisdom/SurvivorJournals"
 local Config=require "B47ANCEDKnowledgeAndWisdom/Config"
 A.registerSemanticAction{id="Sandbox.Test",owner="test",title="Test",baseXP=10,skills={Maintenance=1},outcomes={success=1,failure=.1}}
 local data={};local actor={getModData=function()return data end}
+local observedXP=0
+actor.getXp=function()return {getXP=function()return observedXP end}end
 local report={committed=true,meaningful=true,sourceId="object"}
 SandboxVars={B47ANCEDKnowledgeAndWisdom={SemanticXPPercent=200,RepeatWindowPercent=200,RepeatDecayPercent=200,
     RepeatFloorPercent=50,JournalRecoveryPercent=25,JournalWritingSpeedPercent=200,FailureXPCapPercent=0}}
 assert(A.previewSemanticAction(actor,"Sandbox.Test",report,{}).totalXP==20)
-Perks={Maintenance="Maintenance"};addXp=function()end
+Perks={Maintenance="Maintenance"};addXp=function(_,_,amount)observedXP=observedXP+amount end
 assert(A.processSemanticAction(actor,"Sandbox.Test",report,{worldAgeHours=1}))
 local repeated=assert(A.previewSemanticAction(actor,"Sandbox.Test",report,{worldAgeHours=26}))
 assert(repeated.repeatMultiplier<1,"server repeat-window scale must apply")

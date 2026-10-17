@@ -60,3 +60,11 @@ visibility alone does not prove a safe Lua write/reconciliation contract.
 The generated signature/call-site inventory lives in
 `../../medWorks/docs/audit/native-api.csv`; its manifest fingerprints inspected
 Lua/native-source inputs. It is an audit aid, not a completed behavior matrix.
+
+## 0.16.0 audit follow-up
+
+This preceding report remains historical. NATIVE_AUDIT_0_16_0.md and
+NATIVE_EVIDENCE_0_16_0.json recheck the current packaged artifact and distinguish
+loose overrides/effective runtime. Negative exact-XP, earned-recipe and transport
+findings are now explicit; no native recovery adapter is enabled. See
+AUDIT_CLOSURE_0_16_0.md and MP_AUTHORITY_PLAN.md for current dispositions.

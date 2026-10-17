@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
@@ -13,11 +14,7 @@ local visibilities={private=true,group=true,public=true}
 local function valid(value,maximum)
     return type(value)=="string" and #value>0 and #value<=(maximum or 160) and value:match("^[%w_%.:%-]+$")~=nil
 end
-local function authority()
-    local client=type(rawget(_G,"isClient"))=="function" and isClient()==true
-    local server=type(rawget(_G,"isServer"))=="function" and isServer()==true
-    return server or not client
-end
+local function authority()return Guard.write()end
 local function finite(value)
     value=tonumber(value);return value and value==value and value~=math.huge and value~=-math.huge and value or nil
 end
@@ -65,7 +62,8 @@ local function remember(operationId,entry)
 end
 
 function History.attachStore(value)
-    if not authority()or type(value)~="table"then return false,"AUTHORITY_STORE_REQUIRED"end
+    local permitted,authorityError=authority();if not permitted then return false,authorityError end
+    if type(value)~="table"then return false,"AUTHORITY_STORE_REQUIRED"end
     if value.schemaVersion~=nil and value.schemaVersion~=1 then return false,"UNSUPPORTED_SCHEMA"end
     if not SavedState.history(value)then return false,"UNSUPPORTED_OR_MALFORMED_HISTORY_STORE"end
     if SavedState.empty(value)then value.records={};value.operations={};value.order={};value.operationOrder={}end
@@ -80,12 +78,20 @@ function History.registerEvidenceProvider(definition)
         canRead=definition.canRead,canRemove=definition.canRemove}
     table.sort(providers,function(a,b)return a.id<b.id end);return {id=definition.id}
 end
+local function validBoundFields(request)
+    if request.worldAgeHours~=nil and not SavedState.finite(request.worldAgeHours)then return false end
+    for _,key in ipairs({"groupId","regionId","reason","removalPolicy"})do
+        if request[key]~=nil and not SavedState.string(request[key],160)then return false end
+    end
+    return true
+end
 function History.create(actor,request)
-    if not authority()then return false,"NON_AUTHORITY"end
+    local permitted,authorityError=authority();if not permitted then return false,authorityError=="non-authority"and"NON_AUTHORITY"or authorityError end
     if not store then return false,"STORE_UNAVAILABLE"end
     if type(request)~="table"or request.schemaVersion~=1 or not valid(request.operationId)or not valid(request.recordId)
         or not valid(request.authorId)or not valid(request.subjectId)or not valid(request.providerId)
         or not valid(request.evidenceId)or not visibilities[request.visibility]then return false,"INVALID_REQUEST"end
+    if not validBoundFields(request)then return false,"INVALID_REQUEST"end
     local source=provider(request.providerId);if not source then return false,"PROVIDER_UNAVAILABLE"end
     if actorId(source,actor)~=request.authorId then return false,"AUTHOR_MISMATCH"end
     local body=text(request.text,1024);if #body<1 then return false,"CONTENT_REQUIRED"end
@@ -100,6 +106,7 @@ function History.create(actor,request)
     if #store.order>=History.MAX_RECORDS then return false,"RECORD_LIMIT_REACHED"end
     local called,allowed,evidence=pcall(source.validateEvidence,actor,request.subjectId,request.evidenceId,request)
     if not called or allowed~=true then return false,text(evidence or "EVIDENCE_REJECTED",160)end
+    if not SavedState.tree(evidence)then return false,"INVALID_EVIDENCE_PAYLOAD"end
     local record={schemaVersion=1,recordId=request.recordId,authorId=request.authorId,subjectId=request.subjectId,
         providerId=request.providerId,evidenceId=request.evidenceId,evidence=copy(evidence),text=body,
         createdAtWorldAgeHours=finite(request.worldAgeHours),visibility=request.visibility,
@@ -118,6 +125,7 @@ local function readable(source,actor,record)
     local ok,value=pcall(source.canRead,actor,record);return ok and value==true
 end
 function History.list(actor,options)
+    local permitted,authorityError=Guard.write();if not permitted then return nil,authorityError end
     if not store then return nil,"STORE_UNAVAILABLE"end
     options=type(options)=="table"and options or {};local maximum=math.max(1,math.min(256,math.floor(tonumber(options.maximum) or 64)))
     local result={schemaVersion=1,records={},limited=false}
@@ -131,7 +139,8 @@ function History.list(actor,options)
     return result
 end
 function History.remove(actor,request)
-    if not authority()then return false,"NON_AUTHORITY"end
+    if type(request)=="table"and not validBoundFields(request)then return false,"INVALID_REQUEST"end
+    local permitted,authorityError=authority();if not permitted then return false,authorityError=="non-authority"and"NON_AUTHORITY"or authorityError end
     if not store then return false,"STORE_UNAVAILABLE"end
     if type(request)~="table"or request.schemaVersion~=1 or not valid(request.operationId)or not valid(request.recordId)
         or not valid(request.actorId)or not valid(request.reason)then return false,"INVALID_REQUEST"end

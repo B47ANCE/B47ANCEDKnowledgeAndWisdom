@@ -56,3 +56,9 @@ Record each case PASS/FAIL/BLOCKED with sanitized evidence; keep private saves/l
 outside Git. SP and dedicated results are separate. G7/G8 remain BLOCKED until
 required runtime cases pass. The broader RUNTIME_VALIDATION_0_14_0.md procedure
 still applies with the actual tested 0.15.0 commit/version recorded.
+
+0.16.0 replaces the earlier MP-test prerequisite: affected gameplay APIs return
+MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
+implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
+procedures cannot turn blocked functionality into a PASS. SP and dedicated results
+remain separate, and native UI/old saves remain NOT TESTED.

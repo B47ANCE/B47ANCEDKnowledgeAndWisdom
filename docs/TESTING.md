@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Testing
 
-Current 0.15.0 offline results and native gates: [validation](VALIDATION_0_15_0.md).
+Current 0.16.0 offline results and native gates: [validation](VALIDATION_0_16_0.md).
 The version-specific descriptions below are inherited test history; original
 pre-rename records remain under `history/pre-b47-0.12.2/`.
 
@@ -62,3 +62,9 @@ test_journal_viewer.lua. These cover invalid references under negation, malforme
 requirement graphs, atomic rejection/migration, bound active writing captures,
 client projection privacy, corrupt items, localization escaping and a modeled
 split-screen/controller modal lifecycle. They are offline simulations.
+
+0.16.0 replaces the earlier MP-test prerequisite: affected gameplay APIs return
+MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
+implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
+procedures cannot turn blocked functionality into a PASS. SP and dedicated results
+remain separate, and native UI/old saves remain NOT TESTED.

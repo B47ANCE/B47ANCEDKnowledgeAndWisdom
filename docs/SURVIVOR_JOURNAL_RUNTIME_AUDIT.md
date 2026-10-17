@@ -42,3 +42,11 @@ until one of these is established:
 UI and timed-action work that commits XP recovery remains downstream of this
 boundary. No runtime behavior was added by this audit.
 
+
+## 0.16.0 audit follow-up
+
+This preceding report remains historical. NATIVE_AUDIT_0_16_0.md and
+NATIVE_EVIDENCE_0_16_0.json recheck the current packaged artifact and distinguish
+loose overrides/effective runtime. Negative exact-XP, earned-recipe and transport
+findings are now explicit; no native recovery adapter is enabled. See
+AUDIT_CLOSURE_0_16_0.md and MP_AUTHORITY_PLAN.md for current dispositions.

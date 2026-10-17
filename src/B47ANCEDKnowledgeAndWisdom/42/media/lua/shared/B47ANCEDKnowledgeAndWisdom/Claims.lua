@@ -1,4 +1,6 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
+local SavedState=require "B47ANCEDKnowledgeAndWisdom/SavedState"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 API.Claims=API.Claims or {}
 local Claims=API.Claims
@@ -13,11 +15,7 @@ local kinds={literature=true,media=true,journal=true,recovery=true,geography=tru
 local function valid(value,maximum)
     return type(value)=="string" and #value>0 and #value<=(maximum or 160) and value:match("^[%w_%.:%-]+$")~=nil
 end
-local function authority()
-    local client=type(rawget(_G,"isClient"))=="function" and isClient()==true
-    local server=type(rawget(_G,"isServer"))=="function" and isServer()==true
-    return server or not client
-end
+local function authority()return Guard.write()end
 local function finite(value)
     value=tonumber(value);return value and value==value and value~=math.huge and value~=-math.huge and value or nil
 end
@@ -41,13 +39,19 @@ local function subjectId(character)
     for _,method in ipairs({"getUsername","getSteamID","getOnlineID"})do
         local ok,fn=pcall(function()return character[method]end)
         if ok and type(fn)=="function" then
-            local called,value=pcall(fn,character);value=called and tostring(value or "") or ""
-            local candidate=method..":"..value
-            if valid(candidate)then return candidate end
+            local called,value=pcall(fn,character)
+            local rawValid=called and ((method=="getUsername"and type(value)=="string"and value~="")
+                or (method~="getUsername"and (type(value)=="number"or type(value)=="string")
+                    and finite(value)and (method=="getOnlineID"and tonumber(value)>=0 or tonumber(value)>0)))
+            if rawValid then
+                local candidate=method..":"..tostring(value)
+                if valid(candidate)then return candidate end
+            end
         end
     end
 end
 local function ledger(character,create)
+    local allowed,reason=Guard.characterRead();if not allowed then return nil,reason end
     if not character or type(character.getModData)~="function" then return nil,"CHARACTER_MODDATA_UNAVAILABLE" end
     local ok,data=pcall(character.getModData,character)
     if not ok or type(data)~="table" then return nil,"CHARACTER_MODDATA_UNAVAILABLE" end
@@ -57,8 +61,7 @@ local function ledger(character,create)
         if create then data[Claims.ROOT_KEY]=value end
         return value
     end
-    if type(value)~="table" or value.schemaVersion~=1 or type(value.claims)~="table" or type(value.order)~="table"
-        or type(value.operations)~="table" or type(value.operationOrder)~="table" then
+    if not SavedState.claims(value) then
         return nil,"UNSUPPORTED_OR_MALFORMED_CLAIMS_LEDGER"
     end
     return value
@@ -121,6 +124,7 @@ function Claims.registerDefinition(definition)
     assert(valid(definition.owner),"claim definition owner required")
     assert(kinds[definition.kind],"claim definition kind required")
     assert(not definitions[definition.id],"duplicate claim definition: "..definition.id)
+    assert(definition.acquisition==nil or SavedState.string(definition.acquisition,80),"claim acquisition required")
     local def={id=definition.id,owner=definition.owner,kind=definition.kind,title=tostring(definition.title or definition.id):sub(1,160),
         acquisition=tostring(definition.acquisition or "explicit"):sub(1,80),scopeFields={}}
     if def.kind=="geography" then
@@ -128,11 +132,13 @@ function Claims.registerDefinition(definition)
             "geographic granularity must be locality, county, or region")
         def.granularity=definition.granularity
     else
+        assert(SavedState.array(definition.scopeFields or {},function(field)return valid(field,64)end,512),"claim scope fields must be a bounded dense array")
         local seen={};for _,field in ipairs(definition.scopeFields or {})do
             assert(valid(field,64),"claim scope field invalid")
             if not seen[field]then seen[field]=true;def.scopeFields[#def.scopeFields+1]=field end
         end
         table.sort(def.scopeFields)
+        assert(#def.scopeFields<=32,"claim definition has too many scope fields")
     end
     definitions[def.id]=def;return copy(def)
 end
@@ -150,12 +156,17 @@ end
 function Claims.getRegion(id)return copy(regions[id])end
 
 function Claims.grant(character,request)
-    if not authority()then return false,"NON_AUTHORITY" end
+    local permitted,authorityError=authority();if not permitted then return false,authorityError=="non-authority"and"NON_AUTHORITY"or authorityError end
     if type(request)~="table" or request.schemaVersion~=1 or not valid(request.operationId) or not valid(request.claimId)
         or not valid(request.definitionId) or not valid(request.subjectId) or not valid(request.sourceType,64)
         or not valid(request.sourceId) or not valid(request.sourceOwner)then return false,"INVALID_REQUEST" end
+    for _,field in ipairs({"confidence","completeness","worldAgeHours"})do
+        if request[field]~=nil and not SavedState.finite(request[field])then return false,"INVALID_REQUEST"end
+    end
+    if request.acquisition~=nil and not SavedState.string(request.acquisition,80)then return false,"INVALID_REQUEST"end
+    if request.reason~=nil and not valid(request.reason)then return false,"INVALID_REQUEST"end
     if subjectId(character)~=request.subjectId then return false,"SUBJECT_MISMATCH" end
-    local current,err=ledger(character,true);if not current then return false,err end
+    local current,err=ledger(character,false);if not current then return false,err end
     local definition=definitions[request.definitionId];if not definition then return false,"UNKNOWN_DEFINITION" end
     if request.sourceOwner~=definition.owner and request.sourceOwner~=LegacyMigration.PERSISTED_OWNER then return false,"SOURCE_OWNER_MISMATCH" end
     local scope,scopeError=normalizeScope(definition,request.scope);if not scope then return false,scopeError end
@@ -174,36 +185,61 @@ function Claims.grant(character,request)
         remember(current,request.operationId,"grant",request,replayResult,binding);return replayResult.ok,replayResult.reason,replayResult.claim
     end
     if #current.order>=Claims.MAX_CLAIMS then return false,"CLAIM_LIMIT_REACHED" end
+    current,err=ledger(character,true);if not current then return false,err end
     local claim={schemaVersion=1,claimId=request.claimId,definitionId=definition.id,kind=definition.kind,owner=definition.owner,
         subjectId=request.subjectId,source={type=request.sourceType,id=request.sourceId,owner=request.sourceOwner},scope=scope,
         acquisition=tostring(request.acquisition or definition.acquisition):sub(1,80),confidence=unit(request.confidence,1),
         completeness=unit(request.completeness,1),acquiredAtWorldAgeHours=finite(request.worldAgeHours),revoked=false}
     current.claims[claim.claimId]=claim;current.order[#current.order+1]=claim.claimId
     local result={ok=true,reason="GRANTED",claim=copy(claim)};remember(current,request.operationId,"grant",request,result,binding)
-    if type(character.transmitModData)=="function"then pcall(character.transmitModData,character)end
     return true,result.reason,copy(claim)
 end
 
+-- Built-in adapters describe acquisition of one immutable fact, not a new
+-- request every time that fact is observed. Preserve its original timestamp;
+-- grant still validates every other bound field and direct requests stay strict.
+function Claims.grantAcquisition(character,request)
+    local permitted,authorityError=authority();if not permitted then return false,authorityError=="non-authority"and"NON_AUTHORITY"or authorityError end
+    if type(request)~="table" or not valid(request.claimId) then return false,"INVALID_REQUEST" end
+    if request.sourceOwner~=LegacyMigration.PERSISTED_OWNER or (request.definitionId~=LegacyMigration.LITERATURE_DEFINITION
+        and request.definitionId~=LegacyMigration.RECOVERY_DEFINITION and request.definitionId~=LegacyMigration.HOMETOWN_DEFINITION)then
+        return false,"BUILTIN_ACQUISITION_REQUIRED"
+    end
+    local current,err=ledger(character,false);if not current then return false,err end
+    local previous=current.claims[request.claimId]
+    if previous then
+        if previous.revoked then return false,"CLAIM_REVOKED",copy(previous)end
+        local logical={};for key,value in pairs(request)do logical[key]=value end
+        logical.worldAgeHours=previous.acquiredAtWorldAgeHours
+        return Claims.grant(character,logical)
+    end
+    return Claims.grant(character,request)
+end
+
 function Claims.revoke(character,request)
-    if not authority()then return false,"NON_AUTHORITY" end
+    local permitted,authorityError=authority();if not permitted then return false,authorityError=="non-authority"and"NON_AUTHORITY"or authorityError end
     if type(request)~="table" or request.schemaVersion~=1 or not valid(request.operationId) or not valid(request.claimId)
         or not valid(request.subjectId) or not valid(request.reason)then return false,"INVALID_REQUEST" end
+    for _,field in ipairs({"confidence","completeness","worldAgeHours"})do
+        if request[field]~=nil and not SavedState.finite(request[field])then return false,"INVALID_REQUEST"end
+    end
+    if request.acquisition~=nil and not SavedState.string(request.acquisition,80)then return false,"INVALID_REQUEST"end
+    if request.reason~=nil and not valid(request.reason)then return false,"INVALID_REQUEST"end
     if subjectId(character)~=request.subjectId then return false,"SUBJECT_MISMATCH" end
-    local current,err=ledger(character,true);if not current then return false,err end
+    local current,err=ledger(character,false);if not current then return false,err end
     local binding=requestBinding("revoke",request)
     local replayOK,replayReason,replayClaim=replay(current,request,"revoke",binding)
     if replayOK~=nil then return replayOK,replayReason,replayClaim end
     local claim=current.claims[request.claimId];if not claim then return false,"UNKNOWN_CLAIM" end
     if not claim.revoked then claim.revoked=true;claim.revocationReason=request.reason:sub(1,160);claim.revokedAtWorldAgeHours=finite(request.worldAgeHours) end
     local result={ok=true,reason="REVOKED",claim=copy(claim)};remember(current,request.operationId,"revoke",request,result,binding)
-    if type(character.transmitModData)=="function"then pcall(character.transmitModData,character)end
     return true,result.reason,copy(claim)
 end
 
 function Claims.snapshot(character,options)
     local current,err=ledger(character,false);if not current then return nil,err end
     options=type(options)=="table" and options or {};local includeRevoked=options.includeRevoked==true
-    local maximum=math.max(1,math.min(Claims.MAX_CLAIMS,math.floor(tonumber(options.maximum) or 128)))
+    local maximum=math.max(1,math.min(Claims.MAX_CLAIMS,math.floor(finite(options.maximum) or 128)))
     local result={schemaVersion=1,subjectId=subjectId(character),claims={},limited=false}
     for _,id in ipairs(current.order)do
         local claim=current.claims[id]

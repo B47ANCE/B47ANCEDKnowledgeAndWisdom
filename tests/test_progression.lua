@@ -9,23 +9,25 @@ assert(API.hasSemanticAction("Test.Repair"))
 assert(math.abs(API.getSemanticAction("Test.Repair").skills.Maintenance-.75)<.0001)
 local data={}
 local character={getModData=function() return data end,transmitModData=function(self) self.transmitted=true end}
+local xp={}
+character.getXp=function()return {getXP=function(_,perk)return xp[perk]or 0 end}end
 local invalid,reason=API.previewSemanticAction(character,"Test.Repair",{committed=false,meaningful=true})
 assert(invalid==nil and reason)
 local plan=assert(API.previewSemanticAction(character,"Test.Repair",{committed=true,meaningful=true,outcome="failure",difficulty=2,quality=1,sourceCategory="device",sourceId="one"},{worldAgeHours=5}))
 assert(math.abs(plan.totalXP-2.5)<.0001) -- failure is capped at 10%, then quality/difficulty apply
 Perks={Maintenance="maintenance",Electricity="electricity"}
 local awards={}
-addXp=function(who,perk,amount) assert(who==character); awards[#awards+1]={perk=perk,amount=amount} end
+addXp=function(who,perk,amount) assert(who==character); awards[#awards+1]={perk=perk,amount=amount};xp[perk]=(xp[perk]or 0)+amount end
 local ok,result=API.processSemanticAction(character,"Test.Repair",{committed=true,meaningful=true,outcome="success",sourceCategory="device",sourceId="one"},{worldAgeHours=6})
 assert(ok and result.applied and #awards==2 and result.totalXP==10)
-assert(character.transmitted and API.progressionSnapshot(character).transactions[result.transactionId].status=="committed")
+assert(not character.transmitted and API.progressionSnapshot(character).transactions[result.transactionId].status=="committed")
 local repeatPlan=assert(API.previewSemanticAction(character,"Test.Repair",{committed=true,meaningful=true,outcome="success",sourceCategory="device",sourceId="one"},{worldAgeHours=7}))
 assert(repeatPlan.repeatMultiplier==.5 and repeatPlan.totalXP==5)
 isClient=function() return true end; isServer=function() return false end
 assert(API.processSemanticAction(character,"Test.Repair",{committed=true,meaningful=true})==false)
 isClient=function() return false end
 local calls=0
-addXp=function() calls=calls+1; if calls==2 then error("award failure") end end
+addXp=function(_,perk,amount) calls=calls+1; if calls==2 then error("award failure") end;xp[perk]=(xp[perk]or 0)+amount end
 ok,reason=API.processSemanticAction(character,"Test.Repair",{committed=true,meaningful=true,outcome="success",sourceCategory="device",sourceId="two"},{worldAgeHours=8})
 assert(not ok and reason:find("uncertain",1,true))
 local snapshot=API.progressionSnapshot(character)

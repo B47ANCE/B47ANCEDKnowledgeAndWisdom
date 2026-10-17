@@ -1,7 +1,7 @@
 -- Upgrade fixture came from the original 0.12.2 source, not the renamed code.
 local fixture=dofile("tests/fixtures/knowledge_0_12_2.lua")
 assert(fixture.version=="0.12.2")
-isClient=function()return false end;isServer=function()return true end
+isClient=function()return false end;isServer=function()return false end
 local API=require "B47ANCEDKnowledgeAndWisdom/Progression"
 local Claims=require "B47ANCEDKnowledgeAndWisdom/Claims"
 local Journals=require "B47ANCEDKnowledgeAndWisdom/SurvivorJournals"

@@ -18,10 +18,13 @@ Segments explicitly marked redacted render as a supplied short marker unless a
 developer view requests canonical text. Redactions therefore conceal known
 information rather than decorative random bars.
 
-Knowledge is character-owned and stored in character ModData. Learning is
-server-authoritative, prerequisite-aware, idempotent, and transmits ModData when
-the runtime provides that method. Duplicate files remain useful physical items
-but cannot repeatedly grant progression.
+SP-oriented knowledge is stored in character ModData. Learning is prerequisite-
+aware and idempotent. No whole-character ModData broadcasts are made. Native
+player ModData is client-replaceable and cannot authorize server gameplay; native
+GlobalModData is request-readable and cannot store private history. In 0.16.0,
+affected MP APIs fail closed rather than trust those transports. A private server
+backend, character-lifetime identity and reviewed migration are required before
+MP gameplay can be enabled. Duplicate SP files do not grant progression again.
 
 Tier-four black files declare no procedural spawn categories. Content providers
 may curate their placement later. Registered physical files use Build 42's
@@ -166,3 +169,29 @@ canonical replay-bound Hometown claim. No vanilla provider or first-party region
 catalog is registered until native character-origin evidence is verified;
 current position, spawn square, profession, and map exploration are never used
 as substitutes.
+
+## Current authority and persistence contract (0.16.0)
+
+SP/client presentation queries read supported legacy state without modifying it.
+Server character-ledger queries refuse untrusted native player state.
+Validated SP writes perform migration; MP mutations are blocked. Persistent journal successor and
+exhaustion records govern plans as well as claims; stale item flags cannot
+reopen a payload. Plans are SP-oriented while MP is blocked and are capped by sandbox policy.
+Built-in acquisitions preserve original fact time; direct requests keep strict
+full bindings. Malformed nested saved data fails closed without destructive
+initialization. Bounded source cleanup preserves active/uncertain anti-repeat
+state. Realm exports include both media and origin interfaces.
+
+See [repairs](REPAIRS_0_14_0.md), [configuration](CONFIGURATION.md) and
+[native validation](RUNTIME_VALIDATION_0_14_0.md). Existing engine replication
+assumptions remain unverified: optional transmit calls are not dedicated proof.
+No new network protocol or client-owned gameplay path was introduced.
+
+Journal inspection uses a projection of existing physical-item state and only
+renders local counts/status/progress. It reads no persistent claim store and
+adds no network route. Local item flags are not authoritative recovery eligibility.
+It omits account/payload identifiers, explicit entry IDs and unwritten targets.
+Window state is per player and shared by research/journal inspection. Journal
+beginWriting prepares a schema-valid candidate before committing in place; all
+journal item-key migrations follow validation. Requirements preflight every
+reference before boolean evaluation, so unknown facts cannot be inverted by NOT.

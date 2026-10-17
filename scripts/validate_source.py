@@ -32,6 +32,8 @@ def main():
         ok, error = parse(text, '@' + path.as_posix())
         require(ok, f'Lua syntax: {path}: {error}')
         if path.is_relative_to(SOURCE):
+            if path.name in {'API.lua', 'Claims.lua', 'Progression.lua', 'SurvivorJournals.lua', 'TestHarness.lua'}:
+                require('transmitModData' not in text, 'Unreviewed whole-table private transport: ' + str(path))
             if path.name != 'LegacyMigration.lua':
                 require('experienceWorks' not in text and 'EXPERIENCE_WORKS' not in text, f'Old namespace outside private compatibility: {path}')
             for name in re.findall(r'\brequire\s*\(?\s*["\'](B47ANCEDKnowledgeAndWisdom/[^"\']+)["\']', text):
@@ -49,9 +51,33 @@ def main():
         if path.suffix == '.lua':
             for key in re.findall(r'["\'](ContextMenu_B47ANCEDKnowledgeAndWisdom_[^"\']+)["\']', path.read_text(encoding='utf-8')):
                 require(key in english['ContextMenu.json'], 'Missing UI translation: ' + key)
+    journal_keys = (
+        'InspectJournal', 'JournalWriting', 'JournalRecorded', 'JournalClaimed',
+        'JournalExhausted', 'JournalSkills', 'JournalEntries', 'JournalDocuments',
+        'JournalRecipes', 'JournalMaps', 'JournalMedia', 'JournalKnowledge',
+        'JournalResearch', 'JournalProgress', 'JournalRemaining', 'JournalDisclaimer',
+    )
+    require(all('ContextMenu_B47ANCEDKnowledgeAndWisdom_' + key in english['ContextMenu.json']
+                for key in journal_keys), 'Journal localization missing')
     sandbox = (SOURCE / 'media/sandbox-options.txt').read_text(encoding='utf-8')
     require('option B47ANCEDKnowledgeAndWisdom.EnableResearchViewer' in sandbox and 'page = B47ANCEDKnowledgeAndWisdom' in sandbox, 'Sandbox identity mismatch')
     require(english['Sandbox.json']['Sandbox_B47ANCEDKnowledgeAndWisdom'] == 'B47ANCED Knowledge & Wisdom', 'Sandbox page display mismatch')
+    options = dict(re.findall(r'option B47ANCEDKnowledgeAndWisdom\.(\w+)\s*\{([^}]+)\}', sandbox))
+    config = (SOURCE / 'media/lua/shared/B47ANCEDKnowledgeAndWisdom/Config.lua').read_text(encoding='utf-8')
+    specs = re.findall(r'(\w+)=\{(\d+),(\d+),(\d+)\}', config)
+    require(len(specs) == 7 and set(options) == {'EnableResearchViewer', 'EnableJournalViewer'} | {s[0] for s in specs}, 'Sandbox option inventory mismatch')
+    for key in ('EnableResearchViewer', 'EnableJournalViewer'):
+        body = options[key]
+        require(re.search(r'\btype\s*=\s*boolean\b', body) and re.search(r'\bdefault\s*=\s*true\b', body), 'Viewer boolean/default mismatch: ' + key)
+        translation = 'Sandbox_B47ANCEDKnowledgeAndWisdom_' + key
+        require(translation in english['Sandbox.json'] and translation + '_tooltip' in english['Sandbox.json'], 'Missing viewer localization: ' + key)
+    for key, minimum, maximum, default in specs:
+        body = options[key]
+        for field, expected in [('type', 'integer'), ('min', minimum), ('max', maximum), ('default', default)]:
+            match = re.search(r'\b' + field + r'\s*=\s*([^,\s]+)', body)
+            require(match and match.group(1) == expected, f'Sandbox/server bound mismatch: {key}.{field}')
+        translation = 'Sandbox_B47ANCEDKnowledgeAndWisdom_' + key
+        require(translation in english['Sandbox.json'] and translation + '_tooltip' in english['Sandbox.json'], 'Missing sandbox localization: ' + key)
     items = []
     for path in (SOURCE / 'media/scripts').glob('*.txt'):
         text = path.read_text(encoding='utf-8')

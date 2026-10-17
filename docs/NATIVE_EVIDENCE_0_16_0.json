@@ -1,0 +1,211 @@
+{
+  "project_version": "0.16.0",
+  "steam_build": "25485521",
+  "packaged_core_version": "42.21",
+  "runtime_version": "UNKNOWN",
+  "runtime_status": "NOT_TESTED",
+  "jar_sha256": "e1a69eb743ede60b213a0fe7f8b83d4fcab773036d256cc4543a336f3b058a33",
+  "tool": {
+    "name": "CFR",
+    "version": "0.152",
+    "source": "https://www.benf.org/other/cfr/",
+    "sha256": "f686e8f3ded377d7bc87d216a90e9e9512df4156e75b06c655a16648ae8765b2"
+  },
+  "scope": "Selected packaged class inspection only; no engine classes executed. Differing loose classes/effective runtime remain unverified. No raw game source included.",
+  "classes": {
+    "zombie/characters/IsoGameCharacter$XP.class": {
+      "jar_class_sha256": "1d1b9edc1746adf55cbaa7aa371b0e9acd1c0c27248d346b37af6b7a573ee5cc",
+      "loose_sha256": "6fdffadbc8fcb7598d26a85627af935a4f5a193e336510b796e02735bf20ac06"
+    },
+    "zombie/characters/IsoGameCharacter.class": {
+      "jar_class_sha256": "29040e19c3e420499f73bc0ea0d5b86d7f7d38655acdc13d0107df736eb54c0b",
+      "loose_sha256": "d8554b2a4012f381731da9c91fe605b17e3ba15cd429609607fbf496ad6bbdfa"
+    },
+    "zombie/characters/IsoPlayer.class": {
+      "jar_class_sha256": "3f1c4634d3a8e7e36baf4b33f76cf7ef79d88c3351bd0eb2a6a6bb34c2d9858f",
+      "loose_sha256": "80ace57ecff39cd926e69b7fad38cf7f3d923584b89b1e558dde7073c5baab56"
+    },
+    "zombie/inventory/InventoryItem.class": {
+      "jar_class_sha256": "48f01be16d1ef1b76e37638fac6e25ca4eb285ad38ab2f462caa5597318c7f9d",
+      "loose_sha256": null
+    },
+    "zombie/Lua/LuaManager$GlobalObject.class": {
+      "jar_class_sha256": "80ecbd3bd702db2f992db6cba7cb09c32d775fa6f2a3297e0460874ff5ba20c7",
+      "loose_sha256": null
+    },
+    "zombie/network/GameServer.class": {
+      "jar_class_sha256": "308ee5247dc8bba4df2283d40d753c6839497767b9342a4adeea60e7c08cfacc",
+      "loose_sha256": null
+    },
+    "zombie/network/GameClient.class": {
+      "jar_class_sha256": "99d1778ab2c2627ddcbc04fdbb435461289c3c3075c96cf70eae5c216193352b",
+      "loose_sha256": null
+    },
+    "zombie/world/moddata/GlobalModData.class": {
+      "jar_class_sha256": "1c66b5e0c66b2c7b813c977fa91d2282a022605d12d44560298e30b340f8a718",
+      "loose_sha256": null
+    },
+    "zombie/core/Core.class": {
+      "jar_class_sha256": "8f5c69740c8bf2181123a831ab68d1dfb047453687cca6dc62c77816d76ab360",
+      "loose_sha256": null
+    },
+    "zombie/characters/CharacterTimedActions/LuaTimedActionNew.class": {
+      "jar_class_sha256": "f10236f1e8be9d0822dc144ebe61c42fa1d0e8ded3279c7aa6dd0ffb7291feb0",
+      "loose_sha256": null
+    },
+    "zombie/scripting/ScriptManager.class": {
+      "jar_class_sha256": "8aee81a03fb7c09a9e9844ba9388a943aef9b313ea00017b8f2a33f16f4f0f99",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/SyncItemModDataPacket.class": {
+      "jar_class_sha256": "623e4361febdb7e1fbd3613ebcc1bf0d9c2fa8a97cab3c860adf2e7869b26dd7",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/SyncPlayerFieldsPacket.class": {
+      "jar_class_sha256": "2fc4af27f6b1a0b88f25837e0656342df201597f74d33cd7a897e6be3f5b527b",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/PlayerXpPacket.class": {
+      "jar_class_sha256": "edeffd763c68f6da85bde7752b8be5ae76b30a3dbc354a9656d26c335060e1b8",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/NetTimedActionPacket.class": {
+      "jar_class_sha256": "ce367190ce6158eb88809f3215ebc471e6161896d9d526eb9ef0e73d58de847b",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/service/ReceiveModDataPacket.class": {
+      "jar_class_sha256": "7457e43f3085ef38c855589e2c05d348a4e42d2a0b82e7c40624ad7ed72edb0f",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/service/ReceiveContainerModDataPacket.class": {
+      "jar_class_sha256": "81c34d6ac0f5f620f0554f45e473263b239fdcc2a3123914386bc6a4c2860909",
+      "loose_sha256": null
+    },
+    "zombie/iso/IsoObject.class": {
+      "jar_class_sha256": "22387ecf47c1cf9aac192466de6298067f27584160c76a72baee38c6ad36dff2",
+      "loose_sha256": "78e9c2248c12bb8d230fa790c4b0cd11539ced3c4542f59901badc8b6297f0a4"
+    },
+    "zombie/core/NetTimedAction.class": {
+      "jar_class_sha256": "d4a3046eeaec409977a756c6ea80b0676229274684012ad51210559ebfcb1090",
+      "loose_sha256": null
+    },
+    "zombie/core/ActionManager.class": {
+      "jar_class_sha256": "3e85655f0d287837b17164d2ee4cecb7067ab419ffbe8ce1adb36bd7d54b202f",
+      "loose_sha256": null
+    },
+    "zombie/Lua/LuaManager$Exposer.class": {
+      "jar_class_sha256": "9727656efbc06d7772661775f7a6885c7976b9e09472d7b128a3d5638ea68efa",
+      "loose_sha256": null
+    },
+    "zombie/network/packets/ObjectModDataPacket.class": {
+      "jar_class_sha256": "1d6f806ee95bf6d22f5a69d0535b375a60085039311697eecd6b85dff8e9d9c2",
+      "loose_sha256": null
+    },
+    "zombie/radio/media/RecordedMedia.class": {
+      "jar_class_sha256": "6c1c19fe1996a9c7d623ac2bbc366440b138b67ed23e74887f51f4fb912884bc",
+      "loose_sha256": null
+    },
+    "zombie/network/fields/MovingObject.class": {
+      "jar_class_sha256": "ab57a9bce0e6461ce9e07e7c1f4f0f4b2991f63a532a305032132aa4925b1e04",
+      "loose_sha256": null
+    },
+    "zombie/network/fields/character/PlayerID.class": {
+      "jar_class_sha256": "d40d1b745a70ad3bf562c15765b9f46a117ecb48aeeabf05597ce646a73e0b56",
+      "loose_sha256": null
+    },
+    "zombie/core/Action.class": {
+      "jar_class_sha256": "4a2fe6aaf0cf73235279946e930b40489ec44859aff64cc19d97976bcc75610d",
+      "loose_sha256": null
+    },
+    "zombie/scripting/entity/components/crafting/CraftRecipe.class": {
+      "jar_class_sha256": "a5c076d53e68f5cdfcc5bc17239aee1fb2072766471c29070ca84b30bd63c5de",
+      "loose_sha256": null
+    }
+  },
+  "vanilla_lua_sha256": {
+    "media/lua/shared/TimedActions/ISBaseTimedAction.lua": "ad72e57f976bd1564d59d08d98d06f8c8d4acea6386aace48e0d99ce9d02a1f0",
+    "media/lua/shared/TimedActions/ISReadABook.lua": "ac7606335ac26d09c8e2c6bc3f8489e5298d71468e6af79d0ab26fbe2348228c",
+    "media/lua/shared/TimedActions/Fishing/TimedActions/ISChangeFishingRodEquip.lua": "e28abb9d96421f0e2d2bbb0266aca975e59ed97862d8f4b5e486e60370d67bd1",
+    "media/lua/client/ISUI/ISInventoryPane.lua": "8cce738cc0dfec8655d2970c42572596bf6294b85e4917a245dc41d1827a56be"
+  },
+  "findings": [
+    {
+      "id": "character-broadcast",
+      "class": "zombie/iso/IsoObject.class",
+      "symbol": "transmitModData()",
+      "observation": "Sends ObjectModData; GameServer.sendObjectModData routes to nearby clients. Packet writes the entire table."
+    },
+    {
+      "id": "character-client-replacement",
+      "class": "zombie/network/packets/ObjectModDataPacket.class",
+      "symbol": "parse(ByteBufferReader, IConnection)",
+      "observation": "Loads supplied table into the resolved object; MovingObject supports players and its consistency check only tests resolution in inspected bytes."
+    },
+    {
+      "id": "global-table-disclosure",
+      "class": "zombie/world/moddata/GlobalModData.class",
+      "symbol": "receiveRequest(ByteBufferReader, IConnection)",
+      "observation": "Returns a named table to the requesting connection without mod visibility filtering. No private-storage guarantee."
+    },
+    {
+      "id": "item-synchronization",
+      "class": "zombie/Lua/LuaManager$GlobalObject.class",
+      "symbol": "syncItemModData(IsoPlayer, InventoryItem)",
+      "observation": "Server-only relative-client full item ModData route; not a private partial-payload transport. InventoryItem defines no transmitModData method."
+    },
+    {
+      "id": "player-field-mask",
+      "class": "zombie/network/packets/SyncPlayerFieldsPacket.class",
+      "symbol": "writeParam(byte, ByteBufferWriter)",
+      "observation": "Recipes, traits, already-read books, body damage, reading and fitness only; no arbitrary ModData or generic media-mask permission."
+    },
+    {
+      "id": "xp-not-raw",
+      "class": "zombie/characters/IsoGameCharacter$XP.class",
+      "symbol": "AddXP(Perk, float, boolean, boolean, boolean, boolean)",
+      "observation": "Sleep/Fitness can refuse; Strength protein adjustments precede the boost branch. No safe exact-perk setter established; public xpMap field is not an approved write/reconciliation API."
+    },
+    {
+      "id": "xp-silent-refusal",
+      "class": "zombie/Lua/LuaManager$GlobalObject.class",
+      "symbol": "addXp(IsoPlayer, Perk, float)",
+      "observation": "Void call may return before mutation; server branch also has connection/capability/death checks. Successful Lua invocation alone is not an applied award."
+    },
+    {
+      "id": "recipe-earned-state",
+      "class": "zombie/characters/IsoGameCharacter.class",
+      "symbol": "getKnownRecipes(); isRecipeKnown(); learnRecipe()",
+      "observation": "Explicit known list differs from visibility/debug/craftability; learnRecipe checks known state before optional meta expansion."
+    },
+    {
+      "id": "recipe-derived-state",
+      "class": "zombie/scripting/ScriptManager.class",
+      "symbol": "checkAutoLearn(); checkMetaRecipe()",
+      "observation": "Auto-learning and meta recipes evaluate derived requirements and are not an explicit journal-earned snapshot."
+    },
+    {
+      "id": "media-persistence",
+      "class": "zombie/characters/IsoGameCharacter.class",
+      "symbol": "isKnownMediaLine(); saveKnownMediaLines(); loadKnownMediaLines()",
+      "observation": "Stable trimmed GUID membership has character save/load paths; reward application and peer synchronization remain separate contracts."
+    },
+    {
+      "id": "timed-action-callbacks",
+      "class": "zombie/core/NetTimedAction.class",
+      "symbol": "start(); stop(); perform(); update()",
+      "observation": "Inspected start/stop call serverStart/serverStop; perform invokes complete. This update body is empty; client update is not verified incremental server work."
+    },
+    {
+      "id": "timed-action-clock",
+      "class": "zombie/core/Action.class",
+      "symbol": "setTimeData()",
+      "observation": "Uses server milliseconds; NetTimedAction adjusts duration and multiplies by 20. Raw action duration is not proof of elapsed game minutes."
+    },
+    {
+      "id": "private-file-candidate",
+      "class": "zombie/Lua/LuaManager$GlobalObject.class",
+      "symbol": "getFileWriter(String, boolean, boolean)",
+      "observation": "Lua-cache-rooted writer supports append and can return null. Atomic replacement, durable flush and cross-world transaction safety are not established by this route."
+    }
+  ]
+}

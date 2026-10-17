@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom Testing
 
-Current 0.13.0 offline results and native gates: [validation](VALIDATION_0_13_0.md).
+Current 0.16.0 offline results and native gates: [validation](VALIDATION_0_16_0.md).
 The version-specific descriptions below are inherited test history; original
 pre-rename records remain under `history/pre-b47-0.12.2/`.
 
@@ -53,3 +53,18 @@ Version 0.12.0 verifies deterministic origin-provider selection, registered
 locality enforcement, bounded confidence, canonical source ownership, and
 authority-owned hometown claim construction. No native origin mapping or region
 catalog is claimed.
+
+For 0.14.0 authority, stale-copy, reconnect/restart and sandbox checks, use
+[the native test procedure](RUNTIME_VALIDATION_0_14_0.md). Do not use old session results as current proof.
+
+0.15.0 adds test_requirement_safety.lua, test_journal_write_atomicity.lua and
+test_journal_viewer.lua. These cover invalid references under negation, malformed
+requirement graphs, atomic rejection/migration, bound active writing captures,
+client projection privacy, corrupt items, localization escaping and a modeled
+split-screen/controller modal lifecycle. They are offline simulations.
+
+0.16.0 replaces the earlier MP-test prerequisite: affected gameplay APIs return
+MULTIPLAYER_STORAGE_UNAVAILABLE until the private backend/identity/migration
+implementation exists. Use AUTHORITY_PROBE.md for read-only observations. Old
+procedures cannot turn blocked functionality into a PASS. SP and dedicated results
+remain separate, and native UI/old saves remain NOT TESTED.

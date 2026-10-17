@@ -21,6 +21,11 @@ local function clean(value,maximum)
     return value:sub(1,maximum or 256)
 end
 
+local function identity(value,maximum)
+    if type(value)~="string"or #value<1 or #value>maximum or value:find("[%c]")or not value:find("%S")then return nil end
+    return value
+end
+
 function Media.inspect(character,item,options)
     options=type(options)=="table" and options or {}
     local reveal=options.revealTitle or "known"
@@ -32,7 +37,7 @@ function Media.inspect(character,item,options)
     local media,mediaError=call(item,"getMediaData")
     if not media then return nil,mediaError==nil and "NOT_RECORDED_MEDIA" or mediaError end
     local mediaId,idError=call(media,"getId")
-    mediaId=clean(mediaId,160)
+    mediaId=identity(mediaId,160)
     if not mediaId then return nil,idError or "MEDIA_ID_UNAVAILABLE" end
     local lineCount,countError=call(media,"getLineCount")
     lineCount=tonumber(lineCount)
@@ -44,7 +49,7 @@ function Media.inspect(character,item,options)
         local line,lineError=call(media,"getLine",index)
         if not line then return nil,lineError or "MEDIA_LINE_UNAVAILABLE" end
         local guid,guidError=call(line,"getTextGuid")
-        guid=clean(guid,160)
+        guid=identity(guid,160)
         if not guid then return nil,guidError or "MEDIA_LINE_ID_UNAVAILABLE" end
         if seen[guid] then return nil,"DUPLICATE_MEDIA_LINE_ID" end
         seen[guid]=true

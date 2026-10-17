@@ -1,4 +1,4 @@
-# B47ANCED Knowledge & Wisdom 0.13.0 playtester handoff
+# B47ANCED Knowledge & Wisdom 0.14.0 playtester handoff
 
 Use a backed-up disposable save and follow [identity migration](docs/IDENTITY_MIGRATION.md).
 Enable **B47ANCED Knowledge & Wisdom only** on a new single-player test character. Open the
@@ -40,3 +40,6 @@ Also send `%USERPROFILE%\Zomboid\console.txt` and screenshots for visual failure
 Do not enable Project M.O.R.T.I.S. or later Nightfall dependencies until this
 stage has been reviewed.
 
+
+For 0.14.0 authority, stale-copy, reconnect/restart and sandbox checks, use
+[the native test procedure](docs/RUNTIME_VALIDATION_0_14_0.md). Do not use old session results as current proof.

@@ -21,10 +21,18 @@ local LegacyMigration={
 }
 
 function LegacyMigration.moveTableKey(data,canonicalKey,legacyKey)
+    if type(isClient)=="function" and isClient()==true
+        and not (type(isServer)=="function" and isServer()==true) then return false end
     if type(data)~="table" or data[canonicalKey]~=nil or data[legacyKey]==nil then return false end
     data[canonicalKey]=data[legacyKey]
     data[legacyKey]=nil
     return true
+end
+
+function LegacyMigration.readTableKey(data,canonicalKey,legacyKey)
+    if type(data)~="table" then return nil end
+    if data[canonicalKey]~=nil then return data[canonicalKey] end
+    return data[legacyKey]
 end
 
 -- Old saved item types resolve through the canonical document index without

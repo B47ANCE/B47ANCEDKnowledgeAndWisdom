@@ -1,13 +1,24 @@
 Authoritative source: `src/B47ANCEDKnowledgeAndWisdom/42`. `Contents/`, `dist/`, and
-`SHA256SUMS.txt` describe historical builds and must not be deployed as 0.13.0.
+`SHA256SUMS.txt` describe historical builds and must not be deployed as the current version.
 The old three-mod candidate tooling has not been migrated to this identity.
 
 # B47ANCED Knowledge & Wisdom
 
+**0.16.0 authority gate:** multiplayer knowledge/progression/claims, journal
+mutation/recovery planning and history persistence are deliberately blocked with
+`MULTIPLAYER_STORAGE_UNAVAILABLE`. The audited native transports do not provide a
+private, server-owned ledger. SP-oriented cores and local inspection remain;
+native SP is NOT TESTED. See [audit closure](docs/AUDIT_CLOSURE_0_16_0.md).
+
+![B47ANCED Knowledge & Wisdom artwork](preview.png)
+
+The user-supplied project thumbnail is used unchanged for `preview.png` and the
+source authoring thumbnail. See [artwork provenance](docs/ARTWORK.md).
+
 B47ANCED Knowledge & Wisdom provides lore, research, survivor knowledge, and
 experience-progression infrastructure for B47ANCE'd mods and other providers.
 
-- Status: version `0.13.0` Project Archive, registered knowledge definitions,
+- Status: version `0.16.0` Project Archive, registered knowledge definitions,
   composable prerequisites, semantic-action progression, vanilla research viewer,
   host-verified Survivor Journal persistence/recovery core, and a progressive
   in-game test/result-export harness, and bounded unified knowledge claims;
@@ -18,11 +29,14 @@ experience-progression infrastructure for B47ANCE'd mods and other providers.
 - EXT-25/26 claims retain provenance, scope, acquisition, confidence,
   completeness, revocation, and replay history. Geographic familiarity accepts
   only explicitly registered regions and never reveals live world state.
-- EXT-32 now provides provider-validated, world-persistent survivor-history
+- EXT-32 provides a provider-validated SP-oriented survivor-history
   records with stable author/subject/evidence identity, bounded sanitized text,
   visibility checks, full-request replay binding with caller re-authentication,
   and tombstone removal. It creates no
   memorial objects automatically.
+- New in 0.15.0: read-only Survivor Journal inspection with recorded counts and
+  writing progress. Inspection does not write, claim or recover anything. See
+  [journal inspection](docs/JOURNAL_INSPECTION.md) and [audit findings](docs/AUDIT_0_15_0.md).
 - Mod ID: `B47ANCEDKnowledgeAndWisdom`
 - Author: B47ANCE
 - Hard dependencies: none beyond Project Zomboid.
@@ -54,14 +68,17 @@ source-aware diminishing returns, authority rejection, and uncertain-award quara
 See [approved requirements](docs/PROGRESSION_AND_JOURNALS.md),
 [repository and migration audit](docs/REPOSITORY_AUDIT.md), and
 [roadmap](docs/ROADMAP.md). Installed-game API verification precedes new framework
-implementation; existing archive consumers remain supported.
+implementation; consumer imports/dependencies must use the renamed identity.
 
 Run `python scripts/check_versions.py`, `python scripts/validate_source.py`, and
 `python scripts/run_host_tests.py` (Python with Lupa Lua 5.1). These are offline
-checks. See [current validation](docs/VALIDATION_0_13_0.md) and
+checks. See [current validation](docs/VALIDATION_0_16_0.md) and
 [version/package policy](docs/VERSION_POLICY.md). G7 dedicated MP and stable G8
 are BLOCKED. No deployment or publication was performed for this rename.
 
-This is an explicitly authorized offline legacy-project iteration. There is no
-Git checkout or configured remote: commit/push are unavailable, **NOT BACKED UP
-TO GITHUB**. Other projects' integrations have not been changed by this rename.
+Public source: [B47ANCE/B47ANCEDKnowledgeAndWisdom](https://github.com/B47ANCE/B47ANCEDKnowledgeAndWisdom).
+Repairs use branch `fix/authority-persistence-0.14.0`; main retains the audited
+0.13.0 baseline until PR review/merge. See [repair contract](docs/REPAIRS_0_14_0.md),
+[server settings](docs/CONFIGURATION.md) and [native test procedure](docs/RUNTIME_VALIDATION_0_14_0.md).
+Other projects' integrations have not been changed. Native journal timed actions,
+raw-XP restoration and dedicated synchronization remain runtime gates.

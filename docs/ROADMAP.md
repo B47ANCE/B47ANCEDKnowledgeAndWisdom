@@ -7,7 +7,7 @@
 - provider-owned Project Archive document registry;
 - canonical/redacted rendering;
 - tiers, categories, references, prerequisites, and spawn-category metadata;
-- server-authoritative per-character document and knowledge ledger;
+- SP-oriented character ledger; multiplayer authority is gated on private server persistence;
 - idempotent unlocks and public knowledge queries.
 - Build 42 literature read-completion adapter;
 - bounded, idempotent restricted-loot-pool injection.
@@ -59,3 +59,13 @@
 - knowledge inspection UI through uiWorks;
 - hosted and dedicated multiplayer validation;
 - character-death and late-join policy validation.
+
+## Current implementation slice
+
+0.15.0 implements read-only recorded-journal inspection; it does not implement
+writing or recovery timed actions. See JOURNAL_INSPECTION.md and AUDIT_0_15_0.md.
+Use MASTER_ROADMAP.md's dependency order for the next gameplay slice.
+
+0.16.0 source-audit dispositions are complete in AUDIT_CLOSURE_0_16_0.md. The
+MP_AUTHORITY_PLAN.md implementation gates remain mandatory; testing alone cannot
+supply the missing backend/identity/actions. No dedicated gameplay readiness is claimed.

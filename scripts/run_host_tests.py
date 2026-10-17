@@ -1,4 +1,5 @@
 """Run isolated Lua host regressions through Lupa; never starts Project Zomboid."""
+import argparse
 import os
 from pathlib import Path
 from lupa.lua51 import LuaRuntime
@@ -16,8 +17,15 @@ def main():
     os.chdir(ROOT)
     failures = []
     tests = sorted((ROOT / 'tests').glob('test_*.lua'))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--test', action='append', choices=[p.name for p in tests])
+    selected = parser.parse_args().test
+    if selected:
+        tests = [p for p in tests if p.name in selected]
     for test in tests:
         runtime = LuaRuntime(unpack_returned_tuples=True)
+        # Explicit SP role for core simulations; individual tests override it.
+        runtime.execute("isClient=function()return false end;isServer=function()return false end")
         paths = ';'.join((ROOT / BASE / 'lua' / realm / '?.lua').as_posix() for realm in ('shared', 'client', 'server'))
         runtime.globals().package.path = paths + ';' + runtime.globals().package.path
         runtime.globals().arg = runtime.table_from([p.as_posix() for p in ARGUMENTS.get(test.name, [])])

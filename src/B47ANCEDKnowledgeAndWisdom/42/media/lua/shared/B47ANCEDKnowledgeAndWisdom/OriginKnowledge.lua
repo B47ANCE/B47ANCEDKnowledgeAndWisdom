@@ -1,3 +1,4 @@
+local Guard=require "B47ANCEDKnowledgeAndWisdom/AuthorityGuard"
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local Claims=API.Claims or require "B47ANCEDKnowledgeAndWisdom/Claims"
@@ -28,12 +29,13 @@ function Origin.observe(character,context)
     return nil,"ORIGIN_UNAVAILABLE"
 end
 function Origin.grant(character,context)
+    local permitted,reason=Guard.write();if not permitted then return false,reason end
     local evidence,reason=Origin.observe(character,context);if not evidence then return false,reason end
     local subject=Claims.subjectId(character);if not subject then return false,"SUBJECT_UNAVAILABLE"end
     local suffix=subject..":"..evidence.providerId..":"..evidence.originId..":"..evidence.regionId
     local operationId="origin-grant:"..suffix;local claimId="hometown:"..suffix
     if#operationId>160 or#claimId>160 then return false,"ORIGIN_IDENTITY_TOO_LONG"end
-    return Claims.grant(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
+    return Claims.grantAcquisition(character,{schemaVersion=1,operationId=operationId,claimId=claimId,
         definitionId=LegacyMigration.HOMETOWN_DEFINITION,subjectId=subject,sourceType="origin-provider",
         sourceId=evidence.evidenceId,sourceOwner=LegacyMigration.PERSISTED_OWNER,scope={regionId=evidence.regionId,granularity="locality"},
         acquisition="explicit-origin-provider",confidence=evidence.confidence,completeness=1,

@@ -6,7 +6,7 @@ local claims={}; Journals.setClaimStoreProvider(function()return claims end)
 local data={}; local item={getModData=function()return data end,transmitModData=function(self)self.sent=(self.sent or 0)+1 end}
 local capture={rawXP={Aiming=3000,Maintenance=500},documents={MagazineA=true},recipes={RecipeA=true},media={VHS_A=true},knowledge={K1=true},research={R1=true}}
 local ok,result=Journals.beginWriting(item,"author",capture,"write-1",{worldAgeHours=10})
-assert(ok and result.entries==7 and result.totalWork>0 and item.sent==1)
+assert(ok and result.entries==7 and result.totalWork>0 and item.sent==nil)
 local duplicate=assert(Journals.beginWriting(item,"author",capture,"write-1"));assert(duplicate)
 assert(not Journals.beginWriting(item,"other",capture,"write-2"))
 local snap=assert(Journals.snapshot(item));local firstWork=snap.queue[1].work

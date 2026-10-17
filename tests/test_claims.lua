@@ -1,5 +1,5 @@
 local LegacyMigration=require "B47ANCEDKnowledgeAndWisdom/LegacyMigration"
-isClient=function()return false end;isServer=function()return true end
+isClient=function()return false end;isServer=function()return false end
 package.loaded["B47ANCEDKnowledgeAndWisdom/API"]=nil;B47ANCEDKnowledgeAndWisdom=nil
 local API=require "B47ANCEDKnowledgeAndWisdom/API"
 local Claims=dofile("src/B47ANCEDKnowledgeAndWisdom/42/media/lua/shared/B47ANCEDKnowledgeAndWisdom/Claims.lua")
@@ -16,7 +16,7 @@ local request={schemaVersion=1,operationId="claim:op:1",claimId="claim:book:1",d
     scope={itemType="Base.Book"},confidence=.9,completeness=1,worldAgeHours=12}
 local ok,reason,claim=Claims.grant(character,request)
 assert(ok and reason=="GRANTED" and claim.scope.itemType=="Base.Book")
-assert(Claims.grant(character,request) and transmitted==1,"replay must not retransmit")
+assert(Claims.grant(character,request) and transmitted==0,"replay must not retransmit")
 local collision={};for key,value in pairs(request)do collision[key]=value end;collision.claimId="claim:other"
 local replayOK,replayReason=Claims.grant(character,collision);assert(not replayOK and replayReason=="OPERATION_ID_CONFLICT")
 local sourceCollision={};for key,value in pairs(request)do sourceCollision[key]=value end;sourceCollision.sourceId="Base.OtherBook"
@@ -46,6 +46,7 @@ local revokeCollision={};for key,value in pairs(revoke)do revokeCollision[key]=v
 assert(select(2,Claims.revoke(character,revokeCollision))=="OPERATION_ID_CONFLICT","replay must bind revocation reason")
 character.data[Claims.ROOT_KEY].operations["legacy:op"]={action="grant",claimId=request.claimId,
     definitionId=request.definitionId,subjectId=request.subjectId,ok=true,reason="GRANTED"}
+table.insert(character.data[Claims.ROOT_KEY].operationOrder,"legacy:op")
 local legacy={};for key,value in pairs(request)do legacy[key]=value end;legacy.operationId="legacy:op"
 assert(select(2,Claims.grant(character,legacy))=="OPERATION_REPLAY_UNVERIFIABLE",
     "legacy operations without a full binding must fail closed")

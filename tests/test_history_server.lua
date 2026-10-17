@@ -8,3 +8,7 @@ local History=dofile("src/B47ANCEDKnowledgeAndWisdom/42/media/lua/server/B47ANCE
 assert(type(callback)=="function"and callback()and store.key=="history.test"and store.attached)
 assert(History==B47ANCEDKnowledgeAndWisdom.HistoryRecords)
 print("test_history_server.lua: PASS")
+
+isServer=function()return true end
+local original=store
+assert(not callback()and store==original,"MP bootstrap must not initialize a request-readable private store")

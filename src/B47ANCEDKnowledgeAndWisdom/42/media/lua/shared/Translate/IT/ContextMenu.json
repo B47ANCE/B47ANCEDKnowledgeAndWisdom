@@ -2,5 +2,21 @@
   "ContextMenu_B47ANCEDKnowledgeAndWisdom_InspectResearchFile": "Inspect Research File",
   "ContextMenu_B47ANCEDKnowledgeAndWisdom_KnowledgeRecorded": "Knowledge recorded",
   "ContextMenu_B47ANCEDKnowledgeAndWisdom_KnowledgeNotRecorded": "Knowledge not recorded",
-  "ContextMenu_B47ANCEDKnowledgeAndWisdom_InspectDisclaimer": "Use the normal Read action to learn. Inspecting this file grants no knowledge."
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_InspectDisclaimer": "Use the normal Read action to learn. Inspecting this file grants no knowledge.",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_InspectJournal": "Inspect Survivor Journal",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalWriting": "Writing in progress",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalRecorded": "Recorded",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalClaimed": "Claimed for recovery",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalExhausted": "Recovered keepsake",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalSkills": "Skills with recorded XP",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalEntries": "Completed knowledge entries",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalDocuments": "Documents",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalRecipes": "Recipes",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalMaps": "Maps",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalMedia": "Recorded media",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalKnowledge": "Knowledge",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalResearch": "Research",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalProgress": "Current writing session",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalRemaining": "Unfinished entries",
+  "ContextMenu_B47ANCEDKnowledgeAndWisdom_JournalDisclaimer": "Inspection shows locally available journal data. It does not write, claim, or recover knowledge or XP."
 }

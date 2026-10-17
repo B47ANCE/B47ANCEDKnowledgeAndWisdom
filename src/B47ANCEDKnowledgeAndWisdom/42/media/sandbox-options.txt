@@ -7,3 +7,67 @@ option B47ANCEDKnowledgeAndWisdom.EnableResearchViewer
     page = B47ANCEDKnowledgeAndWisdom,
     translation = B47ANCEDKnowledgeAndWisdom_EnableResearchViewer,
 }
+
+option B47ANCEDKnowledgeAndWisdom.SemanticXPPercent
+{
+    type = integer,
+    min = 0, max = 1000, default = 100,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_SemanticXPPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.RepeatWindowPercent
+{
+    type = integer,
+    min = 25, max = 400, default = 100,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_RepeatWindowPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.RepeatDecayPercent
+{
+    type = integer,
+    min = 0, max = 400, default = 100,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_RepeatDecayPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.RepeatFloorPercent
+{
+    type = integer,
+    min = 0, max = 400, default = 100,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_RepeatFloorPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.JournalRecoveryPercent
+{
+    type = integer,
+    min = 0, max = 100, default = 90,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_JournalRecoveryPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.JournalWritingSpeedPercent
+{
+    type = integer,
+    min = 10, max = 1000, default = 100,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_JournalWritingSpeedPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.FailureXPCapPercent
+{
+    type = integer,
+    min = 0, max = 10, default = 10,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent,
+}
+
+option B47ANCEDKnowledgeAndWisdom.EnableJournalViewer
+{
+    type = boolean,
+    default = true,
+    page = B47ANCEDKnowledgeAndWisdom,
+    translation = B47ANCEDKnowledgeAndWisdom_EnableJournalViewer,
+}

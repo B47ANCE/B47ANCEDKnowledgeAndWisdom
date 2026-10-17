@@ -1,3 +1,43 @@
+[b]Version 0.16.0[/b]
+
+Source audit found unsafe multiplayer storage assumptions: whole-player ModData is broadcast/replaced, and named GlobalModData is request-readable. Affected knowledge, progression, claims, journal and history gameplay APIs now fail closed until private server persistence, character/payload identity and migration are implemented. Existing data is preserved; old exposed stores are not automatically migrated or purged.
+Added an opt-in read-only query probe. Hardened SP XP observation/quarantine, saved-state inputs, replay bindings, media identity and journal work queues. Documented current native evidence and remaining implementation/runtime gates.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED. No deployment or Workshop upload. Current source is not a functional multiplayer test build.
+
+[b]Historical 0.15.0 and earlier notes[/b]
+
+[b]Version 0.15.0[/b]
+
+Added read-only Survivor Journal inspection showing recorded counts, writing progress and local item status. Inspection does not write, claim or recover knowledge or XP. The new sandbox inspection toggle defaults to enabled.
+Unknown or malformed prerequisites fail closed. Invalid journal captures and rejected journal operations leave item state untouched; changed captures cannot reuse an active writing operation ID. Inspection windows are bounded to each player viewport.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED. Native journal writing/recovery actions, exact XP restoration and replication/privacy verification remain gated.
+
+[b]Historical 0.14.1 and earlier notes[/b]
+
+[b]Version 0.14.1[/b]
+
+Adopted the user-supplied Knowledge & Wisdom project thumbnail without resizing or regenerating the artwork. Gameplay and saved schemas are unchanged.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED.
+
+[b]Historical 0.14.0 and earlier notes[/b]
+
+[b]Version 0.14.0[/b]
+
+[h2]Authority and persistence repairs[/h2]
+Queries no longer modify saved keys. Authority writes migrate validated legacy state. Persistent exhaustion rejects stale journal copies.
+Repeated built-in acquisitions retain their original time; direct request replay bindings remain strict. Invalid identities and malformed saves fail closed without resetting data.
+Legacy claim migration works without next. Expired progression counters are pruned in bounded work while active and uncertain counters remain protected. Realm exports are aligned.
+
+[h2]Server configuration[/h2]
+Added bounded server controls for semantic XP, repeat policy, failure credit, journal writing speed and maximum journal XP recovery. Existing-save defaults preserve provider rates.
+
+Development build - SP and dedicated multiplayer NOT TESTED. G7 BLOCKED; stable-release G8 BLOCKED. Native journal timed actions and XP restoration remain unfinished.
+
+[b]Historical 0.13.0 and earlier notes[/b]
+
 [b]Version 0.13.0[/b]
 
 Renamed to B47ANCED Knowledge & Wisdom. New Mod ID, Lua namespace and sandbox page: B47ANCEDKnowledgeAndWisdom.

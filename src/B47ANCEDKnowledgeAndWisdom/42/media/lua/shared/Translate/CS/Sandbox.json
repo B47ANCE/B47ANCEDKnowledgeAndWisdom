@@ -1,5 +1,21 @@
 {
   "Sandbox_B47ANCEDKnowledgeAndWisdom": "B47ANCED Knowledge & Wisdom",
   "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableResearchViewer": "Enable research-file inspection",
-  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableResearchViewer_tooltip": "Adds a read-only research viewer to registered documents. Normal reading still controls knowledge unlocks."
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableResearchViewer_tooltip": "Adds a read-only research viewer to registered documents. Normal reading still controls knowledge unlocks.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_SemanticXPPercent": "Semantic XP (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_SemanticXPPercent_tooltip": "Scales provider-defined semantic XP on authority. 100 preserves provider rates; 0 disables semantic XP awards.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatWindowPercent": "Repeat window scale (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatWindowPercent_tooltip": "Scales each provider repeat window. 100 preserves its window. Active counters and uncertain awards are never evicted to make room.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatDecayPercent": "Repeat penalty scale (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatDecayPercent_tooltip": "Scales provider repeat decay. 100 preserves it; 0 removes the repeat penalty. Applies on the server.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatFloorPercent": "Minimum repeat credit scale (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_RepeatFloorPercent_tooltip": "Scales the provider minimum repeat credit, capped at full credit. 100 preserves the provider floor; 0 permits decay towards zero.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalRecoveryPercent": "Maximum journal XP recovery (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalRecoveryPercent_tooltip": "Maximum share of documented raw XP included in a server recovery plan. A provider may request less. Plans never reduce or add to existing XP. Native XP restoration remains unimplemented.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalWritingSpeedPercent": "Journal writing speed (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_JournalWritingSpeedPercent_tooltip": "Scales server-validated writing work. 100 preserves the existing speed. This does not enable unfinished native journal timed actions.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent": "Maximum failure XP (%)",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_FailureXPCapPercent_tooltip": "Caps failure outcome credit as a percentage of provider base XP, before other bounded modifiers. Providers may award less. 0 disables failure credit.",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableJournalViewer": "Enable Survivor Journal inspection",
+  "Sandbox_B47ANCEDKnowledgeAndWisdom_EnableJournalViewer_tooltip": "Show read-only inspection for recorded Survivor Journals. Default enabled; existing saves use this default. This does not enable writing or recovery actions."
 }

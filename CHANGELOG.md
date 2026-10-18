@@ -88,3 +88,5 @@
 
 Earlier changes retain their original versions and names in
 `docs/history/pre-b47-0.12.2/WORKSHOP_CHANGE_NOTE.txt`.
+
+Publication preparation 0.17.0 (2026-10-18): merged matching dependency set, current MP-test labels/known limits and source links, isolated validated packaging and fixed-item provenance. No runtime change or native validation claim. Upload outcome recorded separately.

@@ -1,5 +1,7 @@
 [b]Version 0.17.0[/b]
 
-Implemented Lua-only private dedicated document/knowledge storage, per-life binding, read-back verification, owner projections and server-held read validation. Other MP guards remain closed; existing worlds require private migration. CAT integrations are dropped; saved item definitions/keys remain inert compatibility data.
+MP testing build - dedicated multiplayer NOT TESTED
 
-MP testing build - dedicated multiplayer NOT TESTED. G7 and stable G8 BLOCKED. No deployment, Workshop upload or server launch.
+Private dedicated document/knowledge storage for fresh disposable worlds and server-created lives, with owner projections and held-item read validation. Progression, claims, journal recovery, XP and history remain guarded; existing-world migration is unsupported. CAT integration is dropped; old saved item types remain loadable.
+
+Matching test set: Knowledge 0.17.0, M.O.R.T.I.S. 0.26.0-dev.9 and Nightfall 0.31.0-dev.8. Native dedicated startup/read/rejoin/restart and old-save migration are NOT TESTED. G7/stable G8 BLOCKED. No server changes or Steam desktop restart.

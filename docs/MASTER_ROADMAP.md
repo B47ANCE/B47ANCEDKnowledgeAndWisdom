@@ -91,3 +91,5 @@ server synchronization and dedicated validation remain gated; G7/G8 BLOCKED.
 4. Add recipe/context consumers, uiWorks adapters, approved archive/origin content
    and optional history presentation after each owning provider contract is known.
 5. Collect SP then dedicated evidence for each implemented slice. G7/G8 stay blocked.
+
+Authorized 0.17.0 matching MP-test distribution preparation: source merged in dependency order; exact build-set inventory and package/provenance gates precede upload. Next: human fresh-world dedicated startup, two-client research/feeding, Insane-population timing, save/rejoin/restart. G7/stable G8 BLOCKED.

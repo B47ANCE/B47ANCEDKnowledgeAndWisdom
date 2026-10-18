@@ -3,7 +3,7 @@
   "id": "knowledge",
   "name": "B47ANCED Knowledge & Wisdom",
   "version": "0.17.0",
-  "source_digest": "d41031d151278b39fc4aa02f4c18dd8f0090c5656da41cb4321a6546a42a0d71",
+  "source_digest": "71e5f0c72cf1c87e2cf6de1667ddbd83c306eab9e99ce7b79ee77e8ba49c13dc",
   "reviewed": true,
   "features": [
     {
@@ -24,10 +24,10 @@
     },
     {
       "status": "Source",
-      "text": "Merged matching Knowledge 0.17.0 / MORTIS 0.26.0-dev.9 / Nightfall 0.31.0-dev.8 MP-test publication selection, fixed existing Workshop identity and exact runtime inventory. Native dedicated NOT TESTED; actual upload evidence is separate."
+      "text": "Matching Knowledge 0.17.0 / MORTIS 0.26.0-dev.9 / Nightfall 0.31.0-dev.8 Workshop uploads verified through cached-account SteamCMD in dependency order. Public metadata matches for MORTIS/Nightfall; Knowledge anonymous page unavailable. Distribution is not native dedicated proof."
     }
   ],
-  "limits": "Source/offline only. Native dedicated NOT_TESTED; G7 and stable G8 BLOCKED. Dedicated first; SP optional. Read-back is not fsync or native/private cross-file atomicity. Authorized matching MP-test publication preparation; earlier source-only/merged descriptions are historical checkpoints. G7/stable G8 remain blocked.",
+  "limits": "Source/offline only. Native dedicated NOT_TESTED; G7 and stable G8 BLOCKED. Dedicated first; SP optional. Read-back is not fsync or native/private cross-file atomicity. Authorized matching MP-test publication preparation; earlier source-only/merged descriptions are historical checkpoints. G7/stable G8 remain blocked. All three authorized MP-test uploads succeeded on 2026-10-18. Exact receipts retain native/dedicated gates; Knowledge anonymous page result 9.",
   "evidence": [
     "README.md",
     "docs/DEDICATED_KNOWLEDGE.md",
@@ -35,7 +35,8 @@
     "docs/NATIVE_EVIDENCE_0_17_0.json",
     "tests/test_private_knowledge.lua",
     "docs/MP_TEST_BUILD_SET.json",
-    "docs/WORKSHOP_0.17.0.md"
+    "docs/WORKSHOP_0.17.0.md",
+    "docs/publications/0.17.0-workshop-3792566496.json"
   ],
   "relations": []
 }

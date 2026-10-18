@@ -66,3 +66,5 @@ effective runtime version/class selection remains UNKNOWN. Historical evidence i
 not relabeled; versionMin=42.20.3 remains an inherited declaration, not tested proof.
 
 0.17.0 is a MINOR iteration for private dedicated document/knowledge storage, lifecycle and the owner-projection protocol. Other guards remain closed. Current checks additionally cover the dedicated contract/test contract, inventory, reviewed overview and named current source/native-evidence records. Older named evidence is immutable history. CAT integration removal preserves old saved items/keys inertly. No current release package or native acceptance is claimed.
+
+The authorized 0.17.0 MP-test publication preparation keeps the existing version because no runtime/schema changes or immutable package for this iteration precede it. Current metadata mirrors remain synchronized; historical artifacts are not rewritten. Packaging/metadata changes and exact upload evidence are recorded separately. No stable tag or G7/G8 PASS is implied.

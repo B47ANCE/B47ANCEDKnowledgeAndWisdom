@@ -3,7 +3,7 @@
   "id": "knowledge",
   "name": "B47ANCED Knowledge & Wisdom",
   "version": "0.17.0",
-  "source_digest": "8b856d92f966bcdd36698fd10ec254498f8533c2775fce4ffba1100c52875d74",
+  "source_digest": "d41031d151278b39fc4aa02f4c18dd8f0090c5656da41cb4321a6546a42a0d71",
   "reviewed": true,
   "features": [
     {
@@ -21,15 +21,21 @@
     {
       "status": "Historical",
       "text": "CAT integration dropped; old item declarations/aliases remain inert saved-item compatibility only."
+    },
+    {
+      "status": "Source",
+      "text": "Merged matching Knowledge 0.17.0 / MORTIS 0.26.0-dev.9 / Nightfall 0.31.0-dev.8 MP-test publication selection, fixed existing Workshop identity and exact runtime inventory. Native dedicated NOT TESTED; actual upload evidence is separate."
     }
   ],
-  "limits": "Source/offline only. Native dedicated NOT_TESTED; G7 and stable G8 BLOCKED. Dedicated first; SP optional. Read-back is not fsync or native/private cross-file atomicity.",
+  "limits": "Source/offline only. Native dedicated NOT_TESTED; G7 and stable G8 BLOCKED. Dedicated first; SP optional. Read-back is not fsync or native/private cross-file atomicity. Authorized matching MP-test publication preparation; earlier source-only/merged descriptions are historical checkpoints. G7/stable G8 remain blocked.",
   "evidence": [
     "README.md",
     "docs/DEDICATED_KNOWLEDGE.md",
     "docs/MP_TEST_CONTRACT.json",
     "docs/NATIVE_EVIDENCE_0_17_0.json",
-    "tests/test_private_knowledge.lua"
+    "tests/test_private_knowledge.lua",
+    "docs/MP_TEST_BUILD_SET.json",
+    "docs/WORKSHOP_0.17.0.md"
   ],
   "relations": []
 }

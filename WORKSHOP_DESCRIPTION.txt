@@ -68,3 +68,9 @@ Development, systems architecture, implementation, testing & documentation: Code
 
 Workshop ID: 3792566496
 Mod ID: B47ANCEDKnowledgeAndWisdom
+
+[h2]Source Code & Development[/h2]
+[url=https://github.com/B47ANCE/B47ANCEDKnowledgeAndWisdom]GitHub - Source Code & Issues[/url]
+
+[h2]Matching MP testing builds[/h2]
+Knowledge 0.17.0; M.O.R.T.I.S. 0.26.0-dev.9; Nightfall 0.31.0-dev.8. Use matching packages on server and clients. Fresh disposable dedicated worlds/server-created lives only; existing-world private migration is unsupported. Other MP guards remain closed. Native acceptance NOT TESTED.

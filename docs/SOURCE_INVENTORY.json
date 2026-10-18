@@ -22,5 +22,12 @@
     "python scripts/run_host_tests.py",
     "python scripts/check_public_tree.py --staged"
   ],
-  "native_status": "NOT_TESTED; document/knowledge implemented for fresh dedicated fixtures; other MP guards closed"
+  "native_status": "NOT_TESTED; document/knowledge implemented for fresh dedicated fixtures; other MP guards closed",
+  "mp_test_packaging": {
+    "entrypoint": "python scripts/prepare_workshop.py --output dist/workshop-mp-test/<unique-selection>",
+    "verification": "same command with --verify",
+    "common_layer": "generated empty common/.keep",
+    "historical_outputs": "preserved; never reused as source",
+    "publication_record": "docs/WORKSHOP_0.17.0.md"
+  }
 }

@@ -79,3 +79,5 @@ Other projects' integrations have not been changed. Native journal timed actions
 raw-XP restoration and dedicated synchronization remain runtime gates.
 
 CAT integrations are dropped from the current stack; saved item declarations/aliases remain inert compatibility only. [Reviewed feature overview](docs/MOD_OVERVIEW.json).
+
+Authorized matching MP-test publication preparation for 0.17.0: see [inputs, package and human gates](docs/WORKSHOP_0.17.0.md). Knowledge 0.17.0, MORTIS 0.26.0-dev.9 and Nightfall 0.31.0-dev.8 are the selected set. No dedicated PASS or stable approval; publication outcome is recorded separately.

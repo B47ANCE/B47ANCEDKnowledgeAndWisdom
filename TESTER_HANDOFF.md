@@ -43,3 +43,5 @@ stage has been reviewed.
 
 For 0.14.0 authority, stale-copy, reconnect/restart and sandbox checks, use
 [the native test procedure](docs/RUNTIME_VALIDATION_0_14_0.md). Do not use old session results as current proof.
+
+Matching test distribution: follow docs/WORKSHOP_0.17.0.md. Native fresh-world/two-client document/rejoin/restart cases remain NOT TESTED; broader guards stay closed. No existing-world migration or stable approval.

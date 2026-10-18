@@ -64,3 +64,5 @@ rewritten. This is a development safety gate, not an MP-ready release. The nativ
 archive now fingerprints the actual packaged artifact (Core reports 42.21), while
 effective runtime version/class selection remains UNKNOWN. Historical evidence is
 not relabeled; versionMin=42.20.3 remains an inherited declaration, not tested proof.
+
+0.17.0 is a MINOR iteration for private dedicated document/knowledge storage, lifecycle and the owner-projection protocol. Other guards remain closed. Current checks additionally cover the dedicated contract/test contract, inventory, reviewed overview and named current source/native-evidence records. Older named evidence is immutable history. CAT integration removal preserves old saved items/keys inertly. No current release package or native acceptance is claimed.

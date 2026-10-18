@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "version": "0.17.0",
+  "target": "dedicated-multiplayer",
+  "scope": "document and knowledge ledgers on fresh disposable worlds and server-created characters",
+  "implementation": "PRIVATE_BACKEND_IMPLEMENTED",
+  "native_runtime": "NOT_TESTED",
+  "existing_world_without_private_store": "MIGRATION_REQUIRED",
+  "independently_blocked": ["progression", "claims", "journal mutation/recovery", "raw-XP restoration", "survivor history"],
+  "cat_integration": "REMOVED; saved item declarations/keys retained inertly",
+  "g7": "BLOCKED / NOT_TESTED",
+  "g8": "BLOCKED",
+  "evidence": ["DEDICATED_KNOWLEDGE.md", "NATIVE_EVIDENCE_0_17_0.json"]
+}

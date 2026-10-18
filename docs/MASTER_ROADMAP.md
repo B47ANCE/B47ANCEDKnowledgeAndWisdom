@@ -1,16 +1,11 @@
 # B47ANCED Knowledge & Wisdom Master Roadmap
 
-Canonical version: 0.16.0. This file consolidates current feature status; detailed
+Canonical version: 0.17.0. This file consolidates current feature status; detailed
 contracts and evidence remain in the other documents in this directory.
 
 ## Current implementation gate
 
-0.16.0 completes the selected source/offline audit work, including negative native
-findings. MP gameplay remains IMPLEMENTATION BLOCKED, then requires runtime proof:
-private server persistence, verified character-lifetime identity, journal payload
-anchoring and safe migration are absent. The earlier core implementations below
-are SP-oriented/offline-tested, not working dedicated gameplay. See
-AUDIT_CLOSURE_0_16_0.md, NATIVE_AUDIT_0_16_0.md and MP_AUTHORITY_PLAN.md.
+0.17.0 implements private dedicated document/knowledge storage and owning-client projections for fresh fixtures. Dedicated is the first native target. Privacy, lifecycle, faults and restart still need native evidence. Broader progression, claims, journal/recovery, raw XP, history and existing-world migration remain implementation gates. CAT integration is dropped. See DEDICATED_KNOWLEDGE.md and MP_TEST_CONTRACT.json; older audit records remain historical.
 
 ## Implemented
 

@@ -33,6 +33,12 @@ def main():
         ROOT / 'docs/TESTING.md': r'^Current ([^ ]+) offline results',
         ROOT / 'docs/ARCHITECTURE.md': r'^## Current authority and persistence contract \(([^)]+)\)',
         ROOT / 'docs' / ('VALIDATION_' + version.replace('.', '_') + '.md'): r'^Version: (.+)$',
+        ROOT / 'docs/DEDICATED_KNOWLEDGE.md': r'^Version: (.+)$',
+        ROOT / 'docs/MP_TEST_CONTRACT.json': r'"version": "([^"]+)"',
+        ROOT / 'docs/SOURCE_INVENTORY.json': r'"version": "([^"]+)"',
+        ROOT / 'docs/MOD_OVERVIEW.json': r'"version": "([^"]+)"',
+        ROOT / 'docs/SOURCE_PROVENANCE_0_17_0.json': r'"version": "([^"]+)"',
+        ROOT / 'docs/NATIVE_EVIDENCE_0_17_0.json': r'"project_version": "([^"]+)"',
     }
     apis = list(source.glob('42/media/lua/shared/*/API.lua'))
     if len(apis) != 1:
@@ -50,7 +56,7 @@ def main():
         raise SystemExit('Version mismatch/missing mirror: ' + ', '.join(errors))
     print(f'PASS: VERSION {version}; {len(mirrors)} current mirrors')
     if args.release:
-        raise SystemExit('G8 BLOCKED: private MP authority/storage and migration are unimplemented; native runtime evidence and current release artifacts are missing. Historical dist/ and Contents/ are excluded.')
+        raise SystemExit('G8 BLOCKED: broader MP authority/migration remains unimplemented; native runtime evidence and current release artifacts are missing. Historical dist/ and Contents/ are excluded.')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "id": "knowledge",
+  "name": "B47ANCED Knowledge & Wisdom",
+  "version": "0.17.0",
+  "source_digest": "8b856d92f966bcdd36698fd10ec254498f8533c2775fce4ffba1100c52875d74",
+  "reviewed": true,
+  "features": [
+    {
+      "status": "Source",
+      "text": "Provider-owned document/knowledge definitions and requirements; validated SP cores preserve saved identities."
+    },
+    {
+      "status": "Source",
+      "text": "Dedicated document/knowledge private journal, server life generations, owner projections and held-item read validation for fresh fixtures."
+    },
+    {
+      "status": "Blocked",
+      "text": "Broader progression, claims, journal/recovery, raw XP, history and existing-world private migration retain independent gates."
+    },
+    {
+      "status": "Historical",
+      "text": "CAT integration dropped; old item declarations/aliases remain inert saved-item compatibility only."
+    }
+  ],
+  "limits": "Source/offline only. Native dedicated NOT_TESTED; G7 and stable G8 BLOCKED. Dedicated first; SP optional. Read-back is not fsync or native/private cross-file atomicity.",
+  "evidence": [
+    "README.md",
+    "docs/DEDICATED_KNOWLEDGE.md",
+    "docs/MP_TEST_CONTRACT.json",
+    "docs/NATIVE_EVIDENCE_0_17_0.json",
+    "tests/test_private_knowledge.lua"
+  ],
+  "relations": []
+}

@@ -1,0 +1,26 @@
+{
+  "version": "0.17.0",
+  "authoritative_runtime_roots": [
+    "src/B47ANCEDKnowledgeAndWisdom/42"
+  ],
+  "mod_ids": [
+    "B47ANCEDKnowledgeAndWisdom"
+  ],
+  "workshop_ids": [
+    "3792566496"
+  ],
+  "current_packages": [],
+  "historical_outputs": [
+    "Contents",
+    "dist",
+    "SHA256SUMS.txt",
+    ".steamcmd-last-upload.sha256"
+  ],
+  "validation_commands": [
+    "python scripts/check_versions.py",
+    "python scripts/validate_source.py",
+    "python scripts/run_host_tests.py",
+    "python scripts/check_public_tree.py --staged"
+  ],
+  "native_status": "NOT_TESTED; document/knowledge implemented for fresh dedicated fixtures; other MP guards closed"
+}

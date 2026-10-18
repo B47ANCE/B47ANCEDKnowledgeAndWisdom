@@ -6,11 +6,11 @@ Lore, classified research, survivor knowledge, and experience-progression infras
 
 B47ANCED Knowledge & Wisdom provides persistent knowledge, research archives, progression-aware actions, and recoverable Survivor Journal data for B47ANCE'd mods and compatible projects.
 
-[b]Mod Version: 0.16.0[/b]
+[b]Mod Version: 0.17.0[/b]
 
 [b]Development Status[/b]
 
-Development build. Multiplayer gameplay is disabled pending private server persistence and identity/migration implementation. Native player ModData and GlobalModData are not private authority stores. Lua host checks pass; the renamed identity, old-save loading and native presentation still require in-game validation. Dedicated multiplayer NOT TESTED. G7 and stable-release G8 BLOCKED.
+MP testing build - dedicated multiplayer NOT TESTED. Document/knowledge now has private dedicated storage for fresh test worlds; progression, claims, journals/recovery, XP and history remain guarded. Existing-world private migration remains unsupported. CAT integrations are dropped; old saved items remain loadable. Native player ModData and GlobalModData are not private authority stores. Lua host checks pass; the renamed identity, old-save loading and native presentation still require in-game validation. Dedicated multiplayer NOT TESTED. G7 and stable-release G8 BLOCKED.
 
 [h2]Current Features[/h2]
 [list]

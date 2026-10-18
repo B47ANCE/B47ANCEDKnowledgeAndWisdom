@@ -170,11 +170,11 @@ catalog is registered until native character-origin evidence is verified;
 current position, spawn square, profession, and map exploration are never used
 as substitutes.
 
-## Current authority and persistence contract (0.16.0)
+## Current authority and persistence contract (0.17.0)
 
 SP/client presentation queries read supported legacy state without modifying it.
-Server character-ledger queries refuse untrusted native player state.
-Validated SP writes perform migration; MP mutations are blocked. Persistent journal successor and
+Server document/knowledge queries use private storage; other guarded ledgers still refuse untrusted native player state.
+Validated SP writes retain migration. Dedicated document/knowledge uses private storage; other MP mutations remain blocked. Persistent journal successor and
 exhaustion records govern plans as well as claims; stale item flags cannot
 reopen a payload. Plans are SP-oriented while MP is blocked and are capped by sandbox policy.
 Built-in acquisitions preserve original fact time; direct requests keep strict
@@ -185,7 +185,7 @@ state. Realm exports include both media and origin interfaces.
 See [repairs](REPAIRS_0_14_0.md), [configuration](CONFIGURATION.md) and
 [native validation](RUNTIME_VALIDATION_0_14_0.md). Existing engine replication
 assumptions remain unverified: optional transmit calls are not dedicated proof.
-No new network protocol or client-owned gameplay path was introduced.
+0.17.0 adds the bounded own-projection protocol documented in DEDICATED_KNOWLEDGE.md; no client owns gameplay state.
 
 Journal inspection uses a projection of existing physical-item state and only
 renders local counts/status/progress. It reads no persistent claim store and
@@ -195,3 +195,7 @@ Window state is per player and shared by research/journal inspection. Journal
 beginWriting prepares a schema-valid candidate before committing in place; all
 journal item-key migrations follow validation. Requirements preflight every
 reference before boolean evaluation, so unknown facts cannot be inverted by NOT.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

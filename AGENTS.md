@@ -8,7 +8,7 @@ Preserve project-specific identity, instructions, source, local settings and run
 
 # Current project identity and source
 
-B47ANCED Knowledge & Wisdom 0.16.0 uses Mod ID and Lua namespace
+B47ANCED Knowledge & Wisdom 0.17.0 uses Mod ID and Lua namespace
 `B47ANCEDKnowledgeAndWisdom`. Canonical version: root `VERSION`.
 Authoritative runtime source: `src/B47ANCEDKnowledgeAndWisdom/42`.
 `Contents/`, `dist/`, and old checksum/upload records are historical, never the
@@ -32,3 +32,9 @@ GlobalModData. AuthorityGuard intentionally blocks affected MP APIs; never add a
 sandbox bypass or claim an MP pass from these offline tests. Preserve historical
 stores; private migration requires the MP_AUTHORITY_PLAN.md contract. The opt-in
 AuthorityProbe is read-only and grants no validation/release gate.
+
+## Dedicated document knowledge (0.17.0)
+
+Dedicated is the first native target; SP is never a prerequisite. Read docs/DEDICATED_KNOWLEDGE.md and docs/MP_TEST_CONTRACT.json. The private backend enables document/knowledge only for fresh worlds/server-created lives. Never broaden that exception to progression, claims, journal/recovery, XP or history. Preserve all other guards, immutable old keys, uncertain/corrupt storage and historical evidence. Native G7 and stable G8 remain blocked.
+
+Current branch feat/dedicated-knowledge-0.17.0 starts from merged main 0f20ad2; earlier branch/main descriptions above are historical. Maintain reviewed docs/MOD_OVERVIEW.json with current version/source digest. CAT integration is dropped; saved item declarations/aliases remain inert compatibility data. No build, install, launch or upload is performed by the source checks.

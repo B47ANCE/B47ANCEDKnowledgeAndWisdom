@@ -1,6 +1,6 @@
 # B47ANCED Knowledge & Wisdom repository audit
 
-2026-10-16. Current version: 0.16.0. Source inspection and offline tests only.
+2026-10-16. Current version: 0.17.0. Source inspection and offline tests only.
 The original 2026-08-26 audit remains under `history/pre-b47-0.12.2/` and is
 historical evidence; its identifiers/test claims are not renamed proof.
 
@@ -48,3 +48,7 @@ see AUDIT_CLOSURE_0_16_0.md and NATIVE_AUDIT_0_16_0.md. Player ModData broadcast
 replacement, GlobalModData disclosure and silent native XP refusals are concrete
 source findings. Affected MP APIs now fail closed; no private-backend capability
 is inferred from server-side execution. SP-oriented cores retain regression coverage.
+
+## Current dedicated knowledge contract
+
+0.17.0 implements document/knowledge only using private server storage, life generations and owning-client projections. See [DEDICATED_KNOWLEDGE.md](DEDICATED_KNOWLEDGE.md). The earlier blanket refusal is historical for that subsystem; progression, claims, journals/recovery, XP and history retain independent guards. Existing-world private migration is not implemented; no untrusted native table is imported. First native tests use fresh disposable dedicated worlds/two clients. SP is optional, never a prerequisite. Native G7 and stable G8 remain BLOCKED. CAT integration is dropped; old item declarations/aliases remain inert saved-item compatibility only.

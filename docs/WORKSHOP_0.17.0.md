@@ -58,3 +58,9 @@ git -c core.autocrlf=false diff --cached --check
 ```
 
 Packaging verification and actual upload success are recorded only after execution. Exact-head CI results and final SHA are recorded in the publication PR. All G7/stable G8 native gates remain blocked.
+
+## Verified upload — 2026-10-18 America/Phoenix
+
+SteamCMD exited 0 and reported `Committing update...Success.` for existing item **3792566496**, after all required offline and exact-head CI checks passed. Release commit: `9d191faf4e21abd8a1654b82c83092b1b2de91c3`. Package SHA-256: `ffb8e7ed279acb0aaadae489ab19b03cb5c6828f31ccb6121c9fa90a9043aa00`; 125 exact staged files. Anonymous public API remains result 9; public page/visibility cannot be verified. Cached-account SteamCMD success is verified. The existing Workshop thumbnail was retained because the original 1,612,387-byte source preview exceeds Steam’s preview limit; no artwork was resized or replaced.
+
+[Portable upload receipt](publications/0.17.0-workshop-3792566496.json) binds the exact release/source commit, all package file hashes, publication text/VDF hashes, validation and actual result. No title, visibility or tags were submitted. Knowledge, MORTIS and Nightfall uploads completed in that order. No deployment, server changes, native launch or Steam desktop restart. Steam restart confirmation was requested separately and remains pending at receipt time. Subscriber download, dedicated startup/two-client synchronization, persistence/restart and native Insane-population timing remain HUMAN / NOT TESTED; G7/stable G8 BLOCKED.

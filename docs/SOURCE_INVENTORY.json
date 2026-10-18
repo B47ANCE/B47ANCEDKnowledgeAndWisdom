@@ -9,7 +9,17 @@
   "workshop_ids": [
     "3792566496"
   ],
-  "current_packages": [],
+  "current_packages": [
+    {
+      "version": "0.17.0",
+      "kind": "authorized Workshop MP-test upload; not stable approval",
+      "workshop_id": "3792566496",
+      "package_sha256": "ffb8e7ed279acb0aaadae489ab19b03cb5c6828f31ccb6121c9fa90a9043aa00",
+      "release_commit": "9d191faf4e21abd8a1654b82c83092b1b2de91c3",
+      "receipt": "docs/publications/0.17.0-workshop-3792566496.json",
+      "public_page": "UNAVAILABLE; anonymous API result 9"
+    }
+  ],
   "historical_outputs": [
     "Contents",
     "dist",
